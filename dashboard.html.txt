@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Estadístico - Oyala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased">
+
+    <header class="bg-emerald-900 text-white shadow">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">Panel Estadístico y Analítico - Oyala</h1>
+            <div class="space-x-3">
+                <a href="index.html" class="text-xs bg-emerald-700 hover:bg-emerald-800 px-3 py-1.5 rounded transition">Portal Público</a>
+                <a href="admin.html" class="text-xs bg-slate-700 hover:bg-slate-800 px-3 py-1.5 rounded transition">Administración Papel</a>
+                <button onclick="loadData()" class="text-xs bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 rounded transition">Actualizar Datos</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+        
+        <!-- Tarjetas de Indicadores Principales (KPIs) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <p class="text-xs font-semibold uppercase text-slate-400">Total Cuestionarios</p>
+                <p id="kpi-total" class="text-3xl font-bold text-slate-900 mt-2">0</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <p class="text-xs font-semibold uppercase text-slate-400">Vía Web</p>
+                <p id="kpi-web" class="text-3xl font-bold text-emerald-600 mt-2">0</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <p class="text-xs font-semibold uppercase text-slate-400">Vía Papel</p>
+                <p id="kpi-paper" class="text-3xl font-bold text-amber-600 mt-2">0</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <p class="text-xs font-semibold uppercase text-slate-400">Compatibilidad jamovi</p>
+                <p class="text-3xl font-bold text-blue-600 mt-2">Activa ✓</p>
+            </div>
+        </div>
+
+        <!-- Botones de Exportación -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap gap-4 items-center justify-between">
+            <span class="text-sm font-medium text-slate-600">Herramientas de Análisis Estadístico:</span>
+            <div class="space-x-2">
+                <button onclick="exportCSV()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition">Descargar CSV (jamovi)</button>
+            </div>
+        </div>
+
+        <!-- Gráficos Estadísticos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-base font-bold text-slate-900 mb-4">Distribución por Edades (Bloque I)</h3>
+                <div class="relative h-64"><canvas id="chartEdad"></canvas></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-base font-bold text-slate-900 mb-4">Actividad Principal / Ingresos</h3>
+                <div class="relative h-64"><canvas id="chartActividad"></canvas></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-base font-bold text-slate-900 mb-4">Percepción Expansión Ciudad de la Paz</h3>
+                <div class="relative h-64"><canvas id="chartExpansion"></canvas></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-base font-bold text-slate-900 mb-4">Material Constructivo de Viviendas</h3>
+                <div class="relative h-64"><canvas id="chartMaterial"></canvas></div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxU3Y2D38LCC_Km36hiGCsmL86AP6F5WJmmOM6aRWaCz0qf62brHWaiPRTMyVAEmfCU/exec";
+        let globalData = [];
+        let charts = {};
+
+        async function loadData() {
+            try {
+                const response = await fetch(SCRIPT_URL + "?action=getData");
+                globalData = await response.json();
+                updateDashboard(globalData);
+            } catch (err) {
+                console.error("Error al cargar datos:", err);
+            }
+        }
+
+        function updateDashboard(data) {
+            document.getElementById('kpi-total').innerText = data.length;
+            const webCount = data.filter(d => d.tipo_entrada === "Web").length;
+            const paperCount = data.filter(d => d.tipo_entrada === "Papel").length;
+            document.getElementById('kpi-web').innerText = webCount;
+            document.getElementById('kpi-paper').innerText = paperCount;
+
+            renderChart('chartEdad', 'bar', processField(data, 'b1_edad'), 'Cuestionarios', '#047857');
+            renderChart('chartActividad', 'bar', processField(data, 'b1_actividad'), 'Cuestionarios', '#0284c7');
+            renderChart('chartExpansion', 'doughnut', processField(data, 'b3_expansion'), 'Cuestionarios', ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6']);
+            renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Cuestionarios', '#0d9488');
+        }
+
+        function processField(data, field) {
+            const counts = {};
+            data.forEach(row => {
+                const val = row[field] || "Sin responder";
+                counts[val] = (counts[val] || 0) + 1;
+            });
+            return {
+                labels: Object.keys(counts),
+                values: Object.values(counts)
+            };
+        }
+
+        function renderChart(canvasId, type, statData, label, color) {
+            if (charts[canvasId]) charts[canvasId].destroy();
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            charts[canvasId] = new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: statData.labels,
+                    datasets: [{
+                        label: label,
+                        data: statData.values,
+                        backgroundColor: color,
+                        borderWidth: 1
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function exportCSV() {
+            if (globalData.length === 0) { alert("No hay datos para exportar."); return; }
+            const headers = Object.keys(globalData[0]);
+            let csvContent = headers.join(",") + "\n";
+            globalData.forEach(row => {
+                const values = headers.map(h => `"${(row[h] || "").toString().replace(/"/g, '""')}"`);
+                csvContent += values.join(",") + "\n";
+            });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "oyala_encuestas_jamovi.csv";
+            link.click();
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
