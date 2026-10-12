@@ -7,65 +7,70 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans antialiased">
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
 
-    <header class="bg-emerald-900 text-white shadow">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold">Panel Estadístico y Analítico - Oyala</h1>
-            <div class="space-x-3">
-                <a href="index.html" class="text-xs bg-emerald-700 hover:bg-emerald-800 px-3 py-1.5 rounded transition">Portal Público</a>
-                <a href="admin.html" class="text-xs bg-slate-700 hover:bg-slate-800 px-3 py-1.5 rounded transition">Administración Papel</a>
-                <button onclick="loadData()" class="text-xs bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 rounded transition">Actualizar Datos</button>
+    <header class="bg-emerald-950 text-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-3">
+            <div>
+                <h1 class="text-xl font-bold">Panel Estadístico - Diagnóstico Socio-Espacial Oyala</h1>
+                <p class="text-xs text-emerald-400">Análisis dinámico de datos y exportación a jamovi</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <a href="index.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition">Portal Web</a>
+                <a href="admin.html" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition">Administración Papel</a>
+                <button onclick="loadData()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Actualizar Datos</button>
             </div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8 space-y-6">
         
-        <!-- Tarjetas de Indicadores Principales (KPIs) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <p class="text-xs font-semibold uppercase text-slate-400">Total Cuestionarios</p>
-                <p id="kpi-total" class="text-3xl font-bold text-slate-900 mt-2">0</p>
+        <!-- Tarjetas de Métricas Principales (KPIs) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Cuestionarios</p>
+                <p id="kpi-total" class="text-3xl font-black text-slate-900 mt-2">0</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <p class="text-xs font-semibold uppercase text-slate-400">Vía Web</p>
-                <p id="kpi-web" class="text-3xl font-bold text-emerald-600 mt-2">0</p>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Respuestas Web</p>
+                <p id="kpi-web" class="text-3xl font-black text-emerald-600 mt-2">0</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <p class="text-xs font-semibold uppercase text-slate-400">Vía Papel</p>
-                <p id="kpi-paper" class="text-3xl font-bold text-amber-600 mt-2">0</p>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Transcripciones Papel</p>
+                <p id="kpi-paper" class="text-3xl font-black text-amber-600 mt-2">0</p>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <p class="text-xs font-semibold uppercase text-slate-400">Compatibilidad jamovi</p>
-                <p class="text-3xl font-bold text-blue-600 mt-2">Activa ✓</p>
-            </div>
-        </div>
-
-        <!-- Botones de Exportación -->
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap gap-4 items-center justify-between">
-            <span class="text-sm font-medium text-slate-600">Herramientas de Análisis Estadístico:</span>
-            <div class="space-x-2">
-                <button onclick="exportCSV()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition">Descargar CSV (jamovi)</button>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Exportación jamovi</p>
+                <p class="text-3xl font-black text-blue-600 mt-2">UTF-8 ✓</p>
             </div>
         </div>
 
-        <!-- Gráficos Estadísticos -->
+        <!-- Botones de Acción / Descargas -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
+            <div class="text-xs text-slate-500">
+                <span class="font-bold text-slate-700">Estado de la Base de Datos:</span> Conectado a Google Sheets
+            </div>
+            <button onclick="exportCSV()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-xl text-xs transition shadow flex items-center space-x-2">
+                <span>Descargar Dataset CSV (para jamovi)</span>
+            </button>
+        </div>
+
+        <!-- Gráficos de Variables Relevantes -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="text-base font-bold text-slate-900 mb-4">Distribución por Edades (Bloque I)</h3>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-sm font-bold text-slate-800 mb-4">1.1. Distribución por Grupos de Edad</h3>
                 <div class="relative h-64"><canvas id="chartEdad"></canvas></div>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="text-base font-bold text-slate-900 mb-4">Actividad Principal / Ingresos</h3>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-sm font-bold text-slate-800 mb-4">1.4. Actividad Principal / Fuente de Ingresos</h3>
                 <div class="relative h-64"><canvas id="chartActividad"></canvas></div>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="text-base font-bold text-slate-900 mb-4">Percepción Expansión Ciudad de la Paz</h3>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-sm font-bold text-slate-800 mb-4">3.1. Percepción de la Expansión de Cd. de la Paz</h3>
                 <div class="relative h-64"><canvas id="chartExpansion"></canvas></div>
             </div>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="text-base font-bold text-slate-900 mb-4">Material Constructivo de Viviendas</h3>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-sm font-bold text-slate-800 mb-4">5.1. Material Constructivo Predominante</h3>
                 <div class="relative h-64"><canvas id="chartMaterial"></canvas></div>
             </div>
         </div>
@@ -73,7 +78,7 @@
     </main>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsBtqF6zfdmwcPflf5pv85sNEhLeMqRcn-JCm9Y3l_pR6kbMtAemLK66w8tMVkLWrE/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsBtqF6zfdmwcPflf5pv85sNEhLeMqRcn-JCm9Y3l_pR6kbMtAemLK66w8tMVkLWrE/exec"; // Reemplazar con la URL de Apps Script
         let globalData = [];
         let charts = {};
 
@@ -83,21 +88,19 @@
                 globalData = await response.json();
                 updateDashboard(globalData);
             } catch (err) {
-                console.error("Error al cargar datos:", err);
+                console.error("Error cargando los datos:", err);
             }
         }
 
         function updateDashboard(data) {
             document.getElementById('kpi-total').innerText = data.length;
-            const webCount = data.filter(d => d.tipo_entrada === "Web").length;
-            const paperCount = data.filter(d => d.tipo_entrada === "Papel").length;
-            document.getElementById('kpi-web').innerText = webCount;
-            document.getElementById('kpi-paper').innerText = paperCount;
+            document.getElementById('kpi-web').innerText = data.filter(d => d.tipo_entrada === "Web").length;
+            document.getElementById('kpi-paper').innerText = data.filter(d => d.tipo_entrada === "Papel").length;
 
-            renderChart('chartEdad', 'bar', processField(data, 'b1_edad'), 'Cuestionarios', '#047857');
-            renderChart('chartActividad', 'bar', processField(data, 'b1_actividad'), 'Cuestionarios', '#0284c7');
-            renderChart('chartExpansion', 'doughnut', processField(data, 'b3_expansion'), 'Cuestionarios', ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6']);
-            renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Cuestionarios', '#0d9488');
+            renderChart('chartEdad', 'bar', processField(data, 'b1_edad'), 'Respuestas', '#047857');
+            renderChart('chartActividad', 'bar', processField(data, 'b1_actividad'), 'Respuestas', '#0284c7');
+            renderChart('chartExpansion', 'doughnut', processField(data, 'b3_expansion'), 'Respuestas', ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6']);
+            renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Respuestas', '#0d9488');
         }
 
         function processField(data, field) {
@@ -106,10 +109,7 @@
                 const val = row[field] || "Sin responder";
                 counts[val] = (counts[val] || 0) + 1;
             });
-            return {
-                labels: Object.keys(counts),
-                values: Object.values(counts)
-            };
+            return { labels: Object.keys(counts), values: Object.values(counts) };
         }
 
         function renderChart(canvasId, type, statData, label, color) {
@@ -119,21 +119,16 @@
                 type: type,
                 data: {
                     labels: statData.labels,
-                    datasets: [{
-                        label: label,
-                        data: statData.values,
-                        backgroundColor: color,
-                        borderWidth: 1
-                    }]
+                    datasets: [{ label: label, data: statData.values, backgroundColor: color, borderRadius: 6 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
         }
 
         function exportCSV() {
-            if (globalData.length === 0) { alert("No hay datos para exportar."); return; }
+            if (globalData.length === 0) { alert("No hay datos para exportar aún."); return; }
             const headers = Object.keys(globalData[0]);
-            let csvContent = headers.join(",") + "\n";
+            let csvContent = "\uFEFF" + headers.join(",") + "\n";
             globalData.forEach(row => {
                 const values = headers.map(h => `"${(row[h] || "").toString().replace(/"/g, '""')}"`);
                 csvContent += values.join(",") + "\n";
