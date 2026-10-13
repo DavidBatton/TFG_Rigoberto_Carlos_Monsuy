@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Estadístico TFG - Oyala</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Plugin para mostrar porcentajes en las gráficas -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <!-- Librerías con CDN Ultra-Estable (Cloudflare cdnjs) para evitar errores de red -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
 
@@ -50,7 +50,7 @@
         <!-- Barra de Exportación -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
             <div class="text-xs text-slate-600">
-                <span class="font-bold text-slate-900">Base de Datos TFG:</span> Muestra valores absolutos y porcentajes relativos (%) calculados automáticamente.
+                <span class="font-bold text-slate-900">Base de Datos TFG:</span> Sincronizada con Google Sheets. Visualización de frecuencias y porcentajes.
             </div>
             <button onclick="exportCSV()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-xl text-xs transition shadow flex items-center space-x-2">
                 <span>Descargar Dataset CSV (para jamovi)</span>
@@ -163,10 +163,7 @@
     </footer>
 
     <script>
-        // Registrar el plugin de porcentajes para Chart.js
-        Chart.register(ChartDataLabels);
-
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; // Sustituir por la URL de Apps Script
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; // Reemplazar con tu URL real
         let globalData = [];
         let charts = {};
 
@@ -250,7 +247,6 @@
             if (charts[canvasId]) charts[canvasId].destroy();
             const ctx = document.getElementById(canvasId).getContext('2d');
             
-            // Cálculo del total para obtener porcentajes
             const totalSum = statData.values.reduce((a, b) => a + b, 0);
 
             let chartConfig = {
@@ -264,7 +260,6 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { display: type === 'doughnut' },
-                        // Configuración del plugin de etiquetas para mostrar porcentaje en la gráfica
                         datalabels: {
                             color: '#1e293b',
                             anchor: isHorizontal ? 'end' : 'end',
@@ -276,7 +271,6 @@
                                 return `${value} (${percentage}%)`;
                             }
                         },
-                        // Tooltip detallado al pasar el ratón
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -287,7 +281,8 @@
                             }
                         }
                     }
-                }
+                },
+                plugins: [ChartDataLabels]
             };
 
             if (type === 'bar' && isHorizontal) {
