@@ -8,358 +8,362 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen py-10 px-4">
 
-    <main class="max-w-3xl mx-auto space-y-8">
+    <main class="max-w-4xl mx-auto space-y-8">
         
-        <!-- Pantalla de Bloqueo por Encuesta Ya Realizada (Oculta por defecto) -->
-        <div id="already-submitted-block" class="hidden bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center space-y-4">
-            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
-                ⚠️
+        <!-- Pantalla de Bloqueo / Agradecimiento por Envío Previo (Oculta por defecto) -->
+        <div id="already-submitted-block" class="hidden bg-white p-10 rounded-2xl shadow-sm border border-slate-200 text-center space-y-6">
+            <div class="w-20 h-20 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-3xl font-bold shadow-inner">
+                ✓
             </div>
-            <h2 class="text-xl font-bold text-slate-900">Encuesta Ya Registrada</h2>
-            <p class="text-sm text-slate-600 leading-relaxed">
-                Detectamos que ya se ha enviado una respuesta desde este dispositivo para el diagnóstico socio-espacial de Oyala[cite: 17].
-            </p>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-500">
-                Para garantizar la objetividad y evitar duplicidades en la muestra estadística de esta investigación académica, solo se permite un envío por dispositivo.
+            <div class="space-y-2">
+                <h2 class="text-2xl font-bold text-slate-900">¡Cuestionario Registrado con Éxito!</h2>
+                <p class="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
+                    Agradecemos sinceramente tu valiosa participación en esta investigación de campo para el Trabajo de Fin de Grado (TFG) sobre el Diagnóstico Socio-Espacial y Patrimonio Vernáculo en Oyala.
+                </p>
             </div>
-            <p class="text-xs text-emerald-800 font-semibold pt-2">
-                ¡Agradecemos sinceramente tu colaboración con este Trabajo de Fin de Grado!
-            </p>
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-500 max-w-md mx-auto">
+                Para garantizar la objetividad y evitar duplicidades en la muestra estadística, este dispositivo ya ha completado su envío único.
+            </div>
         </div>
 
-        <!-- Contenedor Principal del Formulario -->
-        <div id="survey-form-container" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
-            <div class="border-b pb-4">
-                <h1 class="text-2xl font-bold text-emerald-900">Encuesta de Diagnóstico Socio-Espacial - Poblado de Oyala</h1>
-                <p class="text-xs text-slate-500 mt-1">Integración Urbana y Salvaguarda del Patrimonio Vernáculo • Trabajo de Fin de Grado (TFG)[cite: 17]</p>
+        <!-- Contenedor Principal del Formulario Público -->
+        <div id="survey-form-container" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            
+            <!-- Cabecera Institucional -->
+            <div class="bg-emerald-950 text-white p-8 space-y-2">
+                <span class="inline-block px-3 py-1 bg-emerald-900 text-emerald-300 text-xs font-semibold rounded-full border border-emerald-700">Investigación Académica - TFG</span>
+                <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Encuesta de Diagnóstico Socio-Espacial</h1>
+                <p class="text-xs md:text-sm text-emerald-200/80">Poblado de Oyala, Provincia de Djibloho • Integración Urbana y Salvaguarda del Patrimonio Vernáculo</p>
             </div>
 
-            <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-6">
+            <form id="surveyForm" onsubmit="submitSurvey(event)" class="p-6 md:p-10 space-y-10">
                 
                 <!-- BLOQUE I -->
-                <div class="space-y-4">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque I: Datos Generales y Sociodemográficos[cite: 17]</h2>
+                <div class="space-y-6 border-l-4 border-emerald-700 pl-4 md:pl-6">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 uppercase tracking-wide">Bloque I: Datos Generales y Sociodemográficos</h2>
+                        <p class="text-xs text-slate-500">Información de perfil del encuestado.</p>
+                    </div>
                     
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">1.1. Edad del encuestado/a[cite: 17]</label>
-                        <select name="b1_edad" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="18-29 años">18-29 años[cite: 17]</option>
-                            <option value="30-49 años">30-49 años[cite: 17]</option>
-                            <option value="50-64 años">50-64 años[cite: 17]</option>
-                            <option value="65 años o más">65 años o más[cite: 17]</option>
-                        </select>
-                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">1.1. Edad del encuestado/a:</label>
+                            <select name="b1_edad" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione una opción...</option>
+                                <option value="18-29 años">18-29 años</option>
+                                <option value="30-49 años">30-49 años</option>
+                                <option value="50-64 años">50-64 años</option>
+                                <option value="65 años o más">65 años o más</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">1.2. Género[cite: 17]</label>
-                        <select name="b1_genero" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Hombre">Hombre[cite: 17]</option>
-                            <option value="Mujer">Mujer[cite: 17]</option>
-                            <option value="Prefiero no responder">Prefiero no responder[cite: 17]</option>
-                        </select>
-                    </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">1.2. Género:</label>
+                            <select name="b1_genero" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione una opción...</option>
+                                <option value="Hombre">Hombre</option>
+                                <option value="Mujer">Mujer</option>
+                                <option value="Prefiero no responder">Prefiero no responder</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">1.3. Tiempo de residencia en el poblado de Oyala[cite: 17]</label>
-                        <select name="b1_residencia" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Toda la vida (Nativo/a originario/a)">Toda la vida (Nativo/a originario/a)[cite: 17]</option>
-                            <option value="Menos de 5 años">Menos de 5 años[cite: 17]</option>
-                            <option value="Entre 5 y 15 años">Entre 5 y 15 años[cite: 17]</option>
-                            <option value="Más de 15 años">Más de 15 años[cite: 17]</option>
-                        </select>
-                    </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">1.3. Tiempo de residencia en Oyala:</label>
+                            <select name="b1_residencia" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione una opción...</option>
+                                <option value="Toda la vida (Nativo/a originario/a)">Toda la vida (Nativo/a originario/a)</option>
+                                <option value="Menos de 5 años">Menos de 5 años</option>
+                                <option value="Entre 5 y 15 años">Entre 5 y 15 años</option>
+                                <option value="Más de 15 años">Más de 15 años</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">1.4. Actividad principal / Fuente de ingresos[cite: 17]</label>
-                        <select name="b1_actividad" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Agricultura / Pesca / Caza de subsistencia">Agricultura / Pesca / Caza de subsistencia[cite: 17]</option>
-                            <option value="Artesanía / Construcción tradicional">Artesanía / Construcción tradicional[cite: 17]</option>
-                            <option value="Comercio local / Servicios">Comercio local / Servicios[cite: 17]</option>
-                            <option value="Empleado sector público / privado en Cd. de la Paz">Empleado sector público / privado en Cd. de la Paz[cite: 17]</option>
-                            <option value="Estudiante">Estudiante[cite: 17]</option>
-                            <option value="Desempleado / Labores del hogar">Desempleado / Labores del hogar[cite: 17]</option>
-                            <option value="Renta de viviendas">Renta de viviendas[cite: 17]</option>
-                        </select>
-                    </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">1.4. Actividad principal / Fuente de ingresos:</label>
+                            <select name="b1_actividad" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione una opción...</option>
+                                <option value="Agricultura / Pesca / Caza de subsistencia">Agricultura / Pesca / Caza de subsistencia</option>
+                                <option value="Artesanía / Construcción tradicional">Artesanía / Construcción tradicional</option>
+                                <option value="Comercio local / Servicios">Comercio local / Servicios</option>
+                                <option value="Empleado sector público / privado en Cd. de la Paz">Empleado sector público / privado en Cd. de la Paz</option>
+                                <option value="Estudiante">Estudiante</option>
+                                <option value="Desempleado / Labores del hogar">Desempleado / Labores del hogar</option>
+                                <option value="Renta de viviendas">Renta de viviendas</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">1.5. Número de personas que integran su núcleo familiar en la vivienda[cite: 17]</label>
-                        <select name="b1_familia" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="1 a 3 personas">1 a 3 personas[cite: 17]</option>
-                            <option value="4 a 6 personas">4 a 6 personas[cite: 17]</option>
-                            <option value="7 a 9 personas">7 a 9 personas[cite: 17]</option>
-                            <option value="10 o más personas">10 o más personas[cite: 17]</option>
-                        </select>
-                    </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">1.5. Personas en el núcleo familiar:</label>
+                            <select name="b1_familia" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione una opción...</option>
+                                <option value="1 a 3 personas">1 a 3 personas</option>
+                                <option value="4 a 6 personas">4 a 6 personas</option>
+                                <option value="7 a 9 personas">7 a 9 personas</option>
+                                <option value="10 o más personas">10 o más personas</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">1.6. Ingresos medios que genera mensualmente (XAF)[cite: 17]</label>
-                        <select name="b1_ingresos" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Entre 100.000 - 150.000">Entre 100.000 - 150.000[cite: 17]</option>
-                            <option value="Entre 150.000 y 200.000">Entre 150.000 y 200.000[cite: 17]</option>
-                            <option value="Entre 200.000 y 250.000">Entre 200.000 y 250.000[cite: 17]</option>
-                            <option value="Entre 250.000 y 300.000">Entre 250.000 y 300.000[cite: 17]</option>
-                        </select>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">1.6. Ingresos medios mensuales (XAF):</label>
+                            <select name="b1_ingresos" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione una opción...</option>
+                                <option value="Entre 100.000 y 150.000">Entre 100.000 y 150.000</option>
+                                <option value="Entre 150.000 y 200.000">Entre 150.000 y 200.000</option>
+                                <option value="Entre 200.000 y 250.000">Entre 200.000 y 250.000</option>
+                                <option value="Entre 250.000 y 300.000">Entre 250.000 y 300.000</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
                 <!-- BLOQUE II -->
-                <div class="space-y-4 pt-4">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque II: Diagnóstico de Infraestructuras y Servicios Básicos[cite: 17]</h2>
+                <div class="space-y-6 border-l-4 border-emerald-700 pl-4 md:pl-6">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 uppercase tracking-wide">Bloque II: Infraestructuras y Servicios Básicos</h2>
+                        <p class="text-xs text-slate-500">Evaluación de dotaciones urbanas y entorno.</p>
+                    </div>
                     
-                    <p class="text-xs font-semibold text-slate-600">2.1. Evaluación del estado de los servicios públicos en su vivienda y entorno inmediato[cite: 17]:</p>
-                    
-                    <div class="space-y-3 bg-slate-50 p-4 rounded-xl border">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Abastecimiento de agua potable (red/pozos)[cite: 17]</label>
-                            <select name="b2_agua" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione evaluación...</option>
-                                <option value="Deficiente">Deficiente[cite: 17]</option>
-                                <option value="Regular">Regular[cite: 17]</option>
-                                <option value="Bueno">Bueno[cite: 17]</option>
-                                <option value="Excelente">Excelente[cite: 17]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Saneamiento y evacuación de aguas residuales[cite: 17]</label>
-                            <select name="b2_saneamiento" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione evaluación...</option>
-                                <option value="Deficiente">Deficiente[cite: 17]</option>
-                                <option value="Regular">Regular[cite: 17]</option>
-                                <option value="Bueno">Bueno[cite: 17]</option>
-                                <option value="Excelente">Excelente[cite: 17]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Drenaje pluvial (control de inundaciones)[cite: 17]</label>
-                            <select name="b2_drenaje" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione evaluación...</option>
-                                <option value="Deficiente">Deficiente[cite: 17]</option>
-                                <option value="Regular">Regular[cite: 17]</option>
-                                <option value="Bueno">Bueno[cite: 17]</option>
-                                <option value="Excelente">Excelente[cite: 17]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Estabilidad de la red de energía eléctrica[cite: 17]</label>
-                            <select name="b2_energia" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione evaluación...</option>
-                                <option value="Deficiente">Deficiente[cite: 17]</option>
-                                <option value="Regular">Regular[cite: 17]</option>
-                                <option value="Bueno">Bueno[cite: 17]</option>
-                                <option value="Excelente">Excelente[cite: 17]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Estado de vías y caminos internos (barro/erosión)[cite: 17]</label>
-                            <select name="b2_vias" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione evaluación...</option>
-                                <option value="Deficiente">Deficiente[cite: 17]</option>
-                                <option value="Regular">Regular[cite: 17]</option>
-                                <option value="Bueno">Bueno[cite: 17]</option>
-                                <option value="Excelente">Excelente[cite: 17]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Alumbrado público en calles del poblado[cite: 17]</label>
-                            <select name="b2_alumbrado" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione evaluación...</option>
-                                <option value="Deficiente">Deficiente[cite: 17]</option>
-                                <option value="Regular">Regular[cite: 17]</option>
-                                <option value="Bueno">Bueno[cite: 17]</option>
-                                <option value="Excelente">Excelente[cite: 17]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Gestión y recogida de basura/residuos[cite: 17]</label>
-                            <select name="b2_basura" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione evaluación...</option>
-                                <option value="Deficiente">Deficiente[cite: 17]</option>
-                                <option value="Regular">Regular[cite: 17]</option>
-                                <option value="Bueno">Bueno[cite: 17]</option>
-                                <option value="Excelente">Excelente[cite: 17]</option>
-                            </select>
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-700">2.1. Evaluación del estado de los servicios públicos:</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">Abastecimiento de agua potable:</span>
+                                <select name="b2_agua" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Deficiente">Deficiente</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Excelente">Excelente</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">Saneamiento y evacuación:</span>
+                                <select name="b2_saneamiento" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Deficiente">Deficiente</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Excelente">Excelente</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">Drenaje pluvial:</span>
+                                <select name="b2_drenaje" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Deficiente">Deficiente</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Excelente">Excelente</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">Energía eléctrica:</span>
+                                <select name="b2_energia" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Deficiente">Deficiente</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Excelente">Excelente</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">Vías y caminos internos:</span>
+                                <select name="b2_vias" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Deficiente">Deficiente</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Excelente">Excelente</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">Alumbrado público:</span>
+                                <select name="b2_alumbrado" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Deficiente">Deficiente</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Excelente">Excelente</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 md:col-span-2">
+                                <span class="block font-bold text-slate-800 mb-1.5">Gestión y recogida de basura/residuos:</span>
+                                <select name="b2_basura" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Deficiente">Deficiente</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Bueno">Bueno</option>
+                                    <option value="Excelente">Excelente</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">2.2. Durante la época de lluvias intensas, ¿cuál es el principal problema de vialidad que enfrenta?[cite: 18]</label>
-                        <select name="b2_vialidad_lluvias" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Inundación de los caminos de tierra que imposibilita el paso vehicular rodado.">Inundación de los caminos de tierra que imposibilita el paso vehicular rodado.[cite: 18]</option>
-                            <option value="Erosión de los caminos de tierra que imposibilita el paso vehicular rodado.">Erosión de los caminos de tierra que imposibilita el paso vehicular rodado.[cite: 18]</option>
-                            <option value="Dificultad extrema para el tránsito peatonal seguro por acumulación de lodo.">Dificultad extrema para el tránsito peatonal seguro por acumulación de lodo.[cite: 18]</option>
-                            <option value="Daños materiales directos en las viviendas causados por escorrentias pluviales.">Daños materiales directos en las viviendas causados por escorrentías pluviales.[cite: 18]</option>
-                            <option value="Sin problemas significativos.">Sin problemas significativos.[cite: 18]</option>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">2.2. Problema de vialidad principal en lluvias intensas:</label>
+                        <select name="b2_vialidad_lluvias" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                            <option value="">Seleccione una opción...</option>
+                            <option value="Inundación de los caminos de tierra que imposibilita el paso vehicular rodado.">Inundación de caminos de tierra</option>
+                            <option value="Erosión de los caminos de tierra que imposibilita el paso vehicular rodado.">Erosión de caminos de tierra</option>
+                            <option value="Dificultad extrema para el tránsito peatonal seguro por acumulación de lodo.">Dificultad para tránsito peatonal por lodo</option>
+                            <option value="Daños materiales directos en las viviendas causados por escorrentías pluviales.">Daños materiales directos en viviendas</option>
+                            <option value="Sin problemas significativos.">Sin problemas significativos</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- BLOQUE III -->
-                <div class="space-y-4 pt-4">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque III: Percepción Metropolitana y Riesgo de Desplazamiento[cite: 18]</h2>
+                <div class="space-y-6 border-l-4 border-emerald-700 pl-4 md:pl-6">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 uppercase tracking-wide">Bloque III: Percepción Metropolitana y Riesgo</h2>
+                        <p class="text-xs text-slate-500">Impacto y expectativas frente a Ciudad de la Paz.</p>
+                    </div>
                     
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">3.1. ¿Cómo percibe la rápida expansión de la Ciudad de la Paz junto al poblado de Oyala?[cite: 18]</label>
-                        <select name="b3_expansion" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Muy positiva (Aporta modernidad, servicios directos y oportunidades de empleo).">Muy positiva (Aporta modernidad, servicios directos y oportunidades de empleo).[cite: 18]</option>
-                            <option value="Positiva con reservas (Genera oportunidades, pero crea dudas sobre el futuro del poblado).">Positiva con reservas (Genera oportunidades, pero crea dudas sobre el futuro del poblado).[cite: 18]</option>
-                            <option value="Preocupante (Existe temor a ser absorbidos, desplazados o marginados).">Preocupante (Existe temor a ser absorbidos, desplazados o marginados).[cite: 18]</option>
-                            <option value="Negativa (Pérdida de tranquilidad, entorno natural y aumento del coste de vida).">Negativa (Pérdida de tranquilidad, entorno natural y aumento del coste de vida).[cite: 18]</option>
-                            <option value="Indiferente (No tengo ninguna percepción ya sea positiva o negativa)">Indiferente (No tengo ninguna percepción ya sea positiva o negativa)[cite: 18]</option>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">3.1. Percepción de la rápida expansión de Ciudad de la Paz:</label>
+                        <select name="b3_expansion" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                            <option value="">Seleccione una opción...</option>
+                            <option value="Muy positiva (Aporta modernidad, servicios directos y oportunidades de empleo).">Muy positiva</option>
+                            <option value="Positiva con reservas (Genera oportunidades, pero crea dudas sobre el futuro del poblado).">Positiva con reservas</option>
+                            <option value="Preocupante (Existe temor a ser absorbidos, desplazados o marginados).">Preocupante</option>
+                            <option value="Negativa (Pérdida de tranquilidad, entorno natural y aumento del coste de vida).">Negativa</option>
+                            <option value="Indiferente (No tengo ninguna percepción ya sea positiva o negativa)">Indiferente</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">3.2. ¿Aceptaría un reajuste coordinado de parcelas para abrir calles equipadas si se garantiza el título legal de su suelo?[cite: 18]</label>
-                        <select name="b3_reajuste" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Totalmente de acuerdo.">Totalmente de acuerdo.[cite: 18]</option>
-                            <option value="De acuerdo, si no afecta mi vivienda actual.">De acuerdo, si no afecta mi vivienda actual.[cite: 18]</option>
-                            <option value="En desacuerdo.">En desacuerdo.[cite: 18]</option>
-                            <option value="Requiere más información previa.">Requiere más información previa.[cite: 18]</option>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">3.2. Aceptación de reajuste de parcelas para calles equipadas:</label>
+                        <select name="b3_reajuste" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                            <option value="">Seleccione una opción...</option>
+                            <option value="Totalmente de acuerdo.">Totalmente de acuerdo</option>
+                            <option value="De acuerdo, si no afecta mi vivienda actual.">De acuerdo, si no afecta mi vivienda actual</option>
+                            <option value="En desacuerdo.">En desacuerdo</option>
+                            <option value="Requiere más información previa.">Requiere más información previa</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- BLOQUE IV -->
-                <div class="space-y-4 pt-4">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque IV: Identidad Cultural, Memoria Histórica y Patrimonio[cite: 19]</h2>
+                <div class="space-y-6 border-l-4 border-emerald-700 pl-4 md:pl-6">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 uppercase tracking-wide">Bloque IV: Identidad Cultural y Patrimonio</h2>
+                        <p class="text-xs text-slate-500">Valoración de espacios comunitarios y memoria histórica.</p>
+                    </div>
                     
-                    <p class="text-xs font-semibold text-slate-600">4.1. Importancia otorgada a los espacios comunitarios de Oyala para preservar su memoria colectiva[cite: 19]:</p>
-                    
-                    <div class="space-y-3 bg-slate-50 p-4 rounded-xl border">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">El Abaa (Casa de la comunidad / Espacio de consejo)[cite: 19]</label>
-                            <select name="b4_abaa" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione importancia...</option>
-                                <option value="Sin importancia">Sin importancia[cite: 19]</option>
-                                <option value="Poca importancia">Poca importancia[cite: 19]</option>
-                                <option value="Importancia media">Importancia media[cite: 19]</option>
-                                <option value="Gran importancia">Gran importancia[cite: 19]</option>
-                                <option value="Esencial para la identidad">Esencial para la identidad[cite: 19]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">La Iglesia / Centro de culto local[cite: 19]</label>
-                            <select name="b4_iglesia" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione importancia...</option>
-                                <option value="Sin importancia">Sin importancia[cite: 19]</option>
-                                <option value="Poca importancia">Poca importancia[cite: 19]</option>
-                                <option value="Importancia media">Importancia media[cite: 19]</option>
-                                <option value="Gran importancia">Gran importancia[cite: 19]</option>
-                                <option value="Esencial para la identidad">Esencial para la identidad[cite: 19]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">La Escuela primaria del poblado[cite: 19]</label>
-                            <select name="b4_escuela" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione importancia...</option>
-                                <option value="Sin importancia">Sin importancia[cite: 19]</option>
-                                <option value="Poca importancia">Poca importancia[cite: 19]</option>
-                                <option value="Importancia media">Importancia media[cite: 19]</option>
-                                <option value="Gran importancia">Gran importancia[cite: 19]</option>
-                                <option value="Esencial para la identidad">Esencial para la identidad[cite: 19]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">El Campo de fútbol comunitario[cite: 19]</label>
-                            <select name="b4_futbol" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione importancia...</option>
-                                <option value="Sin importancia">Sin importancia[cite: 19]</option>
-                                <option value="Poca importancia">Poca importancia[cite: 19]</option>
-                                <option value="Importancia media">Importancia media[cite: 19]</option>
-                                <option value="Gran importancia">Gran importancia[cite: 19]</option>
-                                <option value="Esencial para la identidad">Esencial para la identidad[cite: 19]</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Trazado de caminos orgánicos y entorno natural[cite: 19]</label>
-                            <select name="b4_caminos" required class="w-full border rounded-lg p-2 text-sm bg-white">
-                                <option value="">Seleccione importancia...</option>
-                                <option value="Sin importancia">Sin importancia[cite: 19]</option>
-                                <option value="Poca importancia">Poca importancia[cite: 19]</option>
-                                <option value="Importancia media">Importancia media[cite: 19]</option>
-                                <option value="Gran importancia">Gran importancia[cite: 19]</option>
-                                <option value="Esencial para la identidad">Esencial para la identidad[cite: 19]</option>
-                            </select>
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-700">4.1. Importancia otorgada a los espacios comunitarios:</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">El Abaa (Casa de la comunidad / Consejo):</span>
+                                <select name="b4_abaa" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Sin valor">Sin valor</option>
+                                    <option value="Importancia media">Importancia media</option>
+                                    <option value="Gran importancia">Gran importancia</option>
+                                    <option value="Esencial para la identidad">Esencial para la identidad</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">La Iglesia / Centro de culto local:</span>
+                                <select name="b4_iglesia" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Sin valor">Sin valor</option>
+                                    <option value="Importancia media">Importancia media</option>
+                                    <option value="Gran importancia">Gran importancia</option>
+                                    <option value="Esencial para la identidad">Esencial para la identidad</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">La Escuela primaria del poblado:</span>
+                                <select name="b4_escuela" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Sin valor">Sin valor</option>
+                                    <option value="Importancia media">Importancia media</option>
+                                    <option value="Gran importancia">Gran importancia</option>
+                                    <option value="Esencial para la identidad">Esencial para la identidad</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                <span class="block font-bold text-slate-800 mb-1.5">El Campo de fútbol comunitario:</span>
+                                <select name="b4_futbol" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Sin valor">Sin valor</option>
+                                    <option value="Importancia media">Importancia media</option>
+                                    <option value="Gran importancia">Gran importancia</option>
+                                    <option value="Esencial para la identidad">Esencial para la identidad</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 md:col-span-2">
+                                <span class="block font-bold text-slate-800 mb-1.5">Trazado de caminos orgánicos y entorno natural:</span>
+                                <select name="b4_caminos" required class="w-full border rounded-lg p-2 bg-white">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Sin valor">Sin valor</option>
+                                    <option value="Importancia media">Importancia media</option>
+                                    <option value="Gran importancia">Gran importancia</option>
+                                    <option value="Esencial para la identidad">Esencial para la identidad</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">4.2. ¿El poblado debe consolidarse como el "Centro Histórico Vivo" de Ciudad de la Paz?[cite: 19]</label>
-                        <select name="b4_centro_historico" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Sí, es fundamental conservar nuestra identidad, cultura y arquitectura tradicional.">Sí, es fundamental conservar nuestra identidad, cultura y arquitectura tradicional.[cite: 19]</option>
-                            <option value="Sí, pero introduciendo modernización técnica en calles y redes públicas.">Sí, pero introduciendo modernización técnica en calles y redes públicas.[cite: 19]</option>
-                            <option value="No, es preferible sustituir el tejido por la arquitectura monumental de la metrópoli.">No, es preferible sustituir el tejido por la arquitectura monumental de la metrópoli.[cite: 19]</option>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">4.2. ¿El poblado debe consolidarse como "Centro Histórico Vivo"?:</label>
+                        <select name="b4_centro_historico" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                            <option value="">Seleccione una opción...</option>
+                            <option value="Sí, es fundamental conservar nuestra identidad, cultura y arquitectura tradicional.">Sí, es fundamental conservar nuestra identidad</option>
+                            <option value="Sí, pero introduciendo modernización técnica en calles y redes públicas.">Sí, pero introduciendo modernización técnica</option>
+                            <option value="No, es preferible sustituir el tejido por la arquitectura monumental de la metrópoli.">No, sustituir por arquitectura monumental</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- BLOQUE V -->
-                <div class="space-y-4 pt-4">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque V: Habitabilidad y Tipología Arquitectónica Vernácula[cite: 19]</h2>
-                    
+                <!-- BLOQUES V & VI -->
+                <div class="space-y-6 border-l-4 border-emerald-700 pl-4 md:pl-6">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">5.1. Material constructivo predominantemente empleado en su vivienda actual[cite: 19]:</label>
-                        <select name="b5_material" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Madera/Tabla local">Madera/Tabla local[cite: 19]</option>
-                            <option value="Bloques de hormigón">Bloques de hormigón[cite: 19]</option>
-                            <option value="Tierra/Adobe tradicional">Tierra/Adobe tradicional[cite: 19]</option>
-                            <option value="Mixto (Madera / Bloque)">Mixto (Madera / Bloque)[cite: 19]</option>
-                            <option value="Chapa de zinc / Caña">Chapa de zinc / Caña[cite: 19]</option>
-                            <option value="Otro tipo">Otro tipo[cite: 19]</option>
-                        </select>
+                        <h2 class="text-base font-bold text-slate-900 uppercase tracking-wide">Bloques V & VI: Habitabilidad y Observaciones</h2>
+                        <p class="text-xs text-slate-500">Tipología arquitectónica y prioridades abiertas.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">5.1. Material constructivo predominantemente empleado:</label>
+                            <select name="b5_material" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione...</option>
+                                <option value="Madera/Tabla local">Madera/Tabla local</option>
+                                <option value="Bloques de hormigón">Bloques de hormigón</option>
+                                <option value="Tierra/Adobe tradicional">Tierra/Adobe tradicional</option>
+                                <option value="Mixto (Madera / Bloque)">Mixto (Madera / Bloque)</option>
+                                <option value="Chapa de zinc / Caña">Chapa de zinc / Caña</option>
+                                <option value="Otro tipo">Otro tipo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">5.2. Aceptación de viviendas con BTC y ventilación pasiva:</label>
+                            <select name="b5_btc" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione...</option>
+                                <option value="Altamente favorable (Permite mantener el confort térmico natural y el arraigo cultural).">Altamente favorable</option>
+                                <option value="Favorable, a condición de garantizar alta durabilidad técnica y bajo coste.">Favorable (durabilidad/bajo coste)</option>
+                                <option value="Poco favorable (Prefiero únicamente materiales convencionales de hormigón y cristal).">Poco favorable (prefiere hormigón/cristal)</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">5.2. Aceptación de viviendas con Bloques de Tierra Comprimida (BTC), madera autóctona y ventilación pasiva[cite: 19]:</label>
-                        <select name="b5_btc" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                            <option value="">Seleccione...</option>
-                            <option value="Altamente favorable (Permite mantener el confort térmico natural y el arraigo cultural).">Altamente favorable (Permite mantener el confort térmico natural y el arraigo cultural).[cite: 19]</option>
-                            <option value="Favorable, a condición de garantizar alta durabilidad técnica y bajo coste.">Favorable, a condición de garantizar alta durabilidad técnica y bajo coste.[cite: 19]</option>
-                            <option value="Poco favorable (Prefiero únicamente materiales convencionales de hormigón y cristal).">Poco favorable (Prefiero únicamente materiales convencionales de hormigón y cristal).[cite: 19]</option>
-                        </select>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">6.1. Prioridad infraestructural más urgente a atender:</label>
+                        <input type="text" name="b6_prioridad_urgente" placeholder="Ej: Abastecimiento de agua potable y asfaltado..." required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">6.2. Comentarios adicionales para la salvaguarda de la historia local:</label>
+                        <textarea name="b6_comentarios" rows="3" placeholder="Escriba aquí cualquier comentario o propuesta adicional..." class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600"></textarea>
                     </div>
                 </div>
 
-                <!-- BLOQUE VI -->
-                <div class="space-y-4 pt-4">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque VI: Observaciones y Propuestas Abiertas[cite: 19]</h2>
-                    
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">6.1. Prioridad infraestructural más urgente a atender en el poblado[cite: 19]:</label>
-                        <input type="text" name="b6_prioridad_urgente" placeholder="Ej: Agua potable y asfalto" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">6.2. Comentarios adicionales para la salvaguarda de la historia local:</label>
-                        <textarea name="b6_comentarios" rows="3" placeholder="Comentarios adicionales..." class="w-full border rounded-lg p-2.5 text-sm bg-slate-50"></textarea>
-                    </div>
-                </div>
-
+                <!-- Botón de Envío -->
                 <div class="pt-4">
-                    <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-3 rounded-xl transition shadow">
-                        Enviar Cuestionario
+                    <button type="submit" id="submit-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 px-6 rounded-xl transition shadow-lg text-sm tracking-wide flex items-center justify-center space-x-2">
+                        <span>Enviar Cuestionario de Diagnóstico</span>
                     </button>
                 </div>
 
@@ -369,7 +373,7 @@
     </main>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; // Reemplazar con URL real
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; 
         const SUBMISSION_KEY = "oyala_tfg_survey_submitted";
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -391,41 +395,19 @@
                 return;
             }
 
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerHTML = "<span>Enviando respuesta a la base de datos...</span>";
+
             const form = document.getElementById("surveyForm");
-            const formData = {
-                tipo_entrada: "Web",
-                b1_edad: form.b1_edad.value,
-                b1_genero: form.b1_genero.value,
-                b1_residencia: form.b1_residencia.value,
-                b1_actividad: form.b1_actividad.value,
-                b1_familia: form.b1_familia.value,
-                b1_ingresos: form.b1_ingresos.value,
-                b2_agua: form.b2_agua.value,
-                b2_saneamiento: form.b2_saneamiento.value,
-                b2_drenaje: form.b2_drenaje.value,
-                b2_energia: form.b2_energia.value,
-                b2_vias: form.b2_vias.value,
-                b2_alumbrado: form.b2_alumbrado.value,
-                b2_basura: form.b2_basura.value,
-                b2_vialidad_lluvias: form.b2_vialidad_lluvias.value,
-                b3_expansion: form.b3_expansion.value,
-                b3_reajuste: form.b3_reajuste.value,
-                b4_abaa: form.b4_abaa.value,
-                b4_iglesia: form.b4_iglesia.value,
-                b4_escuela: form.b4_escuela.value,
-                b4_futbol: form.b4_futbol.value,
-                b4_caminos: form.b4_caminos.value,
-                b4_centro_historico: form.b4_centro_historico.value,
-                b5_material: form.b5_material.value,
-                b5_btc: form.b5_btc.value,
-                b6_prioridad_urgente: form.b6_prioridad_urgente.value,
-                b6_comentarios: form.b6_comentarios.value
-            };
+            const formData = new FormData(form);
+            const data = { tipo_entrada: "Web" };
+            formData.forEach((value, key) => { data[key] = value; });
 
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(data)
                 });
                 const result = await response.json();
 
@@ -433,11 +415,15 @@
                     localStorage.setItem(SUBMISSION_KEY, "true");
                     checkAlreadySubmitted();
                 } else {
-                    alert("Error al registrar la respuesta. Inténtelo de nuevo.");
+                    alert("Error al registrar la respuesta: " + (result.message || "Inténtelo de nuevo."));
+                    btn.disabled = false;
+                    btn.innerHTML = "<span>Enviar Cuestionario de Diagnóstico</span>";
                 }
             } catch (error) {
                 console.error("Error:", error);
-                alert("Error de conexión. Verifique su red.");
+                alert("Error de conexión. Verifique su red e inténtelo nuevamente.");
+                btn.disabled = false;
+                btn.innerHTML = "<span>Enviar Cuestionario de Diagnóstico</span>";
             }
         }
     </script>
