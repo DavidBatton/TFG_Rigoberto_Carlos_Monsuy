@@ -16,6 +16,23 @@
         </div>
     </header>
 
+    <!-- Pantalla de Bloqueo por Encuesta Ya Realizada -->
+<div id="already-submitted-block" class="hidden max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center space-y-4 my-12">
+    <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+        ⚠️
+    </div>
+    <h2 class="text-xl font-bold text-slate-900">Encuesta Ya Registrada</h2>
+    <p class="text-sm text-slate-600 leading-relaxed">
+        Detectamos que ya se ha enviado una respuesta desde este dispositivo para el diagnóstico socio-espacial de Oyala.
+    </p>
+    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-500">
+        Para garantizar la objetividad y evitar duplicidades en la muestra estadística de esta investigación académica, solo se permite un envío por dispositivo.
+    </div>
+    <p class="text-xs text-emerald-800 font-semibold pt-2">
+        ¡Agradecemos sinceramente tu colaboración con este Trabajo de Fin de Grado!
+    </p>
+</div>
+
     <!-- Contenido principal -->
     <main class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
         
@@ -359,90 +376,61 @@
     </footer>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; // Reemplazar con la URL de Apps Script
 
-        let currentStep = 1;
-        const totalSteps = 5;
+        // Clave única para controlar el envío único en el dispositivo
+const SUBMISSION_KEY = "oyala_tfg_survey_submitted";
 
-        function startSurvey() {
-            document.getElementById('welcome-card').classList.add('hidden');
-            document.getElementById('survey-form').classList.remove('hidden');
-            updateSteps();
+// 1. Verificar inmediatamente al cargar la página si el usuario ya respondió
+document.addEventListener("DOMContentLoaded", function() {
+    checkAlreadySubmitted();
+});
+
+function checkAlreadySubmitted() {
+    if (localStorage.getItem(SUBMISSION_KEY) === "true") {
+        // Ocultar el formulario principal y mostrar la pantalla de bloqueo
+        const formContainer = document.getElementById("survey-form-container"); // Asegúrate que tu contenedor del form tenga esta ID
+        const blockedBlock = document.getElementById("already-submitted-block");
+        
+        if (formContainer) formContainer.style.display = "none";
+        if (blockedBlock) blockedBlock.classList.remove("hidden");
+    }
+}
+
+// 2. Modificar la función que procesa el envío con éxito
+async function submitSurvey(event) {
+    event.preventDefault();
+    
+    // Si por alguna razón ya había enviado, detener proceso
+    if (localStorage.getItem(SUBMISSION_KEY) === "true") {
+        checkAlreadySubmitted();
+        return;
+    }
+
+    // ... (Tu código actual para recopilar los datos y hacer el fetch a Apps Script) ...
+
+    try {
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+
+        if (result.status === "success") {
+            // Guardar la marca permanente en el navegador del dispositivo
+            localStorage.setItem(SUBMISSION_KEY, "true");
+
+            // Mostrar la pantalla de agradecimiento o bloqueo
+            checkAlreadySubmitted();
+        } else {
+            alert("Ocurrió un error al registrar la respuesta. Por favor, inténtelo de nuevo.");
         }
-
-        function changeStep(direction) {
-            if (direction === 1) {
-                const currentBlock = document.querySelector(`.form-step[data-step="${currentStep}"]`);
-                const inputs = currentBlock.querySelectorAll('input[required], select[required]');
-                let valid = true;
-                inputs.forEach(input => {
-                    if (input.type === 'radio') {
-                        const group = currentBlock.querySelectorAll(`input[name="${input.name}"]`);
-                        if (!Array.from(group).some(r => r.checked)) valid = false;
-                    } else if (!input.value) {
-                        valid = false;
-                    }
-                });
-                if (!valid) {
-                    alert("Por favor, responda todas las preguntas obligatorias del bloque actual antes de continuar.");
-                    return;
-                }
-            }
-
-            currentStep += direction;
-            if (currentStep < 1) currentStep = 1;
-            if (currentStep > totalSteps) currentStep = totalSteps;
-            updateSteps();
-        }
-
-        function updateSteps() {
-            document.querySelectorAll('.form-step').forEach(step => {
-                step.classList.toggle('hidden', parseInt(step.dataset.step) !== currentStep);
-            });
-
-            const progress = (currentStep / totalSteps) * 100;
-            document.getElementById('progress-bar').style.width = progress + '%';
-            document.getElementById('step-indicator').innerText = `Paso ${currentStep} de ${totalSteps}`;
-            document.getElementById('step-percent').innerText = `${Math.round(progress)}% completado`;
-
-            document.getElementById('prev-btn').classList.toggle('hidden', currentStep === 1);
-            document.getElementById('next-btn').classList.toggle('hidden', currentStep === totalSteps);
-            document.getElementById('submit-btn').classList.toggle('hidden', currentStep !== totalSteps);
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        async function submitForm(e) {
-            e.preventDefault();
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Enviando...";
-
-            const formData = new FormData(e.target);
-            const data = { tipo_entrada: "Web" };
-            formData.forEach((value, key) => { data[key] = value; });
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                });
-                const result = await response.json();
-                
-                if (result.status === "success") {
-                    document.getElementById('survey-form').classList.add('hidden');
-                    document.getElementById('success-card').classList.remove('hidden');
-                } else {
-                    alert("Error: " + result.message);
-                    submitBtn.disabled = false;
-                    submitBtn.innerText = "Enviar Respuestas";
-                }
-            } catch (error) {
-                alert("Error de conexión al guardar los datos.");
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Enviar Respuestas";
-            }
-        }
+    } catch (error) {
+        console.error("Error al enviar la encuesta:", error);
+        alert("Error de conexión. Verifique su red e intente nuevamente.");
+    }
+}
+        
     </script>
 </body>
 </html>
