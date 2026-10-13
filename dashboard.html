@@ -41,14 +41,14 @@
             </div>
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                 <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Compatibilidad jamovi</p>
-                <p class="text-3xl font-black text-blue-600 mt-2">UTF-8 ✓</p>
+                <p id="kpi-total-jamovi" class="text-3xl font-black text-blue-600 mt-2">UTF-8 ✓</p>
             </div>
         </div>
 
         <!-- Barra de Exportación -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
             <div class="text-xs text-slate-600">
-                <span class="font-bold text-slate-900">Base de Datos TFG:</span> Sincronizada correctamente con Google Sheets. Listos para análisis estadístico.
+                <span class="font-bold text-slate-900">Base de Datos TFG:</span> Sincronizada de forma segura con Google Sheets.
             </div>
             <button onclick="exportCSV()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-xl text-xs transition shadow flex items-center space-x-2">
                 <span>Descargar Dataset CSV (para jamovi)</span>
@@ -71,15 +71,15 @@
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.3. Tiempo de Residencia</h3>
                     <div class="relative h-56"><canvas id="chartResidencia"></canvas></div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.4. Actividad Principal / Ingresos</h3>
-                    <div class="relative h-56"><canvas id="chartActividad"></canvas></div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 md:col-span-2 lg:col-span-3">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.4. Actividad Principal / Fuente de Ingresos</h3>
+                    <div class="relative h-72"><canvas id="chartActividad"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.5. Núcleo Familiar</h3>
                     <div class="relative h-56"><canvas id="chartFamilia"></canvas></div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 md:col-span-2">
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.6. Ingresos Mensuales (XAF)</h3>
                     <div class="relative h-56"><canvas id="chartIngresos"></canvas></div>
                 </div>
@@ -107,15 +107,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.1. Expansión Ciudad de la Paz</h3>
-                    <div class="relative h-56"><canvas id="chartExpansion"></canvas></div>
+                    <div class="relative h-64"><canvas id="chartExpansion"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.2. Reajuste de Parcelas</h3>
-                    <div class="relative h-56"><canvas id="chartReajuste"></canvas></div>
+                    <div class="relative h-64"><canvas id="chartReajuste"></canvas></div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 md:col-span-2 lg:col-span-1">
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.2. Centro Histórico Vivo</h3>
-                    <div class="relative h-56"><canvas id="chartCentroHistorico"></canvas></div>
+                    <div class="relative h-64"><canvas id="chartCentroHistorico"></canvas></div>
                 </div>
             </div>
         </section>
@@ -135,13 +135,21 @@
             </div>
         </section>
 
-        <!-- BLOQUE VI: OBSERVACIONES Y PRIORIDADES -->
+        <!-- BLOQUE VI: OBSERVACIONES Y COMENTARIOS -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque VI: Prioridades Infraestructurales y Comentarios</h2>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-                <h3 class="text-sm font-bold text-slate-800">6.1. Prioridades Urgentes Registradas (Muestra de respuestas)</h3>
-                <div id="prioridades-list" class="space-y-2 text-xs bg-slate-50 p-4 rounded-xl border max-h-48 overflow-y-auto">
-                    <p class="text-slate-400 italic">Cargando prioridades del estudio...</p>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque VI: Prioridades Infraestructurales y Comentarios Abiertos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                    <h3 class="text-xs font-bold uppercase text-slate-500">6.1. Prioridades Urgentes Registradas</h3>
+                    <div id="prioridades-list" class="space-y-2 text-xs bg-slate-50 p-4 rounded-xl border max-h-56 overflow-y-auto">
+                        <p class="text-slate-400 italic">Cargando prioridades...</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+                    <h3 class="text-xs font-bold uppercase text-slate-500">6.2. Comentarios Adicionales (Historia Local)</h3>
+                    <div id="comentarios-list" class="space-y-2 text-xs bg-slate-50 p-4 rounded-xl border max-h-56 overflow-y-auto">
+                        <p class="text-slate-400 italic">Cargando comentarios...</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -153,7 +161,7 @@
     </footer>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; // Reemplazar con tu URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; // Reemplazar con tu URL real de Apps Script
         let globalData = [];
         let charts = {};
 
@@ -170,49 +178,64 @@
         function updateDashboard(data) {
             document.getElementById('kpi-total').innerText = data.length;
             
-            // Conteo robusto insensible a mayúsculas/minúsculas y espacios
             const webCount = data.filter(d => (d.tipo_entrada || "").toString().trim().toLowerCase().includes("web")).length;
             const paperCount = data.filter(d => (d.tipo_entrada || "").toString().trim().toLowerCase().includes("papel")).length;
             
             document.getElementById('kpi-web').innerText = webCount;
             document.getElementById('kpi-paper').innerText = paperCount;
 
-            // Renderizado de Gráficas TFG por Variable
-            renderChart('chartEdad', 'bar', processField(data, 'b1_edad'), 'Respuestas', '#047857');
-            renderChart('chartGenero', 'doughnut', processField(data, 'b1_genero'), 'Respuestas', ['#0284c7', '#db2777', '#64748b']);
-            renderChart('chartResidencia', 'bar', processField(data, 'b1_residencia'), 'Respuestas', '#0d9488');
-            renderChart('chartActividad', 'bar', processField(data, 'b1_actividad'), 'Respuestas', '#2563eb');
-            renderChart('chartFamilia', 'bar', processField(data, 'b1_familia'), 'Respuestas', '#7c3aed');
-            renderChart('chartIngresos', 'bar', processField(data, 'b1_ingresos'), 'Respuestas', '#d97706');
+            // Renderizado de gráficos con barras verticales para opciones cortas y horizontales ('y') para textos largos
+            renderChart('chartEdad', 'bar', processField(data, 'b1_edad'), 'Respuestas', '#047857', false);
+            renderChart('chartGenero', 'doughnut', processField(data, 'b1_genero'), 'Respuestas', ['#0284c7', '#db2777', '#64748b'], false);
+            renderChart('chartResidencia', 'bar', processField(data, 'b1_residencia'), 'Respuestas', '#0d9488', false);
+            renderChart('chartActividad', 'bar', processField(data, 'b1_actividad'), 'Respuestas', '#2563eb', true); // Horizontal por texto largo
+            renderChart('chartFamilia', 'bar', processField(data, 'b1_familia'), 'Respuestas', '#7c3aed', false);
+            renderChart('chartIngresos', 'bar', processField(data, 'b1_ingresos'), 'Respuestas', '#d97706', false);
             
-            renderChart('chartAgua', 'bar', processField(data, 'b2_agua'), 'Respuestas', '#0284c7');
-            renderChart('chartLluvias', 'bar', processField(data, 'b2_vialidad_lluvias'), 'Respuestas', '#dc2626');
+            renderChart('chartAgua', 'bar', processField(data, 'b2_agua'), 'Respuestas', '#0284c7', false);
+            renderChart('chartLluvias', 'bar', processField(data, 'b2_vialidad_lluvias'), 'Respuestas', '#dc2626', true); // Horizontal
             
-            renderChart('chartExpansion', 'doughnut', processField(data, 'b3_expansion'), 'Respuestas', ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6']);
-            renderChart('chartReajuste', 'bar', processField(data, 'b3_reajuste'), 'Respuestas', '#4f46e5');
-            renderChart('chartCentroHistorico', 'bar', processField(data, 'b4_centro_historico'), 'Respuestas', '#059669');
+            renderChart('chartExpansion', 'bar', processField(data, 'b3_expansion'), 'Respuestas', '#10b981', true); // Horizontal
+            renderChart('chartReajuste', 'bar', processField(data, 'b3_reajuste'), 'Respuestas', '#4f46e5', true); // Horizontal
+            renderChart('chartCentroHistorico', 'bar', processField(data, 'b4_centro_historico'), 'Respuestas', '#059669', true); // Horizontal
             
-            renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Respuestas', '#9333ea');
-            renderChart('chartBtc', 'bar', processField(data, 'b5_btc'), 'Respuestas', '#0d9488');
+            renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Respuestas', '#9333ea', false);
+            renderChart('chartBtc', 'bar', processField(data, 'b5_btc'), 'Respuestas', '#0d9488', true); // Horizontal
 
-            // Cargar lista de prioridades (Bloque 6.1)
-            const listContainer = document.getElementById('prioridades-list');
-            listContainer.innerHTML = "";
+            // Listado 6.1: Prioridades Urgentes
+            const prioridadesContainer = document.getElementById('prioridades-list');
+            prioridadesContainer.innerHTML = "";
             const prioridades = data.map(d => d.b6_prioridad_urgente).filter(Boolean);
             if (prioridades.length === 0) {
-                listContainer.innerHTML = '<p class="text-slate-400 italic">No hay prioridades registradas todavía.</p>';
+                prioridadesContainer.innerHTML = '<p class="text-slate-400 italic">No hay prioridades registradas.</p>';
             } else {
                 prioridades.forEach((p, idx) => {
                     const item = document.createElement('div');
-                    item.className = "p-2 bg-white rounded border text-slate-700 flex items-center justify-between";
-                    item.innerHTML = `<span><strong>#${idx + 1}</strong>: ${p}</span>`;
-                    listContainer.appendChild(item);
+                    item.className = "p-2 bg-white rounded border text-slate-700";
+                    item.innerHTML = `<strong>#${idx + 1}</strong>: ${p}`;
+                    prioridadesContainer.appendChild(item);
+                });
+            }
+
+            // Listado 6.2: Comentarios Adicionales
+            const comentariosContainer = document.getElementById('comentarios-list');
+            comentariosContainer.innerHTML = "";
+            const comentarios = data.map(d => d.b6_comentarios).filter(Boolean);
+            if (comentarios.length === 0) {
+                comentariosContainer.innerHTML = '<p class="text-slate-400 italic">No hay comentarios adicionales registrados.</p>';
+            } else {
+                comentarios.forEach((c, idx) => {
+                    const item = document.createElement('div');
+                    item.className = "p-2 bg-white rounded border text-slate-700";
+                    item.innerHTML = `<strong>#${idx + 1}</strong>: ${c}`;
+                    comentariosContainer.appendChild(item);
                 });
             }
         }
 
         function processField(data, field) {
             const counts = {};
+            data.rows = data.map || data;
             data.forEach(row => {
                 const val = row[field] && row[field].toString().trim() !== "" ? row[field].toString().trim() : "Sin responder";
                 counts[val] = (counts[val] || 0) + 1;
@@ -220,21 +243,35 @@
             return { labels: Object.keys(counts), values: Object.values(counts) };
         }
 
-        function renderChart(canvasId, type, statData, label, color) {
+        function renderChart(canvasId, type, statData, label, color, isHorizontal) {
             if (charts[canvasId]) charts[canvasId].destroy();
             const ctx = document.getElementById(canvasId).getContext('2d');
-            charts[canvasId] = new Chart(ctx, {
+            
+            let chartConfig = {
                 type: type,
                 data: {
                     labels: statData.labels,
-                    datasets: [{ label: label, data: statData.values, backgroundColor: color, borderRadius: 6 }]
+                    datasets: [{ label: label, data: statData.values, backgroundColor: color, borderRadius: 4 }]
                 },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: type === 'doughnut' }
+                    }
+                }
+            };
+
+            // Si es gráfico de barras y requiere horizontal para textos largos
+            if (type === 'bar' && isHorizontal) {
+                chartConfig.options.indexAxis = 'y';
+            }
+
+            charts[canvasId] = new Chart(ctx, chartConfig);
         }
 
         function exportCSV() {
-            if (globalData.length === 0) { alert("No hay datos para exportar aún."); return; }
+            if (globalData.length === 0) { alert("No hay datos para exportar."); return; }
             const headers = Object.keys(globalData[0]);
             let csvContent = "\uFEFF" + headers.join(",") + "\n";
             globalData.forEach(row => {
