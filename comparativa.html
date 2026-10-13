@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cruzamiento de Variables y Conclusiones - TFG Oyala</title>
+    <title>Módulo de Análisis Bivariado • TFG Oyala</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-800 selection:text-white">
 
-    <!-- Header -->
-    <header class="bg-emerald-950 text-white shadow sticky top-0 z-50">
+    <!-- Header Institucional -->
+    <header class="bg-emerald-950 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-3">
             <div>
-                <h1 class="text-xl font-bold">Módulo de Análisis Bivariado • TFG Oyala</h1>
-                <p class="text-xs text-emerald-400">Cruzamiento de variables y generación de conclusiones en tiempo real</p>
+                <span class="inline-block px-2.5 py-0.5 bg-emerald-900 text-emerald-300 text-[10px] font-semibold rounded-full border border-emerald-700 uppercase tracking-widest mb-1">Análisis Causal y Urbanístico</span>
+                <h1 class="text-xl font-bold">Módulo de Cruce de Variables • TFG Oyala</h1>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
-                <a href="index.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition">Portal Web</a>
+                <a href="index.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition">Portal Público</a>
                 <a href="admin.html" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition">Admin Papel</a>
-                <a href="dashboard.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition">Dashboard General</a>
-                <button onclick="loadData()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Actualizar Datos</button>
+                <a href="dashboard.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition">Dashboard</a>
+                <button onclick="loadData()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-lg transition shadow flex items-center space-x-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    <span>Actualizar Datos</span>
+                </button>
             </div>
         </div>
     </header>
@@ -29,67 +32,79 @@
     <!-- Contenido Principal -->
     <main class="max-w-7xl mx-auto px-4 py-8 space-y-8 flex-grow w-full">
         
-        <!-- Tarjeta de Control de Cruces -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
-            <div>
-                <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-full mb-2">Herramienta de Investigación</span>
-                <h2 class="text-xl font-bold text-slate-900">Configuración del Cruce de Variables</h2>
-                <p class="text-xs text-slate-500 mt-1">Seleccione la variable independiente (perfil del encuestado) y la variable dependiente (opinión o infraestructura) para analizar su correlación estadística.</p>
+        <!-- Panel de Control Arquitectónico -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
+            <div class="border-b pb-4">
+                <h2 class="text-lg font-bold text-slate-900">Matriz de Correlación Socio-Espacial</h2>
+                <p class="text-xs text-slate-500 mt-1">Configure los cruces analíticos para evaluar la correlación entre el perfil sociodemográfico, la tipología habitacional y la percepción metropolitana.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">1. Variable Independiente (Eje X / Agrupación):</label>
-                    <select id="var-x" onchange="generateCrossAnalysis()" class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-500">
-                        <option value="b1_residencia">1.3. Tiempo de residencia en el poblado</option>
-                        <option value="b1_edad">1.1. Grupo de edad</option>
-                        <option value="b1_genero">1.2. Género</option>
-                        <option value="b1_actividad">1.4. Actividad principal / Fuente de ingresos</option>
-                        <option value="b1_ingresos">1.6. Ingresos medios mensuales (XAF)</option>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">1. Variable Independiente (Perfil / Residencia / Material):</label>
+                    <select id="var-x" onchange="generateCrossAnalysis()" class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                        <optgroup label="Bloque I: Perfil y Sociodemografía">
+                            <option value="b1_residencia">1.3. Tiempo de residencia (Nativos vs. Nuevos)</option>
+                            <option value="b1_edad">1.1. Grupo de edad</option>
+                            <option value="b1_actividad">1.4. Actividad principal / Fuente de ingresos</option>
+                            <option value="b1_ingresos">1.6. Ingresos mensuales (XAF)</option>
+                        </optgroup>
+                        <optgroup label="Bloque V: Habitabilidad Actual">
+                            <option value="b5_material">5.1. Material constructivo predominante en la vivienda</option>
+                        </optgroup>
                     </select>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">2. Variable Dependiente (Categorías a Comparar):</label>
-                    <select id="var-y" onchange="generateCrossAnalysis()" class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-500">
-                        <option value="b3_expansion">3.1. Percepción de la expansión de Ciudad de la Paz</option>
-                        <option value="b3_reajuste">3.2. Aceptación de reajuste de parcelas</option>
-                        <option value="b4_centro_historico">4.2. Consolidación como Centro Histórico Vivo</option>
-                        <option value="b5_btc">5.2. Aceptación de viviendas con BTC y ventilación pasiva</option>
-                        <option value="b2_agua">2.1. Evaluación del abastecimiento de agua</option>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">2. Variable Dependiente (Percepción / Infraestructura / Futuro):</label>
+                    <select id="var-y" onchange="generateCrossAnalysis()" class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                        <optgroup label="Bloque III & IV: Percepción y Patrimonio">
+                            <option value="b3_expansion">3.1. Percepción de la expansión de Ciudad de la Paz</option>
+                            <option value="b3_reajuste">3.2. Aceptación del reajuste parcelario</option>
+                            <option value="b4_centro_historico">4.2. Consolidación como Centro Histórico Vivo</option>
+                        </optgroup>
+                        <optgroup label="Bloque V: Innovación Tipológica">
+                            <option value="b5_btc">5.2. Aceptación de Bloques de Tierra Comprimida (BTC)</option>
+                        </optgroup>
+                        <optgroup label="Bloque II: Infraestructuras Críticas">
+                            <option value="b2_agua">2.1. Evaluación del abastecimiento de agua potable</option>
+                            <option value="b2_vialidad_lluvias">2.2. Problema de vialidad principal en lluvias intensas</option>
+                        </optgroup>
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- Resultados del Análisis (Gráfico + Conclusión Sugerida) -->
+        <!-- Resultados: Gráfico y Conclusiones Académicas -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Gráfico Comparativo -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 lg:col-span-2 space-y-4">
+            <!-- Gráfico Bivariado Agrupado -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 lg:col-span-2 space-y-4 flex flex-col justify-between">
                 <div class="flex justify-between items-center border-b pb-3">
-                    <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Representación Gráfica Bivariada</h3>
-                    <span id="sample-counter" class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium">Muestra: 0 encuestas</span>
+                    <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Distribución Relativa y Porcentual (%)</h3>
+                    <span id="sample-counter" class="text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 rounded-full font-semibold">Muestra: 0 registros</span>
                 </div>
-                <div class="relative h-80">
+                <div class="relative h-80 w-full">
                     <canvas id="crossChart"></canvas>
                 </div>
+                <p class="text-[11px] text-slate-400 italic text-center pt-2">Nota: Las barras muestran frecuencias absolutas y el porcentaje correspondiente sobre el total de la categoría cruzada.</p>
             </div>
 
-            <!-- Panel de Sugerencia de Conclusiones Académicas -->
+            <!-- Panel de Síntesis Arquitectónica y Conclusiones -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4 flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center space-x-2 border-b pb-3 mb-3">
-                        <div class="w-3 h-3 bg-emerald-600 rounded-full"></div>
-                        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">Síntesis y Conclusión Sugerida</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2 border-b pb-3">
+                        <div class="w-3 h-3 bg-emerald-700 rounded-full"></div>
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Lectura Crítica para el TFG</h3>
                     </div>
                     <div id="conclusion-text" class="text-xs md:text-sm text-slate-600 leading-relaxed space-y-3">
-                        <p class="italic text-slate-400">Seleccione las variables para generar la lectura analítica automática...</p>
+                        <p class="italic text-slate-400">Seleccione las variables para generar la discusión de resultados...</p>
                     </div>
                 </div>
-                <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-xs text-emerald-900">
-                    <p class="font-semibold mb-1">Utilidad para el TFG:</p>
-                    <p>Este texto resume la correlación observada para que puedas redactar directamente la discusión de resultados de tu tesis.</p>
+                
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs text-slate-700 space-y-1">
+                    <p class="font-bold text-slate-900 uppercase tracking-wide text-[11px]">Enfoque Metodológico:</p>
+                    <p class="text-slate-500 leading-relaxed">Esta correlación bivariada aporta evidencia cuantitativa para respaldar las propuestas de intervención arquitectónica y ordenación urbana en las conclusiones de la tesis.</p>
                 </div>
             </div>
 
@@ -97,14 +112,16 @@
 
     </main>
 
+    <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-12">
-        Trabajo de Fin de Grado (TFG) • Módulo de Análisis Avanzado • Oyala, Guinea Ecuatorial
+        Trabajo de Fin de Grado (TFG) • Diagnóstico Socio-Espacial y Patrimonio Vernáculo en Oyala
     </footer>
 
+    <!-- Script de Procesamiento Analítico -->
     <script>
         Chart.register(ChartDataLabels);
 
-        // ¡IMPORTANTE!: Reemplaza esta URL con tu enlace real de Google Apps Script
+        // ¡IMPORTANTE!: Reemplaza con tu URL real de Google Apps Script
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; 
         let globalData = [];
         let crossChartInstance = null;
@@ -113,10 +130,10 @@
             try {
                 const response = await fetch(SCRIPT_URL + "?action=getData");
                 globalData = await response.json();
-                document.getElementById('sample-counter').innerText = `Muestra: ${globalData.length} encuestas`;
+                document.getElementById('sample-counter').innerText = `Muestra: ${globalData.length} registros`;
                 generateCrossAnalysis();
             } catch (err) {
-                console.error("Error cargando los datos para el cruce:", err);
+                console.error("Error al sincronizar los datos:", err);
             }
         }
 
@@ -126,29 +143,27 @@
             const varX = document.getElementById('var-x').value;
             const varY = document.getElementById('var-y').value;
 
-            // Procesar matriz de contingencia (Cruce de variables)
             const crosstab = {};
             const yCategoriesSet = new Set();
+            const xTotals = {};
 
             globalData.forEach(row => {
-                const xVal = row[varX] && row[varX].toString().trim() !== "" ? row[varX].toString().trim() : "Sin responder";
-                const yVal = row[varY] && row[varY].toString().trim() !== "" ? row[varY].toString().trim() : "Sin responder";
+                const xVal = row[varX] && row[varX].toString().trim() !== "" ? row[varX].toString().trim() : "No especificado";
+                const yVal = row[varY] && row[varY].toString().trim() !== "" ? row[varY].toString().trim() : "No especificado";
 
                 yCategoriesSet.add(yVal);
 
-                if (!crosstab[xVal]) {
-                    crosstab[xVal] = {};
-                }
+                if (!crosstab[xVal]) crosstab[xVal] = {};
                 crosstab[xVal][yVal] = (crosstab[xVal][yVal] || 0) + 1;
+                xTotals[xVal] = (xTotals[xVal] || 0) + 1;
             });
 
             const xLabels = Object.keys(crosstab);
             const yCategories = Array.from(yCategoriesSet);
 
-            // Paleta de colores profesionales para las series
-            const palette = ['#047857', '#0284c7', '#d97706', '#7c3aed', '#dc2626', '#0d9488'];
+            // Paleta institucional de alta elegancia visual
+            const palette = ['#047857', '#0284c7', '#d97706', '#7c3aed', '#dc2626', '#0d9488', '#4f46e5'];
 
-            // Construir datasets para Chart.js (Gráfico de barras agrupadas)
             const datasets = yCategories.map((cat, idx) => {
                 return {
                     label: cat,
@@ -158,11 +173,11 @@
                 };
             });
 
-            renderCrossChart(xLabels, datasets);
-            generateConclusion(varX, varY, crosstab, xLabels, yCategories);
+            renderCrossChart(xLabels, datasets, xTotals);
+            generateArchitecturalConclusion(varX, varY, crosstab, xLabels, yCategories, xTotals);
         }
 
-        function renderCrossChart(labels, datasets) {
+        function renderCrossChart(labels, datasets, xTotals) {
             if (crossChartInstance) crossChartInstance.destroy();
             const ctx = document.getElementById('crossChart').getContext('2d');
 
@@ -173,67 +188,86 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, weight: '600' } } },
                         datalabels: {
                             color: '#1e293b',
                             anchor: 'end',
                             align: 'top',
                             font: { weight: 'bold', size: 9 },
-                            formatter: (value) => value > 0 ? value : ''
+                            formatter: (value, context) => {
+                                if (value === 0) return '';
+                                const xLabel = context.chart.data.labels[context.dataIndex];
+                                const totalGroup = xTotals[xLabel] || 1;
+                                const pct = ((value / totalGroup) * 100).toFixed(0);
+                                return `${value} (${pct}%)`;
+                            }
                         },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return ` ${context.dataset.label}: ${context.raw} respuestas`;
+                                    const val = context.raw || 0;
+                                    const xLabel = context.chart.data.labels[context.dataIndex];
+                                    const totalGroup = xTotals[xLabel] || 1;
+                                    const pct = ((val / totalGroup) * 100).toFixed(1);
+                                    return ` ${context.dataset.label}: ${val} (${pct}% del grupo)`;
                                 }
                             }
                         }
                     },
                     scales: {
-                        x: { grid: { display: false } },
-                        y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                        y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }
                     }
                 }
             });
         }
 
-        function generateConclusion(varX, varY, crosstab, xLabels, yCategories) {
+        function generateArchitecturalConclusion(varX, varY, crosstab, xLabels, yCategories, xTotals) {
             const container = document.getElementById('conclusion-text');
             
-            // Textos descriptivos amigables para los selects
-            const namesX = {
-                'b1_residencia': 'el tiempo de residencia en el poblado',
-                'b1_edad': 'el grupo de edad',
-                'b1_genero': 'el género',
-                'b1_actividad': 'la actividad principal',
-                'b1_ingresos': 'el nivel de ingresos mensuales'
+            const titlesX = {
+                'b1_residencia': 'el tiempo de residencia (contrastando población nativa y nuevos residentes)',
+                'b1_edad': 'la distribución etaria de la comunidad',
+                'b1_actividad': 'la estructura socioeconómica y fuente de ingresos',
+                'b1_ingresos': 'el nivel de renta mensual familiar',
+                'b5_material': 'el material constructivo predominante en la envolvente habitacional'
             };
 
-            const namesY = {
-                'b3_expansion': 'la percepción ante la expansión de Ciudad de la Paz',
-                'b3_reajuste': 'la aceptación del reajuste de parcelas',
-                'b4_centro_historico': 'la postura sobre el Centro Histórico Vivo',
-                'b5_btc': 'la aceptación de bloques de tierra comprimida (BTC)',
-                'b2_agua': 'la evaluación del abastecimiento de agua'
+            const titlesY = {
+                'b3_expansion': 'la percepción ante el impacto metropolitano de Ciudad de la Paz',
+                'b3_reajuste': 'la viabilidad social de un reajuste parcelario con titulación de suelo',
+                'b4_centro_historico': 'la consolidación del poblado como Centro Histórico Vivo',
+                'b5_btc': 'la aceptación de innovación material sostenible (Bloques de Tierra Comprimida)',
+                'b2_agua': 'la vulnerabilidad ante el déficit de infraestructuras de agua potable',
+                'b2_vialidad_lluvias': 'la afección vial e hidrológica durante la época de lluvias intensas'
             };
 
-            let dominantGroup = "";
-            let maxVal = -1;
+            // Encontrar la correlación máxima
+            let maxCount = -1;
+            let dominantX = "";
+            let dominantY = "";
 
             xLabels.forEach(x => {
                 yCategories.forEach(y => {
-                    const val = crosstab[x][y] || 0;
-                    if (val > maxVal) {
-                        maxVal = val;
-                        dominantGroup = `El perfil predominante corresponde a aquellos con <strong>${x}</strong> que opinan/califican como <strong>"${y}"</strong>`;
+                    const count = crosstab[x][y] || 0;
+                    if (count > maxCount) {
+                        maxCount = count;
+                        dominantX = x;
+                        dominantY = y;
                     }
                 });
             });
 
+            const groupTotal = xTotals[dominantX] || 1;
+            const dominantPct = ((maxCount / groupTotal) * 100).toFixed(1);
+
             container.innerHTML = `
-                <p>Al cruzar <strong>${namesX[varX]}</strong> con <strong>${namesY[varY]}</strong>, el análisis bivariado muestra tendencias clave para la discusión del TFG.</p>
-                <p class="bg-slate-50 p-3 rounded-xl border border-slate-200">🔍 <strong>Tendencia principal detectada:</strong> ${dominantGroup}.</p>
-                <p>Esta correlación permite argumentar en la defensa de tu tesis cómo las variables sociodemográficas condicionan directamente la integración urbana y la salvaguarda patrimonial en Oyala.</p>
+                <p>Al relacionar <strong>${titlesX[varX]}</strong> con <strong>${titlesY[varY]}</strong>, la matriz bivariada revela dinámicas territoriales determinantes para el proyecto de tesis.</p>
+                <div class="bg-emerald-50/80 border border-emerald-200 p-3.5 rounded-xl space-y-1 text-emerald-950">
+                    <p class="font-bold text-xs uppercase tracking-wider text-emerald-900">Hallazgo Urbanístico:</p>
+                    <p class="text-xs leading-relaxed">El segmento predominante de <strong>"${dominantX}"</strong> concentra el <strong>${dominantPct}% (${maxCount} casos)</strong> en la categoría de respuesta <strong>"${dominantY}"</strong>.</p>
+                </div>
+                <p><strong>Implicación para el TFG:</strong> Este resultado demuestra al tribunal que la resistencia o adaptación al nuevo modelo metropolitano no es homogénea, sino que está condicionada directamente por el arraigo habitacional y las carencias infraestructurales del asentamiento tradicional frente a la nueva capital.</p>
             `;
         }
 
