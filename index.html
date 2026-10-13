@@ -3,434 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta Socio-Espacial - Poblado de Oyala</title>
+    <title>Encuesta Socio-Espacial • Poblado de Oyala</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen py-10 px-4">
 
-    <!-- Header institucional -->
-    <header class="bg-emerald-900 text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-3xl mx-auto px-4 py-5 text-center">
-            <h1 class="text-xl md:text-2xl font-bold tracking-tight">Investigación de Campo: Poblado de Oyala</h1>
-            <p class="text-emerald-200 text-xs md:text-sm mt-1 font-light">Integración Urbana y Salvaguarda del Patrimonio Vernáculo (Provincia de Djibloho)</p>
-        </div>
-    </header>
-
-    <!-- Pantalla de Bloqueo por Encuesta Ya Realizada -->
-<div id="already-submitted-block" class="hidden max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center space-y-4 my-12">
-    <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
-        ⚠️
-    </div>
-    <h2 class="text-xl font-bold text-slate-900">Encuesta Ya Registrada</h2>
-    <p class="text-sm text-slate-600 leading-relaxed">
-        Detectamos que ya se ha enviado una respuesta desde este dispositivo para el diagnóstico socio-espacial de Oyala.
-    </p>
-    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-500">
-        Para garantizar la objetividad y evitar duplicidades en la muestra estadística de esta investigación académica, solo se permite un envío por dispositivo.
-    </div>
-    <p class="text-xs text-emerald-800 font-semibold pt-2">
-        ¡Agradecemos sinceramente tu colaboración con este Trabajo de Fin de Grado!
-    </p>
-</div>
-
-    <!-- Contenido principal -->
-    <main class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
+    <main class="max-w-3xl mx-auto space-y-8">
         
-        <!-- Tarjeta de presentación -->
-        <div id="welcome-card" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-6">
-            <div>
-                <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-full mb-3">Diagnóstico Socio-Espacial</span>
-                <h2 class="text-2xl font-bold text-slate-900">Presentación y Consentimiento Informado</h2>
+        <!-- Pantalla de Bloqueo por Encuesta Ya Realizada (Oculta por defecto) -->
+        <div id="already-submitted-block" class="hidden bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center space-y-4">
+            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+                ⚠️
             </div>
+            <h2 class="text-xl font-bold text-slate-900">Encuesta Ya Registrada</h2>
             <p class="text-sm text-slate-600 leading-relaxed">
-                Esta encuesta tiene como objetivo diagnosticar las deficiencias infraestructurales, la percepción de la metropolización conexa, el patrimonio cultural y las necesidades habitacionales de los habitantes originarios y residentes del poblado de Oyala.
+                Detectamos que ya se ha enviado una respuesta desde este dispositivo para el diagnóstico socio-espacial de Oyala.
             </p>
-            <div class="bg-emerald-50 border-l-4 border-emerald-600 p-4 text-xs md:text-sm text-emerald-900 rounded-r-lg space-y-1">
-                <p class="font-bold">Carácter de la Encuesta:</p>
-                <p>Anónima, confidencial y de uso exclusivo técnico y académico. Su participación es completamente voluntaria.</p>
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-500">
+                Para garantizar la objetividad y evitar duplicidades en la muestra estadística de esta investigación académica, solo se permite un envío por dispositivo.
             </div>
-            <button type="button" onclick="startSurvey()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-medium py-3.5 px-6 rounded-xl transition duration-200 shadow-md">
-                Comenzar Encuesta
-            </button>
+            <p class="text-xs text-emerald-800 font-semibold pt-2">
+                ¡Agradecemos sinceramente tu colaboración con este Trabajo de Fin de Grado!
+            </p>
         </div>
 
-        <!-- Formulario por pasos -->
-        <form id="survey-form" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 space-y-8" onsubmit="submitForm(event)">
-            
-            <!-- Progreso -->
-            <div>
-                <div class="flex justify-between text-xs font-semibold text-slate-500 mb-2">
-                    <span id="step-indicator">Paso 1 de 5</span>
-                    <span id="step-percent">20% completado</span>
-                </div>
-                <div class="w-full bg-slate-100 rounded-full h-2">
-                    <div id="progress-bar" class="bg-emerald-600 h-2 rounded-full transition-all duration-300" style="width: 20%;"></div>
-                </div>
+        <!-- Contenedor Principal del Formulario -->
+        <div id="survey-form-container" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+            <div class="border-b pb-4">
+                <h1 class="text-2xl font-bold text-emerald-900">Encuesta Socio-Espacial y Patrimonio Vernáculo</h1>
+                <p class="text-xs text-slate-500 mt-1">Poblado de Oyala, Ciudad de la Paz • Trabajo de Fin de Grado (TFG)</p>
             </div>
 
-            <!-- PASO 1: BLOQUE I -->
-            <div class="form-step space-y-6" data-step="1">
-                <h3 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque I: Datos Generales y Sociodemográficos</h3>
+            <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-6">
                 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">1.1. Edad del encuestado/a:</label>
-                    <div class="space-y-2 text-sm">
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_edad" value="18-29 años" required class="text-emerald-600 focus:ring-emerald-500"><span>18-29 años</span></label>
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_edad" value="30-49 años" class="text-emerald-600 focus:ring-emerald-500"><span>30-49 años</span></label>
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_edad" value="50-64 años" class="text-emerald-600 focus:ring-emerald-500"><span>50-64 años</span></label>
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_edad" value="65 años o más" class="text-emerald-600 focus:ring-emerald-500"><span>65 años o más</span></label>
+                <!-- Bloque I: Sociodemográfico -->
+                <div class="space-y-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque I: Datos Generales y Sociodemográficos</h2>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">1.1. Grupo de edad</label>
+                        <select name="b1_edad" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="18-29 años">18-29 años</option>
+                            <option value="30-49 años">30-49 años</option>
+                            <option value="50-64 años">50-64 años</option>
+                            <option value="65 años o más">65 años o más</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">1.2. Género</label>
+                        <select name="b1_genero" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Hombre">Hombre</option>
+                            <option value="Mujer">Mujer</option>
+                            <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">1.3. Tiempo de residencia en el poblado</label>
+                        <select name="b1_residencia" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Toda la vida (Nativo/a originario/a)">Toda la vida (Nativo/a originario/a)</option>
+                            <option value="Menos de 5 años">Menos de 5 años</option>
+                            <option value="Entre 5 y 15 años">Entre 5 y 15 años</option>
+                            <option value="Más de 15 años">Más de 15 años</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">1.4. Actividad principal / Fuente de ingresos</label>
+                        <select name="b1_actividad" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Agricultura / Pesca / Caza de subsistencia">Agricultura / Pesca / Caza de subsistencia</option>
+                            <option value="Comercio local o informal">Comercio local o informal</option>
+                            <option value="Construcción / Obras públicas">Construcción / Obras públicas</option>
+                            <option value="Empleado sector público / privado en Cd. de la Paz">Empleado sector público / privado en Cd. de la Paz</option>
+                            <option value="Estudiante">Estudiante</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">1.5. Núcleo familiar (número de personas)</label>
+                        <select name="b1_familia" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="1 a 3 personas">1 a 3 personas</option>
+                            <option value="4 a 6 personas">4 a 6 personas</option>
+                            <option value="7 a 9 personas">7 a 9 personas</option>
+                            <option value="10 o más personas">10 o más personas</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">1.6. Ingresos medios mensuales (XAF)</label>
+                        <select name="b1_ingresos" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Menos de 50.000 XAF">Menos de 50.000 XAF</option>
+                            <option value="Entre 50.000 y 100.000 XAF">Entre 50.000 y 100.000 XAF</option>
+                            <option value="Entre 100.000 y 150.000 XAF">Entre 100.000 y 150.000 XAF</option>
+                            <option value="Entre 200.000 y 250.000 XAF">Entre 200.000 y 250.000 XAF</option>
+                            <option value="Más de 250.000 XAF">Más de 250.000 XAF</option>
+                        </select>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">1.2. Género:</label>
-                    <div class="space-y-2 text-sm">
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_genero" value="Hombre" required class="text-emerald-600"><span>Hombre</span></label>
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_genero" value="Mujer" class="text-emerald-600"><span>Mujer</span></label>
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_genero" value="Prefiero no responder" class="text-emerald-600"><span>Prefiero no responder</span></label>
+                <!-- Bloque II: Infraestructuras -->
+                <div class="space-y-4 pt-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque II: Infraestructuras y Servicios Básicos</h2>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">2.1. Evaluación del abastecimiento de agua</label>
+                        <select name="b2_agua" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Óptimo">Óptimo</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Deficiente">Deficiente</option>
+                            <option value="Inexistente">Inexistente</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">2.2. Problema principal en lluvias intensas</label>
+                        <select name="b2_vialidad_lluvias" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Sin problemas significativos">Sin problemas significativos</option>
+                            <option value="Erosión de los caminos de tierra que imposibilita el paso vehicular rodado">Erosión de los caminos de tierra que imposibilita el paso vehicular rodado</option>
+                            <option value="Dificultad extrema para el tránsito peatonal seguro por acumulación de lodo">Dificultad extrema para el tránsito peatonal seguro por acumulación de lodo</option>
+                        </select>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">1.3. Tiempo de residencia en el poblado de Oyala:</label>
-                    <div class="space-y-2 text-sm">
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_residencia" value="Toda la vida (Nativo/a originario/a)" required class="text-emerald-600"><span>Toda la vida (Nativo/a originario/a)</span></label>
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_residencia" value="Menos de 5 años" class="text-emerald-600"><span>Menos de 5 años</span></label>
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_residencia" value="Entre 5 y 15 años" class="text-emerald-600"><span>Entre 5 y 15 años</span></label>
-                        <label class="flex items-center space-x-3 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer"><input type="radio" name="b1_residencia" value="Más de 15 años" class="text-emerald-600"><span>Más de 15 años</span></label>
+                <!-- Bloque III: Percepción Metropolitana -->
+                <div class="space-y-4 pt-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque III: Percepción Metropolitana</h2>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">3.1. Expansión Ciudad de la Paz</label>
+                        <select name="b3_expansion" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Muy positiva (Aporta modernidad, servicios directos y oportunidades de empleo)">Muy positiva (Aporta modernidad, servicios directos y oportunidades de empleo)</option>
+                            <option value="Ambivalente / Con reservas (Genera oportunidades, pero crea dudas sobre el futuro del poblado)">Ambivalente / Con reservas (Genera oportunidades, pero crea dudas sobre el futuro del poblado)</option>
+                            <option value="Preocupante (Existe temor a ser absorbidos, desplazados o marginados)">Preocupante (Existe temor a ser absorbidos, desplazados o marginados)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">3.2. Reajuste de parcelas</label>
+                        <select name="b3_reajuste" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Totalmente de acuerdo">Totalmente de acuerdo</option>
+                            <option value="De acuerdo, si no afecta mi vivienda actual">De acuerdo, si no afecta mi vivienda actual</option>
+                            <option value="En desacuerdo">En desacuerdo</option>
+                        </select>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">1.4. Actividad principal / Fuente de ingresos:</label>
-                    <select name="b1_actividad" required class="w-full border border-slate-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500">
-                        <option value="">Seleccione una opción...</option>
-                        <option value="Agricultura / Pesca / Caza de subsistencia">Agricultura / Pesca / Caza de subsistencia</option>
-                        <option value="Artesanía / Construcción tradicional">Artesanía / Construcción tradicional</option>
-                        <option value="Comercio local / Servicios">Comercio local / Servicios</option>
-                        <option value="Empleado sector público / privado en Cd. de la Paz">Empleado sector público / privado en Cd. de la Paz</option>
-                        <option value="Estudiante">Estudiante</option>
-                        <option value="Desempleado / Labores del hogar">Desempleado / Labores del hogar</option>
-                        <option value="Renta de viviendas">Renta de viviendas</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">1.5. Número de personas en su núcleo familiar:</label>
-                    <select name="b1_familia" required class="w-full border border-slate-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500">
-                        <option value="">Seleccione...</option>
-                        <option value="1 a 3 personas">1 a 3 personas</option>
-                        <option value="4 a 6 personas">4 a 6 personas</option>
-                        <option value="7 a 9 personas">7 a 9 personas</option>
-                        <option value="10 o más personas">10 o más personas</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">1.6. Ingresos medios mensuales (XAF):</label>
-                    <select name="b1_ingresos" required class="w-full border border-slate-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500">
-                        <option value="">Seleccione rango...</option>
-                        <option value="Entre 100.000 y 150.000">Entre 100.000 y 150.000 XAF</option>
-                        <option value="Entre 150.000 y 200.000">Entre 150.000 y 200.000 XAF</option>
-                        <option value="Entre 200.000 y 250.000">Entre 200.000 y 250.000 XAF</option>
-                        <option value="Entre 250.000 y 300.000">Entre 250.000 y 300.000 XAF</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- PASO 2: BLOQUE II -->
-            <div class="form-step hidden space-y-6" data-step="2">
-                <h3 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque II: Infraestructuras y Servicios Básicos</h3>
-                <p class="text-xs text-slate-500">2.1. Evalúe el estado de los servicios públicos en su vivienda y entorno inmediato:</p>
-                
-                <div class="space-y-4 text-sm">
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                        <span class="block font-semibold text-slate-800 mb-2">Abastecimiento de agua potable (red/pozos)</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_agua" value="Deficiente" required><span>Deficiente</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_agua" value="Regular"><span>Regular</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_agua" value="Bueno"><span>Bueno</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_agua" value="Excelente"><span>Excelente</span></label>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                        <span class="block font-semibold text-slate-800 mb-2">Saneamiento y evacuación de aguas residuales</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_saneamiento" value="Deficiente" required><span>Deficiente</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_saneamiento" value="Regular"><span>Regular</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_saneamiento" value="Bueno"><span>Bueno</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_saneamiento" value="Excelente"><span>Excelente</span></label>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                        <span class="block font-semibold text-slate-800 mb-2">Drenaje pluvial (control de inundaciones)</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_drenaje" value="Deficiente" required><span>Deficiente</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_drenaje" value="Regular"><span>Regular</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_drenaje" value="Bueno"><span>Bueno</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_drenaje" value="Excelente"><span>Excelente</span></label>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                        <span class="block font-semibold text-slate-800 mb-2">Estabilidad de la red de energía eléctrica</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_energia" value="Deficiente" required><span>Deficiente</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_energia" value="Regular"><span>Regular</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_energia" value="Bueno"><span>Bueno</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_energia" value="Excelente"><span>Excelente</span></label>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                        <span class="block font-semibold text-slate-800 mb-2">Estado de vías y caminos internos</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_vias" value="Deficiente" required><span>Deficiente</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_vias" value="Regular"><span>Regular</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_vias" value="Bueno"><span>Bueno</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_vias" value="Excelente"><span>Excelente</span></label>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                        <span class="block font-semibold text-slate-800 mb-2">Alumbrado público en calles</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_alumbrado" value="Deficiente" required><span>Deficiente</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_alumbrado" value="Regular"><span>Regular</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_alumbrado" value="Bueno"><span>Bueno</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_alumbrado" value="Excelente"><span>Excelente</span></label>
-                        </div>
-                    </div>
-
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                        <span class="block font-semibold text-slate-800 mb-2">Gestión y recogida de basura/residuos</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_basura" value="Deficiente" required><span>Deficiente</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_basura" value="Regular"><span>Regular</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_basura" value="Bueno"><span>Bueno</span></label>
-                            <label class="flex items-center space-x-2"><input type="radio" name="b2_basura" value="Excelente"><span>Excelente</span></label>
-                        </div>
+                <!-- Bloque IV: Patrimonio -->
+                <div class="space-y-4 pt-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque IV: Patrimonio y Cultura Local</h2>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">4.2. Centro Histórico Vivo</label>
+                        <select name="b4_centro_historico" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Es fundamental para conservar nuestra identidad histórica, técnica y cultural">Es fundamental para conservar nuestra identidad histórica, técnica y cultural</option>
+                            <option value="Sí, es fundamental para preservar las tradiciones de arquitectura tradicional">Sí, es fundamental para preservar las tradiciones de arquitectura tradicional</option>
+                        </select>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">2.2. Durante la época de lluvias intensas, ¿cuál es el principal problema de vialidad que enfrenta?:</label>
-                    <div class="space-y-2 text-sm">
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b2_vialidad_lluvias" value="Inundación de los caminos de tierra que imposibilita el paso vehicular rodado." required class="mt-1"><span>Inundación de los caminos de tierra que imposibilita el paso vehicular rodado.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b2_vialidad_lluvias" value="Erosión de los caminos de tierra que imposibilita el paso vehicular rodado." class="mt-1"><span>Erosión de los caminos de tierra que imposibilita el paso vehicular rodado.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b2_vialidad_lluvias" value="Dificultad extrema para el tránsito peatonal seguro por acumulación de lodo." class="mt-1"><span>Dificultad extrema para el tránsito peatonal seguro por acumulación de lodo.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b2_vialidad_lluvias" value="Daños materiales directos en las viviendas causados por escorrentías pluviales." class="mt-1"><span>Daños materiales directos en las viviendas causados por escorrentías pluviales.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b2_vialidad_lluvias" value="Sin problemas significativos." class="mt-1"><span>Sin problemas significativos.</span></label>
+                <!-- Bloque V: Habitabilidad -->
+                <div class="space-y-4 pt-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque V: Habitabilidad y Tipología</h2>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">5.1. Material constructivo predominante</label>
+                        <select name="b5_material" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Madera/Tabla local">Madera/Tabla local</option>
+                            <option value="Mixto (Madera / Bloque)">Mixto (Madera / Bloque)</option>
+                            <option value="Bloque de hormigón convencional">Bloque de hormigón convencional</option>
+                        </select>
                     </div>
-                </div>
-            </div>
 
-            <!-- PASO 3: BLOQUE III -->
-            <div class="form-step hidden space-y-6" data-step="3">
-                <h3 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque III: Percepción Metropolitana y Riesgo</h3>
-                
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">3.1. ¿Cómo percibe la rápida expansión de la Ciudad de la Paz junto al poblado de Oyala?:</label>
-                    <div class="space-y-2 text-sm">
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_expansion" value="Muy positiva (Aporta modernidad, servicios directos y oportunidades de empleo)." required class="mt-1"><span>Muy positiva (Aporta modernidad, servicios directos y oportunidades de empleo).</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_expansion" value="Positiva con reservas (Genera oportunidades, pero crea dudas sobre el futuro del poblado)." class="mt-1"><span>Positiva con reservas (Genera oportunidades, pero crea dudas sobre el futuro).</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_expansion" value="Preocupante (Existe temor a ser absorbidos, desplazados o marginados)." class="mt-1"><span>Preocupante (Existe temor a ser absorbidos, desplazados o marginados).</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_expansion" value="Negativa (Pérdida de tranquilidad, entorno natural y aumento del coste de vida)." class="mt-1"><span>Negativa (Pérdida de tranquilidad, entorno natural y aumento del coste de vida).</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_expansion" value="Indiferente (No tengo ninguna percepción ya sea positiva o negativa)" class="mt-1"><span>Indiferente (No tengo ninguna percepción).</span></label>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">3.2. ¿Aceptaría un reajuste coordinado de parcelas para abrir calles equipadas si se garantiza el título legal de su suelo?:</label>
-                    <div class="space-y-2 text-sm">
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_reajuste" value="Totalmente de acuerdo." required class="mt-1"><span>Totalmente de acuerdo.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_reajuste" value="De acuerdo, si no afecta mi vivienda actual." class="mt-1"><span>De acuerdo, si no afecta mi vivienda actual.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_reajuste" value="En desacuerdo." class="mt-1"><span>En desacuerdo.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b3_reajuste" value="Requiere más información previa." class="mt-1"><span>Requiere más información previa.</span></label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PASO 4: BLOQUE IV -->
-            <div class="form-step hidden space-y-6" data-step="4">
-                <h3 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque IV: Identidad Cultural y Patrimonio</h3>
-                <p class="text-xs text-slate-500">4.1. Importancia otorgada a los espacios comunitarios de Oyala para preservar su memoria colectiva:</p>
-                
-                <div class="space-y-4 text-sm">
-                    <div class="bg-slate-50 p-3 rounded-lg border">
-                        <span class="block font-medium mb-2">El Abaa (Casa de la comunidad / Espacio de consejo)</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label><input type="radio" name="b4_abaa" value="Sin valor" required> Sin valor</label>
-                            <label><input type="radio" name="b4_abaa" value="Importancia media"> Media</label>
-                            <label><input type="radio" name="b4_abaa" value="Gran importancia"> Gran importancia</label>
-                            <label><input type="radio" name="b4_abaa" value="Esencial para la identidad"> Esencial</label>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg border">
-                        <span class="block font-medium mb-2">La Iglesia / Centro de culto local</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label><input type="radio" name="b4_iglesia" value="Sin valor" required> Sin valor</label>
-                            <label><input type="radio" name="b4_iglesia" value="Importancia media"> Media</label>
-                            <label><input type="radio" name="b4_iglesia" value="Gran importancia"> Gran importancia</label>
-                            <label><input type="radio" name="b4_iglesia" value="Esencial para la identidad"> Esencial</label>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg border">
-                        <span class="block font-medium mb-2">La Escuela primaria del poblado</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label><input type="radio" name="b4_escuela" value="Sin valor" required> Sin valor</label>
-                            <label><input type="radio" name="b4_escuela" value="Importancia media"> Media</label>
-                            <label><input type="radio" name="b4_escuela" value="Gran importancia"> Gran importancia</label>
-                            <label><input type="radio" name="b4_escuela" value="Esencial para la identidad"> Esencial</label>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg border">
-                        <span class="block font-medium mb-2">El Campo de fútbol comunitario</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label><input type="radio" name="b4_futbol" value="Sin valor" required> Sin valor</label>
-                            <label><input type="radio" name="b4_futbol" value="Importancia media"> Media</label>
-                            <label><input type="radio" name="b4_futbol" value="Gran importancia"> Gran importancia</label>
-                            <label><input type="radio" name="b4_futbol" value="Esencial para la identidad"> Esencial</label>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg border">
-                        <span class="block font-medium mb-2">Trazado de caminos orgánicos y entorno natural</span>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label><input type="radio" name="b4_caminos" value="Sin valor" required> Sin valor</label>
-                            <label><input type="radio" name="b4_caminos" value="Importancia media"> Media</label>
-                            <label><input type="radio" name="b4_caminos" value="Gran importancia"> Gran importancia</label>
-                            <label><input type="radio" name="b4_caminos" value="Esencial para la identidad"> Esencial</label>
-                        </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">5.2. Aceptación de Bloques de Tierra Comprimida (BTC)</label>
+                        <select name="b5_btc" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
+                            <option value="">Seleccione...</option>
+                            <option value="Favorable, a condición de garantizar alta durabilidad técnica y bajo coste">Favorable, a condición de garantizar alta durabilidad técnica y bajo coste</option>
+                            <option value="Interesante para mantener el confort térmico natural y el arraigo cultural">Interesante para mantener el confort térmico natural y el arraigo cultural</option>
+                            <option value="Desfavorable (Prefiero únicamente materiales convencionales de hormigón y cristal)">Desfavorable (Prefiero únicamente materiales convencionales de hormigón y cristal)</option>
+                        </select>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">4.2. ¿El poblado debe consolidarse como el "Centro Histórico Vivo" de Ciudad de la Paz?:</label>
-                    <div class="space-y-2 text-sm">
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b4_centro_historico" value="Sí, es fundamental conservar nuestra identidad, cultura y arquitectura tradicional." required class="mt-1"><span>Sí, es fundamental conservar nuestra identidad, cultura y arquitectura tradicional.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b4_centro_historico" value="Sí, pero introduciendo modernización técnica en calles y redes públicas." class="mt-1"><span>Sí, pero introduciendo modernización técnica en calles y redes públicas.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b4_centro_historico" value="No, es preferible sustituir el tejido por la arquitectura monumental de la metrópoli." class="mt-1"><span>No, es preferible sustituir el tejido por la arquitectura monumental de la metrópoli.</span></label>
+                <!-- Bloque VI: Observaciones -->
+                <div class="space-y-4 pt-4">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 p-2 rounded">Bloque VI: Prioridades y Comentarios</h2>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">6.1. Prioridades Urgentes Registradas (Infraestructuras)</label>
+                        <input type="text" name="b6_prioridad_urgente" placeholder="Ej: Agua potable y asfalto" required class="w-full border rounded-lg p-2.5 text-sm bg-slate-50">
                     </div>
-                </div>
-            </div>
 
-            <!-- PASO 5: BLOQUES V & VI -->
-            <div class="form-step hidden space-y-6" data-step="5">
-                <h3 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloques V & VI: Habitabilidad y Propuestas</h3>
-                
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">5.1. Material constructivo predominantemente empleado en su vivienda actual:</label>
-                    <select name="b5_material" required class="w-full border border-slate-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500">
-                        <option value="">Seleccione...</option>
-                        <option value="Madera/Tabla local">Madera/Tabla local</option>
-                        <option value="Bloques de hormigón">Bloques de hormigón</option>
-                        <option value="Tierra/Adobe tradicional">Tierra/Adobe tradicional</option>
-                        <option value="Mixto (Madera / Bloque)">Mixto (Madera / Bloque)</option>
-                        <option value="Chapa de zinc / Caña">Chapa de zinc / Caña</option>
-                        <option value="Otro tipo">Otro tipo</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">5.2. Aceptación de viviendas con Bloques de Tierra Comprimida (BTC), madera autóctona y ventilación pasiva:</label>
-                    <div class="space-y-2 text-sm">
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b5_btc" value="Altamente favorable (Permite mantener el confort térmico natural y el arraigo cultural)." required class="mt-1"><span>Altamente favorable (Permite mantener el confort térmico natural y el arraigo cultural).</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b5_btc" value="Favorable, a condición de garantizar alta durabilidad técnica y bajo coste." class="mt-1"><span>Favorable, a condición de garantizar alta durabilidad técnica y bajo coste.</span></label>
-                        <label class="flex items-start space-x-3 p-2 border rounded-lg"><input type="radio" name="b5_btc" value="Poco favorable (Prefiero únicamente materiales convencionales de hormigón y cristal)." class="mt-1"><span>Poco favorable (Prefiero únicamente materiales convencionales de hormigón y cristal).</span></label>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">6.2. Comentarios Adicionales (Historia Local)</label>
+                        <textarea name="b6_comentarios" rows="3" placeholder="Comentarios adicionales..." class="w-full border rounded-lg p-2.5 text-sm bg-slate-50"></textarea>
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">6.1. Prioridad infraestructural más urgente a atender en el poblado:</label>
-                    <input type="text" name="b6_prioridad_urgente" placeholder="Ej: Agua potable y asfaltado..." required class="w-full border border-slate-300 rounded-lg p-3 text-sm">
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold p-3 rounded-xl transition shadow">
+                        Enviar Cuestionario
+                    </button>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-2">6.2. Comentarios adicionales para la salvaguarda de la historia local:</label>
-                    <textarea name="b6_comentarios" rows="3" placeholder="Añada sus reflexiones opcionales..." class="w-full border border-slate-300 rounded-lg p-3 text-sm"></textarea>
-                </div>
-            </div>
-
-            <!-- Navegación -->
-            <div class="flex justify-between pt-6 border-t border-slate-200">
-                <button type="button" id="prev-btn" onclick="changeStep(-1)" class="hidden bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-2.5 px-5 rounded-xl text-sm transition">Anterior</button>
-                <button type="button" id="next-btn" onclick="changeStep(1)" class="ml-auto bg-emerald-800 hover:bg-emerald-900 text-white font-medium py-2.5 px-6 rounded-xl text-sm transition shadow-sm">Siguiente</button>
-                <button type="submit" id="submit-btn" class="hidden ml-auto bg-emerald-800 hover:bg-emerald-900 text-white font-medium py-2.5 px-6 rounded-xl text-sm transition shadow-sm">Enviar Respuestas</button>
-            </div>
-        </form>
-
-        <!-- Mensaje de Éxito -->
-        <div id="success-card" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center space-y-4">
-            <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">✓</div>
-            <h2 class="text-2xl font-bold text-slate-900">¡Encuesta enviada con éxito!</h2>
-            <p class="text-sm text-slate-600 max-w-md mx-auto">Sus respuestas han sido registradas anónimamente en el sistema central de investigación para el poblado de Oyala.</p>
-            <button onclick="location.reload()" class="bg-emerald-800 hover:bg-emerald-900 text-white font-medium py-2.5 px-6 rounded-xl text-sm transition">Completar otra respuesta</button>
+            </form>
         </div>
 
     </main>
 
-    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
-        Investigación de Campo Socio-Espacial • Oyala, Guinea Ecuatorial
-    </footer>
-
     <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwe-uG5G7x1d4j2s0i_8S1R6_tu_URL_REAL/exec"; // Reemplazar con URL real
+        const SUBMISSION_KEY = "oyala_tfg_survey_submitted";
 
-        // Clave única para controlar el envío único en el dispositivo
-const SUBMISSION_KEY = "oyala_tfg_survey_submitted";
-
-// 1. Verificar inmediatamente al cargar la página si el usuario ya respondió
-document.addEventListener("DOMContentLoaded", function() {
-    checkAlreadySubmitted();
-});
-
-function checkAlreadySubmitted() {
-    if (localStorage.getItem(SUBMISSION_KEY) === "true") {
-        // Ocultar el formulario principal y mostrar la pantalla de bloqueo
-        const formContainer = document.getElementById("survey-form-container"); // Asegúrate que tu contenedor del form tenga esta ID
-        const blockedBlock = document.getElementById("already-submitted-block");
-        
-        if (formContainer) formContainer.style.display = "none";
-        if (blockedBlock) blockedBlock.classList.remove("hidden");
-    }
-}
-
-// 2. Modificar la función que procesa el envío con éxito
-async function submitSurvey(event) {
-    event.preventDefault();
-    
-    // Si por alguna razón ya había enviado, detener proceso
-    if (localStorage.getItem(SUBMISSION_KEY) === "true") {
-        checkAlreadySubmitted();
-        return;
-    }
-
-    // ... (Tu código actual para recopilar los datos y hacer el fetch a Apps Script) ...
-
-    try {
-        const response = await fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(formData)
-        });
-        
-        const result = await response.json();
-
-        if (result.status === "success") {
-            // Guardar la marca permanente en el navegador del dispositivo
-            localStorage.setItem(SUBMISSION_KEY, "true");
-
-            // Mostrar la pantalla de agradecimiento o bloqueo
+        document.addEventListener("DOMContentLoaded", function() {
             checkAlreadySubmitted();
-        } else {
-            alert("Ocurrió un error al registrar la respuesta. Por favor, inténtelo de nuevo.");
+        });
+
+        function checkAlreadySubmitted() {
+            if (localStorage.getItem(SUBMISSION_KEY) === "true") {
+                document.getElementById("survey-form-container").style.display = "none";
+                document.getElementById("already-submitted-block").classList.remove("hidden");
+            }
         }
-    } catch (error) {
-        console.error("Error al enviar la encuesta:", error);
-        alert("Error de conexión. Verifique su red e intente nuevamente.");
-    }
-}
-        
+
+        async function submitSurvey(event) {
+            event.preventDefault();
+
+            if (localStorage.getItem(SUBMISSION_KEY) === "true") {
+                checkAlreadySubmitted();
+                return;
+            }
+
+            const form = document.getElementById("surveyForm");
+            const formData = {
+                tipo_entrada: "Web",
+                b1_edad: form.b1_edad.value,
+                b1_genero: form.b1_genero.value,
+                b1_residencia: form.b1_residencia.value,
+                b1_actividad: form.b1_actividad.value,
+                b1_familia: form.b1_familia.value,
+                b1_ingresos: form.b1_ingresos.value,
+                b2_agua: form.b2_agua.value,
+                b2_vialidad_lluvias: form.b2_vialidad_lluvias.value,
+                b3_expansion: form.b3_expansion.value,
+                b3_reajuste: form.b3_reajuste.value,
+                b4_centro_historico: form.b4_centro_historico.value,
+                b5_material: form.b5_material.value,
+                b5_btc: form.b5_btc.value,
+                b6_prioridad_urgente: form.b6_prioridad_urgente.value,
+                b6_comentarios: form.b6_comentarios.value
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(formData)
+                });
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    localStorage.setItem(SUBMISSION_KEY, "true");
+                    checkAlreadySubmitted();
+                } else {
+                    alert("Error al registrar la respuesta. Inténtelo de nuevo.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error de conexión. Verifique su red.");
+            }
+        }
     </script>
 </body>
 </html>
