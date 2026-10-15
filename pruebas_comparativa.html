@@ -96,27 +96,31 @@
                 <p class="text-[11px] text-slate-400 italic text-center pt-2">Nota: Las barras reflejan frecuencias absolutas y porcentajes sobre el grupo cruzado.</p>
             </div>
 
-            <!-- Panel de Conclusiones Generadas por IA -->
+            <!-- Panel de Conclusiones Generadas por IA (Optimizado para TFG) -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4 flex flex-col justify-between">
                 <div class="space-y-4">
                     <div class="flex justify-between items-center border-b pb-3">
                         <div class="flex items-center space-x-2">
                             <div class="w-3 h-3 bg-emerald-700 rounded-full animate-pulse"></div>
-                            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Discusión Experta (IA)</h3>
+                            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Discusión Académica (TFG)</h3>
                         </div>
                         <button onclick="askAIForConclusion()" class="text-[11px] bg-emerald-800 hover:bg-emerald-900 text-white font-semibold px-3 py-1.5 rounded-lg transition shadow">
                             ✨ Generar con IA
                         </button>
                     </div>
                     
-                    <div id="conclusion-text" class="text-xs md:text-sm text-slate-600 leading-relaxed space-y-3 min-h-[180px]">
-                        <p class="italic text-slate-400">Introduce tu Gemini API Key y haz clic en "Generar con IA" para redactar la discusión arquitectónica basada en los datos actuales...</p>
+                    <!-- Contenedor Estético del Texto -->
+                    <div id="conclusion-text" class="text-xs md:text-sm text-slate-700 leading-relaxed space-y-3 min-h-[220px] bg-slate-50/70 p-4 rounded-xl border border-slate-200/80">
+                        <p class="italic text-slate-400 text-center pt-12">Introduce tu clave API y haz clic en "Generar con IA" para redactar la discusión analítica lista para tu memoria.</p>
                     </div>
                 </div>
                 
-                <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl text-xs text-slate-700">
-                    <p class="font-bold text-slate-900 uppercase tracking-wide text-[10px] mb-1">Rol Académico Activo:</p>
-                    <p class="text-slate-500 text-[11px] leading-relaxed">La IA analiza las frecuencias reales y redacta un texto riguroso con lenguaje técnico de arquitectura y urbanismo para tu TFG.</p>
+                <!-- Botón de Copiado Rápido -->
+                <div class="pt-2">
+                    <button id="copy-btn" onclick="copyConclusionToClipboard()" class="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium py-2.5 px-4 rounded-xl transition shadow flex items-center justify-center space-x-2 disabled:opacity-50" disabled>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                        <span id="copy-text-btn">Copiar Discusión para el TFG</span>
+                    </button>
                 </div>
             </div>
 
@@ -137,6 +141,7 @@
         let globalData = [];
         let crossChartInstance = null;
         let lastCrossResult = null;
+        let rawAiPlainText = ""; // Almacena el texto limpio para copiar
 
         async function loadData() {
             try {
@@ -189,9 +194,10 @@
             renderCrossChart(xLabels, datasets, xTotals);
             
             document.getElementById('conclusion-text').innerHTML = `
-                <p>Datos bivariados listos para análisis. Variables seleccionadas: <strong>${varX}</strong> vs <strong>${varY}</strong>.</p>
-                <p class="text-emerald-800 font-medium">Haz clic en el botón superior <strong>"Generar con IA"</strong> para obtener la discusión arquitectónica automatizada.</p>
+                <p class="text-slate-500 italic text-center pt-8">Variables seleccionadas listas.<br>Haz clic en <strong>"Generar con IA"</strong> para obtener la redacción académica.</p>
             `;
+            document.getElementById('copy-btn').disabled = true;
+            rawAiPlainText = "";
         }
 
         function renderCrossChart(labels, datasets, xTotals) {
@@ -239,7 +245,7 @@
             });
         }
 
-        // Función para conectar con la API de Gemini usando el modelo actualizado gemini-3.8-flash
+        // Función para conectar con la API de Gemini y dar formato visual impecable
         async function askAIForConclusion() {
             const apiKey = document.getElementById('gemini-api-key').value.trim();
             if (!apiKey) {
@@ -253,9 +259,9 @@
             }
 
             const container = document.getElementById('conclusion-text');
-            container.innerHTML = `<div class="flex items-center justify-center space-x-2 py-8 text-emerald-800 font-medium">
-                <div class="w-4 h-4 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
-                <span>Analizando cruce estadístico con Inteligencia Artificial...</span>
+            container.innerHTML = `<div class="flex flex-col items-center justify-center space-y-3 py-12 text-emerald-800 font-medium">
+                <div class="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+                <span class="text-xs">Sintetizando conclusiones arquitectónicas...</span>
             </div>`;
 
             let dataSummary = `Variable Independiente (X): ${lastCrossResult.varX}\nVariable Dependiente (Y): ${lastCrossResult.varY}\n\nMatriz de resultados (Frecuencias absolutas):\n`;
@@ -274,10 +280,12 @@
             Analiza los siguientes datos estadísticos reales obtenidos del trabajo de campo:
             ${dataSummary}
             
-            Redacta una conclusión analítica y rigurosa en español (máximo 3 párrafos). Explica qué implican estos porcentajes y frecuencias desde el punto de vista del urbanismo, la arquitectura vernácula, la habitabilidad y la presión metropolitana frente a la vecina Ciudad de la Paz. Sé formal, realista y usa terminología arquitectónica.`;
+            Redacta una discusión académica formal y rigurosa en español dividida estrictamente en 2 párrafos bien estructurados:
+            1. El primer párrafo debe analizar las correlaciones estadísticas porcentuales más llamativas observadas en los datos.
+            2. El segundo párrafo debe conectar dichos hallazgos con la realidad urbana, la habitabilidad, el arraigo y la presión metropolitana frente a la vecina Ciudad de la Paz. 
+            No uses saludos, ni introducciones conversacionales, ni Markdown excesivo, solo los párrafos de análisis académico redactados con terminología arquitectónica.`;
 
             try {
-                // Endpoint actualizado con el modelo oficial gemini-3.8-flash
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -288,17 +296,43 @@
 
                 const result = await response.json();
                 if (result.candidates && result.candidates[0] && result.candidates[0].content.parts[0].text) {
-                    const aiText = result.candidates[0].content.parts[0].text;
-                    container.innerHTML = `<div class="space-y-2 text-slate-700 leading-relaxed">${aiText.replace(/\n/g, '<br>')}</div>`;
+                    rawAiPlainText = result.candidates[0].content.parts[0].text.trim();
+                    
+                    // Convertir el texto plano limpio en párrafos HTML estéticos y legibles
+                    const paragraphs = rawAiPlainText.split('\n\n');
+                    let formattedHtml = '';
+                    paragraphs.forEach(p => {
+                        if(p.trim() !== "") {
+                            formattedHtml += `<p class="leading-relaxed text-slate-700">${p.trim()}</p>`;
+                        }
+                    });
+
+                    container.innerHTML = formattedHtml;
+                    document.getElementById('copy-btn').disabled = false;
                 } else if (result.error) {
                     container.innerHTML = `<p class="text-red-600 font-medium text-xs">Error de la API (${result.error.code}): ${result.error.message}</p>`;
                 } else {
-                    container.innerHTML = `<p class="text-red-600 font-medium text-xs">No se pudo obtener la respuesta del modelo. Revisa los datos ingresados.</p>`;
+                    container.innerHTML = `<p class="text-red-600 font-medium text-xs">No se pudo obtener la respuesta del modelo.</p>`;
                 }
             } catch (err) {
                 console.error("Error conectando con Gemini API:", err);
-                container.innerHTML = `<p class="text-red-600 font-medium text-xs">Error de conexión con el servicio de IA. Verifique su red e inténtelo de nuevo.</p>`;
+                container.innerHTML = `<p class="text-red-600 font-medium text-xs">Error de red al conectar con la Inteligencia Artificial.</p>`;
             }
+        }
+
+        // Función para copiar el texto limpio al portapapeles
+        function copyConclusionToClipboard() {
+            if (!rawAiPlainText) return;
+
+            navigator.clipboard.writeText(rawAiPlainText).then(() => {
+                const btnText = document.getElementById('copy-text-btn');
+                btnText.innerText = "¡Copiado al Portapapeles!";
+                setTimeout(() => {
+                    btnText.innerText = "Copiar Discusión para el TFG";
+                }, 2500);
+            }).catch(err => {
+                alert("Error al copiar el texto.");
+            });
         }
 
         loadData();
