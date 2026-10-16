@@ -134,17 +134,17 @@
         Trabajo de Fin de Grado (TFG) • Diagnóstico Socio-Espacial y Patrimonio Vernáculo en Oyala
     </footer>
 
-    <!-- Estilos CSS personalizados para que el Markdown luzca idéntico a un chat -->
+    <!-- Estilos CSS personalizados para Markdown -->
     <style>
         #conclusion-text h3, #conclusion-text strong { color: #34d399; font-weight: 700; }
-        #conclusion-text ul { list-style-type: disc; padding-left: 1.2rem; space-y: 0.25rem; }
+        #conclusion-text ul { list-style-type: disc; padding-left: 1.2rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
         #conclusion-text p { margin-bottom: 0.75rem; color: #cbd5e1; }
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; border-radius: 8px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; }
     </style>
 
-    <!-- Script Analítico y Renderizado Markdown -->
+    <!-- Script Analítico y Renderizado Markdown con Resistencia a Errores -->
     <script>
         Chart.register(ChartDataLabels);
 
@@ -274,6 +274,40 @@
             });
         }
 
+        // Conexión robusta a la API con reintentos y modelo de respaldo
+        async function fetchGeminiWithRetry(apiKey, prompt) {
+            const models = ['gemini-3.8-flash', 'gemini-1.5-flash'];
+            
+            for (let model of models) {
+                for (let attempt = 0; attempt < 2; attempt++) {
+                    try {
+                        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                        });
+
+                        if (response.status === 503) {
+                            // Si el servidor responde saturado, esperar 1.5 segundos e intentar de nuevo
+                            await new Promise(resolve => setTimeout(resolve, 1500));
+                            continue;
+                        }
+
+                        const result = await response.json();
+                        if (result.candidates && result.candidates[0] && result.candidates[0].content.parts[0].text) {
+                            return { success: true, text: result.candidates[0].content.parts[0].text };
+                        } else if (result.error) {
+                            if (result.error.code === 503) continue;
+                            return { success: false, error: `Error ${result.error.code}: ${result.error.message}` };
+                        }
+                    } catch (err) {
+                        console.warn(`Error de red en ${model}, reintentando...`);
+                    }
+                }
+            }
+            return { success: false, error: "Servidores momentáneamente saturados. Por favor, pulsa 'Generar Análisis' una vez más." };
+        }
+
         async function askAIForConclusion() {
             const apiKey = document.getElementById('gemini-api-key').value.trim();
             if (!apiKey) {
@@ -314,30 +348,14 @@
             - Emplea negritas para destacar porcentajes clave y conceptos urbanísticos.
             - Mantén un tono formal, realista y técnico propio de una tesis de arquitectura frente a la metropolización de Ciudad de la Paz.`;
 
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
-                    })
-                });
+            const res = await fetchGeminiWithRetry(apiKey, prompt);
 
-                const result = await response.json();
-                if (result.candidates && result.candidates[0] && result.candidates[0].content.parts[0].text) {
-                    rawAiPlainText = result.candidates[0].content.parts[0].text.trim();
-                    
-                    // Renderizado inteligente con marked.js para dar formato de chat de IA
-                    container.innerHTML = marked.parse(rawAiPlainText);
-                    document.getElementById('copy-btn').disabled = false;
-                } else if (result.error) {
-                    container.innerHTML = `<p class="text-red-400 text-xs">Error de la API (${result.error.code}): ${result.error.message}</p>`;
-                } else {
-                    container.innerHTML = `<p class="text-red-400 text-xs">No se pudo obtener la respuesta del modelo.</p>`;
-                }
-            } catch (err) {
-                console.error("Error conectando con Gemini API:", err);
-                container.innerHTML = `<p class="text-red-400 text-xs">Error de red al conectar con la Inteligencia Artificial.</p>`;
+            if (res.success) {
+                rawAiPlainText = res.text.trim();
+                container.innerHTML = marked.parse(rawAiPlainText);
+                document.getElementById('copy-btn').disabled = false;
+            } else {
+                container.innerHTML = `<p class="text-red-400 text-xs font-medium p-2">${res.error}</p>`;
             }
         }
 
