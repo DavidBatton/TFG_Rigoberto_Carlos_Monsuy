@@ -406,9 +406,14 @@
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; 
         const SUBMISSION_KEY = "oyala_tfg_survey_submitted";
+        const SURVEY_ID_KEY = "oyala_tfg_survey_id"; // Clave para mantener un ID único fijo por dispositivo ante reintentos
 
         document.addEventListener("DOMContentLoaded", function() {
             checkAlreadySubmitted();
+            // Generar y retener un ID único por dispositivo si no existe
+            if (!localStorage.getItem(SURVEY_ID_KEY)) {
+                localStorage.setItem(SURVEY_ID_KEY, "OYALA-WEB-" + Math.random().toString(36).substring(2, 8).toUpperCase());
+            }
         });
 
         function checkAlreadySubmitted() {
@@ -440,7 +445,12 @@
 
             const form = document.getElementById("surveyForm");
             const formData = new FormData(form);
-            const data = { tipo_entrada: "Web" };
+            
+            // Enviar el id_cuestionario persistente del dispositivo para evitar duplicados por reintentos de red
+            const data = { 
+                tipo_entrada: "Web",
+                id_cuestionario: localStorage.getItem(SURVEY_ID_KEY)
+            };
             formData.forEach((value, key) => { data[key] = value; });
 
             try {
