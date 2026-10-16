@@ -103,10 +103,10 @@
             </div>
         </section>
 
-        <!-- BLOQUE III y IV: PERCEPCIÓN Y PATRIMONIO -->
+        <!-- BLOQUE III: PERCEPCIÓN METROPOLITANA -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque III & IV: Percepción Metropolitana y Patrimonio</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque III: Percepción Metropolitana</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.1. Expansión Ciudad de la Paz</h3>
                     <div class="relative h-64"><canvas id="chartExpansion"></canvas></div>
@@ -115,7 +115,18 @@
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.2. Reajuste de Parcelas</h3>
                     <div class="relative h-64"><canvas id="chartReajuste"></canvas></div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 md:col-span-2 lg:col-span-1">
+            </div>
+        </section>
+
+        <!-- BLOQUE IV: PATRIMONIO Y ESPACIOS COMUNITARIOS -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque IV: Patrimonio y Espacios Comunitarios</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.1. Valoración de Espacios Comunitarios</h3>
+                    <div class="relative h-64"><canvas id="chartEspacios"></canvas></div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.2. Centro Histórico Vivo</h3>
                     <div class="relative h-64"><canvas id="chartCentroHistorico"></canvas></div>
                 </div>
@@ -177,15 +188,36 @@
             }
         }
 
-        // Función de normalización para limpiar variaciones tipográficas (mayúsculas, guiones, espacios)
-        function normalizeText(text) {
+        // Función inteligente de normalización para limpiar variaciones y textos cortados en 2.2, ingresos, etc.
+        function normalizeText(text, field) {
             if (!text) return "Sin responder";
             let cleaned = text.toString().trim();
-            // Normalizar variaciones en rangos de ingresos (reemplazar guiones por "y")
-            if (cleaned.toLowerCase().includes("100.000") && cleaned.toLowerCase().includes("150.000")) {
-                return "Entre 100.000 y 150.000";
+            const lower = cleaned.toLowerCase();
+
+            // Normalización específica para la pregunta 2.2 (Problema en lluvias intensas)
+            if (field === 'b2_vialidad_lluvias') {
+                if (lower.includes("lodo") || lower.includes("peatonal")) {
+                    return "Tránsito peatonal dificultado por acumulación de lodo";
+                }
+                if (lower.includes("vehicular") || lower.includes("tierra") || lower.includes("paso")) {
+                    return "Cortes en vías de tierra que imposibilitan paso vehicular";
+                }
+                if (lower.includes("viviendas") || lower.includes("escorrentías") || lower.includes("inundaciones")) {
+                    return "Daños e inundaciones en viviendas por escorrentías";
+                }
+                if (lower.includes("sin problema") || lower.includes("significativos")) {
+                    return "Sin problemas significativos";
+                }
             }
-            // Normalizar mayúsculas/minúsculas generales (ej: "DEFICIENTE" -> "Deficiente")
+
+            // Normalización para Ingresos (1.6)
+            if (field === 'b1_ingresos') {
+                if (lower.includes("100.000") && lower.includes("150.000")) {
+                    return "Entre 100.000 y 150.000";
+                }
+            }
+
+            // Limpieza general de capitalización
             cleaned = cleaned.charAt(0).toUpperCase() + cleaned.slice(1).toLowerCase();
             return cleaned;
         }
@@ -211,6 +243,9 @@
             
             renderChart('chartExpansion', 'bar', processField(data, 'b3_expansion'), 'Respuestas', '#10b981', true);
             renderChart('chartReajuste', 'bar', processField(data, 'b3_reajuste'), 'Respuestas', '#4f46e5', true);
+            
+            // Bloque IV: 4.1 y 4.2
+            renderChart('chartEspacios', 'bar', processField(data, 'b4_espacios'), 'Respuestas', '#0d9488', true);
             renderChart('chartCentroHistorico', 'bar', processField(data, 'b4_centro_historico'), 'Respuestas', '#059669', true);
             
             renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Respuestas', '#9333ea', false);
@@ -251,7 +286,7 @@
             const counts = {};
             data.forEach(row => {
                 const rawVal = row[field];
-                const val = normalizeText(rawVal);
+                const val = normalizeText(rawVal, field);
                 counts[val] = (counts[val] || 0) + 1;
             });
             return { labels: Object.keys(counts), values: Object.values(counts) };
@@ -259,7 +294,9 @@
 
         function renderChart(canvasId, type, statData, label, color, isHorizontal) {
             if (charts[canvasId]) charts[canvasId].destroy();
-            const ctx = document.getElementById(canvasId).getContext('2d');
+            const canvasEl = document.getElementById(canvasId);
+            if (!canvasEl) return;
+            const ctx = canvasEl.getContext('2d');
             
             const totalSum = statData.values.reduce((a, b) => a + b, 0);
 
@@ -282,6 +319,7 @@
                             formatter: (value) => {
                                 if (totalSum === 0 || value === 0) return '';
                                 const percentage = ((value / totalSum) * 100).toFixed(1);
+                                `${value} (${percentage}%)`;
                                 return `${value} (${percentage}%)`;
                             }
                         },
