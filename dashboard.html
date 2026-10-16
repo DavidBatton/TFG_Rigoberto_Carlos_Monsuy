@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Estadístico TFG - Oyala</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Librerías con CDN Ultra-Estable (Cloudflare cdnjs) para evitar errores de red -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 </head>
@@ -164,7 +163,7 @@
     </footer>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; // Reemplazar con tu URL real
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; 
         let globalData = [];
         let charts = {};
 
@@ -176,6 +175,19 @@
             } catch (err) {
                 console.error("Error al cargar datos del TFG:", err);
             }
+        }
+
+        // Función de normalización para limpiar variaciones tipográficas (mayúsculas, guiones, espacios)
+        function normalizeText(text) {
+            if (!text) return "Sin responder";
+            let cleaned = text.toString().trim();
+            // Normalizar variaciones en rangos de ingresos (reemplazar guiones por "y")
+            if (cleaned.toLowerCase().includes("100.000") && cleaned.toLowerCase().includes("150.000")) {
+                return "Entre 100.000 y 150.000";
+            }
+            // Normalizar mayúsculas/minúsculas generales (ej: "DEFICIENTE" -> "Deficiente")
+            cleaned = cleaned.charAt(0).toUpperCase() + cleaned.slice(1).toLowerCase();
+            return cleaned;
         }
 
         function updateDashboard(data) {
@@ -238,7 +250,8 @@
         function processField(data, field) {
             const counts = {};
             data.forEach(row => {
-                const val = row[field] && row[field].toString().trim() !== "" ? row[field].toString().trim() : "Sin responder";
+                const rawVal = row[field];
+                const val = normalizeText(rawVal);
                 counts[val] = (counts[val] || 0) + 1;
             });
             return { labels: Object.keys(counts), values: Object.values(counts) };
