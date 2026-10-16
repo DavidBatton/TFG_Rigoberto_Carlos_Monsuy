@@ -88,16 +88,48 @@
             </div>
         </section>
 
-        <!-- BLOQUE II: INFRAESTRUCTURAS Y SERVICIOS -->
+        <!-- BLOQUE II: INFRAESTRUCTURAS Y SERVICIOS BÁSICOS (7 VARIABLES DEL SERVICIO PÚBLICO) -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque II: Infraestructuras y Servicios Básicos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">2.1. Evaluación Abastecimiento de Agua</h3>
-                    <div class="relative h-64"><canvas id="chartAgua"></canvas></div>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque II: Diagnóstico de Infraestructuras y Servicios Básicos</h2>
+            
+            <div class="space-y-3">
+                <h3 class="text-xs font-bold uppercase text-slate-700 tracking-wider">2.1. Evaluación del Estado de los Servicios Públicos en Vivienda y Entorno (Deficiente / Regular / Bueno / Excelente)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.1. Abastecimiento de Agua Potable</h4>
+                        <div class="relative h-56"><canvas id="chartAgua"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.2. Saneamiento y Aguas Residuales</h4>
+                        <div class="relative h-56"><canvas id="chartSaneamiento"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.3. Drenaje Pluvial (Inundaciones)</h4>
+                        <div class="relative h-56"><canvas id="chartDrenaje"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.4. Red de Energía Eléctrica</h4>
+                        <div class="relative h-56"><canvas id="chartEnergia"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.5. Vías y Caminos Internos</h4>
+                        <div class="relative h-56"><canvas id="chartVias"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.6. Alumbrado Público</h4>
+                        <div class="relative h-56"><canvas id="chartAlumbrado"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.7. Gestión y Recogida de Basura / Residuos</h4>
+                        <div class="relative h-56"><canvas id="chartBasura"></canvas></div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Pregunta 2.2 -->
+            <div class="pt-2">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">2.2. Problema Principal en Lluvias Intensas</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">2.2. Problema Principal de Vialidad en Época de Lluvias Intensas</h3>
                     <div class="relative h-64"><canvas id="chartLluvias"></canvas></div>
                 </div>
             </div>
@@ -105,14 +137,14 @@
 
         <!-- BLOQUE III: PERCEPCIÓN METROPOLITANA -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque III: Percepción Metropolitana</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque III: Percepción Metropolitana y Riesgo de Desplazamiento</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.1. Expansión Ciudad de la Paz</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.1. Percepción de la Expansión de Ciudad de la Paz</h3>
                     <div class="relative h-64"><canvas id="chartExpansion"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.2. Reajuste de Parcelas</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.2. Aceptación del Reajuste de Parcelas</h3>
                     <div class="relative h-64"><canvas id="chartReajuste"></canvas></div>
                 </div>
             </div>
@@ -120,53 +152,47 @@
 
         <!-- BLOQUE IV: PATRIMONIO Y ESPACIOS COMUNITARIOS -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque IV: Patrimonio y Espacios Comunitarios</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque IV: Identidad Cultural, Memoria Histórica y Patrimonio</h2>
             
-            <!-- Pregunta 4.1 Desglosada en sus 5 variables -->
+            <!-- Pregunta 4.1 Desglosada exactamente con los campos de tu Apps Script -->
             <div class="space-y-3">
-                <h3 class="text-xs font-bold uppercase text-slate-700 tracking-wider">4.1. Valoración de Espacios Comunitarios (Escala: Deficiente / Regular / Bueno / Excelente)</h3>
+                <h3 class="text-xs font-bold uppercase text-slate-700 tracking-wider">4.1. Importancia Otorgrada a los Espacios Comunitarios de Oyala (Escala: Esencial / Gran valor / Importancia media / Sin importancia)</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.1. Plazas y Áreas de Reunión</h4>
-                        <div class="relative h-56"><canvas id="chartEspacios1"></canvas></div>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.1. El Abaa (Casa de la Comunidad)</h4>
+                        <div class="relative h-56"><canvas id="chartAbaa"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.2. Zonas Verdes y Recreativas</h4>
-                        <div class="relative h-56"><canvas id="chartEspacios2"></canvas></div>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.2. La Iglesia / Centro de Culto</h4>
+                        <div class="relative h-56"><canvas id="chartIglesia"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.3. Mercados y Zonas Comerciales</h4>
-                        <div class="relative h-56"><canvas id="chartEspacios3"></canvas></div>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.3. La Escuela Primaria</h4>
+                        <div class="relative h-56"><canvas id="chartEscuela"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.4. Equipamientos Sociales / Comunitarios</h4>
-                        <div class="relative h-56"><canvas id="chartEspacios4"></canvas></div>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.4. El Campo de Fútbol Comunitario</h4>
+                        <div class="relative h-56"><canvas id="chartFutbol"></canvas></div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.5. Espacios de Encuentro Tradicional</h4>
-                        <div class="relative h-56"><canvas id="chartEspacios5"></canvas></div>
-                    </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center bg-emerald-50/40 border-emerald-200">
-                        <h4 class="text-xs font-bold uppercase text-emerald-900 mb-2">Síntesis Bloque 4.1</h4>
-                        <p class="text-[11px] text-slate-600 leading-relaxed">Permite evaluar la satisfacción habitacional comunitaria desglosada por tipología urbana en Oyala para la memoria del TFG.</p>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.5. Trazado de Caminos Orgánicos y Entorno Natural</h4>
+                        <div class="relative h-56"><canvas id="chartCaminos"></canvas></div>
                     </div>
                 </div>
             </div>
 
             <!-- Pregunta 4.2 -->
-            <div class="space-y-3 pt-2">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 md:col-span-2">
-                        <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.2. Centro Histórico Vivo</h3>
-                        <div class="relative h-64"><canvas id="chartCentroHistorico"></canvas></div>
-                    </div>
+            <div class="pt-2">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.2. Consolidación como "Centro Histórico Vivo" de Ciudad de la Paz</h3>
+                    <div class="relative h-64"><canvas id="chartCentroHistorico"></canvas></div>
                 </div>
             </div>
         </section>
 
         <!-- BLOQUE V: HABITABILIDAD -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque V: Habitabilidad y Tipología Arquitectónica</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque V: Habitabilidad y Tipología Arquitectónica Vernácula</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                     <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">5.1. Material Constructivo Predominante</h3>
@@ -181,10 +207,10 @@
 
         <!-- BLOQUE VI: OBSERVACIONES Y COMENTARIOS -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque VI: Prioridades Infraestructurales y Comentarios Abiertos</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque VI: Observaciones y Propuestas Abiertas</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
-                    <h3 class="text-xs font-bold uppercase text-slate-500">6.1. Prioridades Urgentes Registradas</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500">6.1. Prioridad Infraestructural Más Urgente</h3>
                     <div id="prioridades-list" class="space-y-2 text-xs bg-slate-50 p-4 rounded-xl border max-h-56 overflow-y-auto">
                         <p class="text-slate-400 italic">Cargando prioridades...</p>
                     </div>
@@ -219,49 +245,53 @@
             }
         }
 
-        // Función inteligente de normalización de textos y escalas de Likert (Deficiente, Regular, Bueno, Excelente)
+        // Limpiador y unificador estricto según la matriz de la encuesta
         function normalizeText(text, field) {
             if (!text) return "Sin responder";
             let cleaned = text.toString().trim();
             const lower = cleaned.toLowerCase();
 
-            // Normalización para escala de valoración (Bloque 4.1 y similares)
-            if (field && field.startsWith('b4_espacios')) {
-                if (lower.includes("deficiente") || lower.includes("malo") || lower.includes("pobre")) {
-                    return "Deficiente";
-                }
-                if (lower.includes("regular") || lower.includes("moderado") || lower.includes("aceptable")) {
-                    return "Regular";
-                }
-                if (lower.includes("bueno") || lower.includes("bien")) {
-                    return "Bueno";
-                }
-                if (lower.includes("excelente") || lower.includes("óptimo") || lower.includes("muy bueno")) {
-                    return "Excelente";
-                }
+            // Normalizador para preguntas del Bloque 4.1 (b4_abaa, b4_iglesia, b4_escuela, b4_futbol, b4_caminos)
+            if (field && field.startsWith('b4_') && field !== 'b4_centro_historico') {
+                if (lower.includes("esencial")) return "Esencial para la identidad";
+                if (lower.includes("gran valor")) return "Gran valor";
+                if (lower.includes("media") || lower.includes("medio")) return "Importancia media";
+                if (lower.includes("sin importancia")) return "Sin importancia";
             }
 
-            // Normalización para la pregunta 2.2
+            // Normalizador para servicios del Bloque 2.1
+            if (field && field.startsWith('b2_') && field !== 'b2_vialidad_lluvias') {
+                if (lower.includes("deficiente")) return "Deficiente";
+                if (lower.includes("regular")) return "Regular";
+                if (lower.includes("bueno")) return "Bueno";
+                if (lower.includes("excelente")) return "Excelente";
+            }
+
+            // Normalizador para la pregunta 2.2
             if (field === 'b2_vialidad_lluvias') {
                 if (lower.includes("lodo") || lower.includes("peatonal")) {
-                    return "Tránsito peatonal dificultado por acumulación de lodo";
+                    return "Dificultad extrema tránsito peatonal por lodo";
                 }
-                if (lower.includes("vehicular") || lower.includes("tierra") || lower.includes("paso")) {
-                    return "Cortes en vías de tierra que imposibilitan paso vehicular";
+                if (lower.includes("inundación") || lower.includes("inundacion")) {
+                    return "Inundación de caminos que corta paso vehicular";
                 }
-                if (lower.includes("viviendas") || lower.includes("escorrentías") || lower.includes("inundaciones")) {
-                    return "Daños e inundaciones en viviendas por escorrentías";
+                if (lower.includes("erosión") || lower.includes("erosion") || lower.includes("terreno")) {
+                    return "Erosión de caminos de tierra que imposibilita vehículos";
                 }
-                if (lower.includes("sin problema") || lower.includes("significativos")) {
+                if (lower.includes("daños") || lower.includes("escorrentías")) {
+                    return "Daños materiales directos en viviendas por escorrentías";
+                }
+                if (lower.includes("sin problemas") || lower.includes("ninguno")) {
                     return "Sin problemas significativos";
                 }
             }
 
-            // Normalización para Ingresos (1.6)
+            // Normalizador para Ingresos (1.6)
             if (field === 'b1_ingresos') {
-                if (lower.includes("100.000") && lower.includes("150.000")) {
-                    return "Entre 100.000 y 150.000";
-                }
+                if (lower.includes("100.000") && lower.includes("150.000")) return "Entre 100.000 y 150.000";
+                if (lower.includes("150.000") && lower.includes("200.000")) return "Entre 150.000 y 200.000";
+                if (lower.includes("200.000") && lower.includes("250.000")) return "Entre 200.000 y 250.000";
+                if (lower.includes("250.000") && lower.includes("300.000")) return "Entre 250.000 y 300.000";
             }
 
             cleaned = cleaned.charAt(0).toUpperCase() + cleaned.slice(1).toLowerCase();
@@ -277,6 +307,7 @@
             document.getElementById('kpi-web').innerText = webCount;
             document.getElementById('kpi-paper').innerText = paperCount;
 
+            // BLOQUE I
             renderChart('chartEdad', 'bar', processField(data, 'b1_edad'), 'Respuestas', '#047857', false);
             renderChart('chartGenero', 'doughnut', processField(data, 'b1_genero'), 'Respuestas', ['#0284c7', '#db2777', '#64748b'], false);
             renderChart('chartResidencia', 'bar', processField(data, 'b1_residencia'), 'Respuestas', '#0d9488', false);
@@ -284,24 +315,33 @@
             renderChart('chartFamilia', 'bar', processField(data, 'b1_familia'), 'Respuestas', '#7c3aed', false);
             renderChart('chartIngresos', 'bar', processField(data, 'b1_ingresos'), 'Respuestas', '#d97706', false);
             
+            // BLOQUE II (Las 7 variables públicas)
             renderChart('chartAgua', 'bar', processField(data, 'b2_agua'), 'Respuestas', '#0284c7', false);
+            renderChart('chartSaneamiento', 'bar', processField(data, 'b2_saneamiento'), 'Respuestas', '#0284c7', false);
+            renderChart('chartDrenaje', 'bar', processField(data, 'b2_drenaje'), 'Respuestas', '#0284c7', false);
+            renderChart('chartEnergia', 'bar', processField(data, 'b2_energia'), 'Respuestas', '#0284c7', false);
+            renderChart('chartVias', 'bar', processField(data, 'b2_vias'), 'Respuestas', '#0284c7', false);
+            renderChart('chartAlumbrado', 'bar', processField(data, 'b2_alumbrado'), 'Respuestas', '#0284c7', false);
+            renderChart('chartBasura', 'bar', processField(data, 'b2_basura'), 'Respuestas', '#0284c7', false);
             renderChart('chartLluvias', 'bar', processField(data, 'b2_vialidad_lluvias'), 'Respuestas', '#dc2626', true);
             
+            // BLOQUE III
             renderChart('chartExpansion', 'bar', processField(data, 'b3_expansion'), 'Respuestas', '#10b981', true);
             renderChart('chartReajuste', 'bar', processField(data, 'b3_reajuste'), 'Respuestas', '#4f46e5', true);
             
-            // Bloque IV: 4.1 (5 variables desglosadas) y 4.2
-            renderChart('chartEspacios1', 'bar', processField(data, 'b4_espacios_1'), 'Respuestas', '#0d9488', false);
-            renderChart('chartEspacios2', 'bar', processField(data, 'b4_espacios_2'), 'Respuestas', '#0d9488', false);
-            renderChart('chartEspacios3', 'bar', processField(data, 'b4_espacios_3'), 'Respuestas', '#0d9488', false);
-            renderChart('chartEspacios4', 'bar', processField(data, 'b4_espacios_4'), 'Respuestas', '#0d9488', false);
-            renderChart('chartEspacios5', 'bar', processField(data, 'b4_espacios_5'), 'Respuestas', '#0d9488', false);
+            // BLOQUE IV (Exactos según Apps Script)
+            renderChart('chartAbaa', 'bar', processField(data, 'b4_abaa'), 'Respuestas', '#0d9488', false);
+            renderChart('chartIglesia', 'bar', processField(data, 'b4_iglesia'), 'Respuestas', '#0d9488', false);
+            renderChart('chartEscuela', 'bar', processField(data, 'b4_escuela'), 'Respuestas', '#0d9488', false);
+            renderChart('chartFutbol', 'bar', processField(data, 'b4_futbol'), 'Respuestas', '#0d9488', false);
+            renderChart('chartCaminos', 'bar', processField(data, 'b4_caminos'), 'Respuestas', '#0d9488', false);
             renderChart('chartCentroHistorico', 'bar', processField(data, 'b4_centro_historico'), 'Respuestas', '#059669', true);
             
+            // BLOQUE V
             renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Respuestas', '#9333ea', false);
             renderChart('chartBtc', 'bar', processField(data, 'b5_btc'), 'Respuestas', '#0d9488', true);
 
-            // Listado 6.1: Prioridades Urgentes
+            // BLOQUE VI: Prioridades Urgentes
             const prioridadesContainer = document.getElementById('prioridades-list');
             prioridadesContainer.innerHTML = "";
             const prioridades = data.map(d => d.b6_prioridad_urgente).filter(Boolean);
@@ -316,7 +356,7 @@
                 });
             }
 
-            // Listado 6.2: Comentarios Adicionales
+            // BLOQUE VI: Comentarios
             const comentariosContainer = document.getElementById('comentarios-list');
             comentariosContainer.innerHTML = "";
             const comentarios = data.map(d => d.b6_comentarios).filter(Boolean);
