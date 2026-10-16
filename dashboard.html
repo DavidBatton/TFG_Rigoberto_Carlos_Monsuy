@@ -121,14 +121,45 @@
         <!-- BLOQUE IV: PATRIMONIO Y ESPACIOS COMUNITARIOS -->
         <section class="space-y-4">
             <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque IV: Patrimonio y Espacios Comunitarios</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.1. Valoración de Espacios Comunitarios</h3>
-                    <div class="relative h-64"><canvas id="chartEspacios"></canvas></div>
+            
+            <!-- Pregunta 4.1 Desglosada en sus 5 variables -->
+            <div class="space-y-3">
+                <h3 class="text-xs font-bold uppercase text-slate-700 tracking-wider">4.1. Valoración de Espacios Comunitarios (Escala: Deficiente / Regular / Bueno / Excelente)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.1. Plazas y Áreas de Reunión</h4>
+                        <div class="relative h-56"><canvas id="chartEspacios1"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.2. Zonas Verdes y Recreativas</h4>
+                        <div class="relative h-56"><canvas id="chartEspacios2"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.3. Mercados y Zonas Comerciales</h4>
+                        <div class="relative h-56"><canvas id="chartEspacios3"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.4. Equipamientos Sociales / Comunitarios</h4>
+                        <div class="relative h-56"><canvas id="chartEspacios4"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.5. Espacios de Encuentro Tradicional</h4>
+                        <div class="relative h-56"><canvas id="chartEspacios5"></canvas></div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center bg-emerald-50/40 border-emerald-200">
+                        <h4 class="text-xs font-bold uppercase text-emerald-900 mb-2">Síntesis Bloque 4.1</h4>
+                        <p class="text-[11px] text-slate-600 leading-relaxed">Permite evaluar la satisfacción habitacional comunitaria desglosada por tipología urbana en Oyala para la memoria del TFG.</p>
+                    </div>
                 </div>
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.2. Centro Histórico Vivo</h3>
-                    <div class="relative h-64"><canvas id="chartCentroHistorico"></canvas></div>
+            </div>
+
+            <!-- Pregunta 4.2 -->
+            <div class="space-y-3 pt-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 md:col-span-2">
+                        <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.2. Centro Histórico Vivo</h3>
+                        <div class="relative h-64"><canvas id="chartCentroHistorico"></canvas></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -188,13 +219,29 @@
             }
         }
 
-        // Función inteligente de normalización para limpiar variaciones y textos cortados en 2.2, ingresos, etc.
+        // Función inteligente de normalización de textos y escalas de Likert (Deficiente, Regular, Bueno, Excelente)
         function normalizeText(text, field) {
             if (!text) return "Sin responder";
             let cleaned = text.toString().trim();
             const lower = cleaned.toLowerCase();
 
-            // Normalización específica para la pregunta 2.2 (Problema en lluvias intensas)
+            // Normalización para escala de valoración (Bloque 4.1 y similares)
+            if (field && field.startsWith('b4_espacios')) {
+                if (lower.includes("deficiente") || lower.includes("malo") || lower.includes("pobre")) {
+                    return "Deficiente";
+                }
+                if (lower.includes("regular") || lower.includes("moderado") || lower.includes("aceptable")) {
+                    return "Regular";
+                }
+                if (lower.includes("bueno") || lower.includes("bien")) {
+                    return "Bueno";
+                }
+                if (lower.includes("excelente") || lower.includes("óptimo") || lower.includes("muy bueno")) {
+                    return "Excelente";
+                }
+            }
+
+            // Normalización para la pregunta 2.2
             if (field === 'b2_vialidad_lluvias') {
                 if (lower.includes("lodo") || lower.includes("peatonal")) {
                     return "Tránsito peatonal dificultado por acumulación de lodo";
@@ -217,7 +264,6 @@
                 }
             }
 
-            // Limpieza general de capitalización
             cleaned = cleaned.charAt(0).toUpperCase() + cleaned.slice(1).toLowerCase();
             return cleaned;
         }
@@ -244,8 +290,12 @@
             renderChart('chartExpansion', 'bar', processField(data, 'b3_expansion'), 'Respuestas', '#10b981', true);
             renderChart('chartReajuste', 'bar', processField(data, 'b3_reajuste'), 'Respuestas', '#4f46e5', true);
             
-            // Bloque IV: 4.1 y 4.2
-            renderChart('chartEspacios', 'bar', processField(data, 'b4_espacios'), 'Respuestas', '#0d9488', true);
+            // Bloque IV: 4.1 (5 variables desglosadas) y 4.2
+            renderChart('chartEspacios1', 'bar', processField(data, 'b4_espacios_1'), 'Respuestas', '#0d9488', false);
+            renderChart('chartEspacios2', 'bar', processField(data, 'b4_espacios_2'), 'Respuestas', '#0d9488', false);
+            renderChart('chartEspacios3', 'bar', processField(data, 'b4_espacios_3'), 'Respuestas', '#0d9488', false);
+            renderChart('chartEspacios4', 'bar', processField(data, 'b4_espacios_4'), 'Respuestas', '#0d9488', false);
+            renderChart('chartEspacios5', 'bar', processField(data, 'b4_espacios_5'), 'Respuestas', '#0d9488', false);
             renderChart('chartCentroHistorico', 'bar', processField(data, 'b4_centro_historico'), 'Respuestas', '#059669', true);
             
             renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Respuestas', '#9333ea', false);
@@ -319,7 +369,6 @@
                             formatter: (value) => {
                                 if (totalSum === 0 || value === 0) return '';
                                 const percentage = ((value / totalSum) * 100).toFixed(1);
-                                `${value} (${percentage}%)`;
                                 return `${value} (${percentage}%)`;
                             }
                         },
