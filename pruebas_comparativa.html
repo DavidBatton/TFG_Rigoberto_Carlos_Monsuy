@@ -288,7 +288,6 @@
                         });
 
                         if (response.status === 503) {
-                            // Si el servidor responde saturado, esperar 1.5 segundos e intentar de nuevo
                             await new Promise(resolve => setTimeout(resolve, 1500));
                             continue;
                         }
