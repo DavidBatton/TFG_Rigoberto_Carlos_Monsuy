@@ -37,11 +37,11 @@
                 <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
                     <div class="w-full md:w-1/2">
                         <label class="block text-xs font-bold uppercase tracking-wider text-emerald-900 mb-1">Código / ID de la Hoja en Papel:</label>
-                        <input type="text" name="id_cuestionario" placeholder="Ej: OYALA-PAPEL-001" required class="w-full border border-emerald-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500 bg-white font-mono font-bold">
+                        <input type="text" id="id_cuestionario" name="id_cuestionario" placeholder="Ej: OYALA-PAPEL-001" required class="w-full border border-emerald-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500 bg-white font-mono font-bold uppercase">
                     </div>
                     <div class="text-xs text-emerald-700 leading-relaxed">
                         <p class="font-semibold">Control de Calidad:</p>
-                        <p>Asegúrese de escribir un código correlativo único para cada encuesta física para prevenir duplicados.</p>
+                        <p>El sistema cuenta con protección anti-duplicados conectada a la base de datos.</p>
                     </div>
                 </div>
 
@@ -351,7 +351,7 @@
     </main>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJn-kOpvA77mDUH4ZUMSLIW1y6EJxwXoxul_Yyon6UPHFE9KZDBIKeaKHB7zVEuxNj/exec"; // Reemplazar si es necesario
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCt-TwX9pRUqDP4uZUJEE9YczG1N1USJ1CUjK_MdFyQ068PeaCMZ1DKlyO5lmW_ZkG/exec"; 
 
         async function submitPaperForm(e) {
             e.preventDefault();
@@ -361,7 +361,14 @@
 
             const formData = new FormData(e.target);
             const data = { tipo_entrada: "Papel" };
-            formData.forEach((value, key) => { data[key] = value; });
+            formData.forEach((value, key) => { 
+                // Limpiar espacios en blanco extremos en el ID del cuestionario físico
+                if (key === 'id_cuestionario') {
+                    data[key] = value.trim().toUpperCase();
+                } else {
+                    data[key] = value; 
+                }
+            });
 
             try {
                 const response = await fetch(SCRIPT_URL, {
@@ -370,7 +377,11 @@
                 });
                 const result = await response.json();
                 if (result.status === "success") {
-                    alert("✓ Cuestionario físico guardado correctamente con ID: " + result.id);
+                    if (result.duplicated) {
+                        alert("⚠️ Aviso: Este ID de cuestionario físico ya existía en la base de datos. Se ha protegido el sistema evitando la duplicidad.");
+                    } else {
+                        alert("✓ Cuestionario físico guardado correctamente con ID: " + result.id);
+                    }
                     e.target.reset();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
