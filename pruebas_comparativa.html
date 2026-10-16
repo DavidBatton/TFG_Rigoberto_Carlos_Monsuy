@@ -144,7 +144,7 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; }
     </style>
 
-    <!-- Script Analítico y Renderizado Markdown con Resistencia a Errores -->
+    <!-- Script Analítico y Renderizado Markdown con Normalización Robusta -->
     <script>
         Chart.register(ChartDataLabels);
 
@@ -165,6 +165,51 @@
             }
         }
 
+        // Función de normalización idéntica al dashboard para evitar desgloses erróneos en el análisis bivariado
+        function normalizeText(text, field) {
+            if (!text) return "No especificado";
+            let cleaned = text.toString().trim();
+            const lower = cleaned.toLowerCase();
+
+            // Normalizador para ingresos (1.6)
+            if (field === 'b1_ingresos') {
+                if (lower.includes("100.000") && lower.includes("150.000")) return "Entre 100.000 y 150.000";
+                if (lower.includes("150.000") && lower.includes("200.000")) return "Entre 150.000 y 200.000";
+                if (lower.includes("200.000") && lower.includes("250.000")) return "Entre 200.000 y 250.000";
+                if (lower.includes("250.000") && lower.includes("300.000")) return "Entre 250.000 y 300.000";
+            }
+
+            // Normalizador para servicios básicos (2.1)
+            if (field === 'b2_agua') {
+                if (lower.includes("deficiente")) return "Deficiente";
+                if (lower.includes("regular")) return "Regular";
+                if (lower.includes("bueno")) return "Bueno";
+                if (lower.includes("excelente")) return "Excelente";
+            }
+
+            // Normalizador para problemas de vialidad (2.2)
+            if (field === 'b2_vialidad_lluvias') {
+                if (lower.includes("lodo") || lower.includes("peatonal")) {
+                    return "Dificultad extrema tránsito peatonal por lodo";
+                }
+                if (lower.includes("inundación") || lower.includes("inundacion")) {
+                    return "Inundación de caminos que corta paso vehicular";
+                }
+                if (lower.includes("erosión") || lower.includes("erosion") || lower.includes("terreno")) {
+                    return "Erosión de caminos de tierra que imposibilita vehículos";
+                }
+                if (lower.includes("daños") || lower.includes("escorrentías")) {
+                    return "Daños materiales directos en viviendas por escorrentías";
+                }
+                if (lower.includes("sin problemas") || lower.includes("ninguno")) {
+                    return "Sin problemas significativos";
+                }
+            }
+
+            cleaned = cleaned.charAt(0).toUpperCase() + cleaned.slice(1).toLowerCase();
+            return cleaned;
+        }
+
         function generateCrossAnalysis() {
             if (globalData.length === 0) return;
 
@@ -176,8 +221,8 @@
             const xTotals = {};
 
             globalData.forEach(row => {
-                const xVal = row[varX] && row[varX].toString().trim() !== "" ? row[varX].toString().trim() : "No especificado";
-                const yVal = row[varY] && row[varY].toString().trim() !== "" ? row[varY].toString().trim() : "No especificado";
+                const xVal = normalizeText(row[varX], varX);
+                const yVal = normalizeText(row[varY], varY);
 
                 yCategoriesSet.add(yVal);
 
