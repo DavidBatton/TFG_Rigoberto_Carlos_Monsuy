@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <!-- Contenedor de la Tabla Avanzada -->
+        <!-- Contenedor de la Tabla -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
             <div class="overflow-x-auto max-h-[600px] custom-scrollbar">
                 <table id="records-table" class="w-full text-left border-collapse text-xs">
@@ -103,7 +103,7 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 
-    <!-- Script Optimizado de Paginación y Filtrado -->
+    <!-- Script Corregido -->
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn3XqyCwiDmrB12UoJTwg-lvv649XljWNGs2JROtiK3sG-99EbHePM7s02nCC2Khd7/exec"; 
         let allData = [];
@@ -117,12 +117,12 @@
                 const response = await fetch(SCRIPT_URL + "?action=getData");
                 allData = await response.json();
                 
-                if (allData.length > 0) {
+                if (allData && allData.length > 0) {
                     tableHeaders = Object.keys(allData[0]);
                     renderTableHeaders();
                     filteredData = [...allData];
                     currentPage = 1;
-                    updatePaginationView();
+                    renderTableRows(); // Se ha corregido el nombre de la función aquí
                 } else {
                     document.getElementById('table-body').innerHTML = `<tr><td colspan="10" class="p-12 text-center text-slate-400 italic">No se encontraron registros en la base de datos.</td></tr>`;
                     document.getElementById('record-counter').innerText = `Total: 0`;
@@ -150,7 +150,7 @@
             tbody.innerHTML = "";
 
             if (filteredData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="${tableHeaders.length}" class="p-12 text-center text-slate-400 italic">No hay resultados que coincidan con la búsqueda.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${tableHeaders.length || 10}" class="p-12 text-center text-slate-400 italic">No hay resultados que coincidan con la búsqueda.</td></tr>`;
                 return;
             }
 
@@ -180,8 +180,8 @@
             });
 
             // Actualizar contadores y textos de paginación
-            document.getElementById('record-counter').innerText = `Registros filtrados: ${filteredData.length} (Total: ${allData.length})`;
-            document.getElementById('pagination-info').innerText = `Mostrando registros del ${startIndex + 1} al ${endIndex} de ${filteredData.length}`;
+            document.getElementById('record-counter').innerText = `Filtrados: ${filteredData.length} (Total: ${allData.length})`;
+            document.getElementById('pagination-info').innerText = `Mostrando del ${startIndex + 1} al ${endIndex} de ${filteredData.length} registros`;
             
             const totalPages = Math.ceil(filteredData.length / rowsPerPage) || 1;
             document.getElementById('page-indicator').innerText = `Página ${currentPage} de ${totalPages}`;
