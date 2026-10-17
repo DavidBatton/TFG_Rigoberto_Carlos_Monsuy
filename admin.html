@@ -34,14 +34,21 @@
             <form id="paper-form" onsubmit="submitPaperForm(event)" class="space-y-8">
                 
                 <!-- Identificador Único del Cuestionario Físico -->
-                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div class="w-full md:w-1/2">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-emerald-900 mb-1">Código / ID de la Hoja en Papel:</label>
-                        <input type="text" id="id_cuestionario" name="id_cuestionario" placeholder="Ej: OYALA-PAPEL-001" required class="w-full border border-emerald-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500 bg-white font-mono font-bold uppercase">
+                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl flex flex-col gap-3">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="w-full md:w-1/2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-emerald-900 mb-1">Código / ID de la Hoja en Papel:</label>
+                            <input type="text" id="id_cuestionario" name="id_cuestionario" placeholder="Ej: OYALA-PAPEL-001" required oninput="checkIdExists()" class="w-full border border-emerald-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500 bg-white font-mono font-bold uppercase">
+                        </div>
+                        <div class="text-xs text-emerald-700 leading-relaxed w-full md:w-1/2">
+                            <p class="font-semibold">Control de Calidad:</p>
+                            <p>La página verifica en tiempo real contra la base de datos para prevenir duplicados.</p>
+                        </div>
                     </div>
-                    <div class="text-xs text-emerald-700 leading-relaxed">
-                        <p class="font-semibold">Control de Calidad:</p>
-                        <p>El sistema cuenta con protección anti-duplicados conectada a la base de datos.</p>
+                    <!-- Mensaje de Alerta Dinámico para IDs Duplicados -->
+                    <div id="id-alert-container" class="hidden p-3 bg-red-50 border border-red-300 text-red-800 rounded-lg text-xs font-semibold flex items-center justify-between">
+                        <span id="id-alert-text">⚠️ Este identificador ya existe en la base de datos.</span>
+                        <span class="text-[10px] bg-red-200 text-red-900 px-2 py-0.5 rounded">Registro Bloqueado</span>
                     </div>
                 </div>
 
@@ -352,9 +359,58 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn3XqyCwiDmrB12UoJTwg-lvv649XljWNGs2JROtiK3sG-99EbHePM7s02nCC2Khd7/exec"; 
+        let existingIdsCache = [];
+
+        // Cargar la lista de IDs existentes en cuanto abre la página para validación instantánea
+        async function preloadExistingIds() {
+            try {
+                const response = await fetch(SCRIPT_URL + "?action=getData");
+                const data = await response.json();
+                existingIdsCache = data.map(row => (row.id_cuestionario || "").toString().trim().toLowerCase());
+            } catch (err) {
+                console.error("No se pudo precargar la lista de IDs para validación.", err);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", preloadExistingIds);
+
+        // Validación en tiempo real al escribir el ID
+        function checkIdExists() {
+            const inputField = document.getElementById('id_cuestionario');
+            const alertBox = document.getElementById('id-alert-container');
+            const submitBtn = document.getElementById('save-paper-btn');
+            
+            const currentId = inputField.value.trim().toLowerCase();
+            
+            if (currentId !== "" && existingIdsCache.includes(currentId)) {
+                // Mostrar alerta y bloquear botón
+                alertBox.classList.remove("hidden");
+                inputField.classList.add("border-red-500", "bg-red-50");
+                submitBtn.disabled = true;
+                submitBtn.classList.add("opacity-50", "cursor-not-allowed");
+                submitBtn.classList.remove("hover:bg-slate-800");
+            } else {
+                // Ocultar alerta y habilitar botón
+                alertBox.classList.add("hidden");
+                inputField.classList.remove("border-red-500", "bg-red-50");
+                submitBtn.disabled = false;
+                submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
+                submitBtn.classList.add("hover:bg-slate-800");
+            }
+        }
 
         async function submitPaperForm(e) {
             e.preventDefault();
+            
+            const inputField = document.getElementById('id_cuestionario');
+            const currentId = inputField.value.trim().toLowerCase();
+            
+            // Doble comprobación de seguridad antes de enviar
+            if (existingIdsCache.includes(currentId)) {
+                alert("❌ Acción bloqueada: Este ID de cuestionario ya se encuentra registrado en la base de datos.");
+                return;
+            }
+
             const btn = document.getElementById('save-paper-btn');
             btn.disabled = true;
             btn.innerHTML = "<span>Guardando en Google Sheets...</span>";
@@ -362,7 +418,6 @@
             const formData = new FormData(e.target);
             const data = { tipo_entrada: "Papel" };
             formData.forEach((value, key) => { 
-                // Limpiar espacios en blanco extremos en el ID del cuestionario físico
                 if (key === 'id_cuestionario') {
                     data[key] = value.trim().toUpperCase();
                 } else {
@@ -377,12 +432,10 @@
                 });
                 const result = await response.json();
                 if (result.status === "success") {
-                    if (result.duplicated) {
-                        alert("⚠️ Aviso: Este ID de cuestionario físico ya existía en la base de datos. Se ha protegido el sistema evitando la duplicidad.");
-                    } else {
-                        alert("✓ Cuestionario físico guardado correctamente con ID: " + result.id);
-                    }
+                    alert("✓ Cuestionario físico guardado correctamente con ID: " + result.id);
                     e.target.reset();
+                    // Actualizar la caché local de IDs tras un registro exitoso
+                    preloadExistingIds();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     alert("Error al guardar: " + result.message);
