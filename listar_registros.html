@@ -50,8 +50,8 @@
                     </select>
                 </div>
 
-                <button onclick="exportTableCSV()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2.5 rounded-xl text-xs transition shadow flex items-center space-x-2">
-                    <span>Exportar CSV (Excel)</span>
+                <button onclick="exportTableToExcel()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-4 py-2.5 rounded-xl text-xs transition shadow flex items-center space-x-2">
+                    <span>Exportar Formato Excel Pro</span>
                 </button>
 
                 <div id="record-counter" class="text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-4 py-2.5 rounded-xl font-semibold">
@@ -103,7 +103,7 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 
-    <!-- Script con Delimitador de Punto y Coma para Excel -->
+    <!-- Script con Exportación Profesional en XML Spreadsheet (Excel Nativo) -->
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn3XqyCwiDmrB12UoJTwg-lvv649XljWNGs2JROtiK3sG-99EbHePM7s02nCC2Khd7/exec"; 
         let allData = [];
@@ -219,21 +219,79 @@
             document.querySelector('.custom-scrollbar').scrollTop = 0;
         }
 
-        function exportTableCSV() {
+        // Función avanzada para exportar en formato XML Excel Nativo (Diseño profesional en celdas)
+        function exportTableToExcel() {
             if (filteredData.length === 0) { alert("No hay datos para exportar."); return; }
+
+            let xmlContent = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+            xmlContent += `<?mso-application progid="Excel.Sheet"?>\n`;
+            xmlContent += `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" `;
+            xmlContent += `xmlns:o="urn:schemas-microsoft-com:office:office" `;
+            xmlContent += `xmlns:x="urn:schemas-microsoft-com:office:excel" `;
+            xmlContent += `xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" `;
+            xmlContent += `xmlns:html="http://www.w3.org/TR/REC-html40">\n`;
             
-            // Usamos punto y coma (;) para que Excel en español separe correctamente las columnas
-            let csvContent = "\uFEFF" + tableHeaders.join(";") + "\n";
-            filteredData.forEach(row => {
-                const values = tableHeaders.map(h => `"${(row[h] || "").toString().replace(/"/g, '""')}"`);
-                csvContent += values.join(";") + "\n";
+            // Definición de Estilos Profesionales
+            xmlContent += `<Styles>\n`;
+            xmlContent += `  <Style ss:ID="HeaderStyle">\n`;
+            xmlContent += `    <Font ss:Bold="1" ss:Color="#FFFFFF" ss:Size="10" ss:Name="Calibri"/>\n`;
+            xmlContent += `    <Interior ss:Color="#047857" ss:Pattern="Solid"/>\n`; // Esmeralda institucional
+            xmlContent += `    <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>\n`;
+            xmlContent += `    <Borders>\n`;
+            xmlContent += `      <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#022c22"/>\n`;
+            xmlContent += `    </Borders>\n`;
+            xmlContent += `  </Style>\n`;
+            xmlContent += `  <Style ss:ID="DataStyle">\n`;
+            xmlContent += `    <Font ss:Size="10" ss:Name="Calibri"/>\n`;
+            xmlContent += `    <Alignment ss:Vertical="Center"/>\n`;
+            xmlContent += `    <Borders>\n`;
+            xmlContent += `      <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#E2E8F0"/>\n`;
+            xmlContent += `      <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#E2E8F0"/>\n`;
+            xmlContent += `    </Borders>\n`;
+            xmlContent += `  </Style>\n`;
+            xmlContent += `</Styles>\n`;
+
+            xmlContent += `<Worksheet ss:Name="Registros Oyala TFG">\n`;
+            xmlContent += `<Table>\n`;
+
+            // Fila de Encabezados
+            xmlContent += `<Row ss:Height="25">\n`;
+            tableHeaders.forEach(h => {
+                xmlContent += `<Cell ss:StyleID="HeaderStyle"><Data ss:Type="String">${escapeXml(h)}</Data></Cell>\n`;
             });
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            xmlContent += `</Row>\n`;
+
+            // Filas de Datos
+            filteredData.forEach(row => {
+                xmlContent += `<Row ss:Height="20">\n`;
+                tableHeaders.forEach(h => {
+                    let val = row[h] !== undefined && row[h] !== null ? row[h].toString() : "";
+                    xmlContent += `<Cell ss:StyleID="DataStyle"><Data ss:Type="String">${escapeXml(val)}</Data></Cell>\n`;
+                });
+                xmlContent += `</Row>\n`;
+            });
+
+            xmlContent += `</Table>\n`;
+            xmlContent += `</Worksheet>\n`;
+            xmlContent += `</Workbook>`;
+
+            const blob = new Blob([xmlContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "oyala_registros_filtrados.csv";
+            link.download = "oyala_registros_tfg.xls";
             link.click();
+        }
+
+        function escapeXml(str) {
+            return str.replace(/[<>&'"]/g, function (c) {
+                switch (c) {
+                    case '<': return '&lt;';
+                    case '>': return '&gt;';
+                    case '&': return '&amp;';
+                    case '\'': return '&apos;';
+                    case '"': return '&quot;';
+                }
+            });
         }
 
         loadTableData();
