@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado General de Registros • TFG Oyala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-emerald-800 selection:text-white">
+
+    <!-- Header Institucional -->
+    <header class="bg-emerald-950 text-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-3">
+            <div>
+                <span class="inline-block px-2.5 py-0.5 bg-emerald-900 text-emerald-300 text-[10px] font-semibold rounded-full border border-emerald-700 uppercase tracking-widest mb-1">Base de Datos Institucional</span>
+                <h1 class="text-lg md:text-xl font-bold tracking-tight">Listado de Registros • TFG Oyala</h1>
+            </div>
+            <div class="flex flex-wrap gap-2 items-center">
+                <a href="index.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition font-medium">Portal Web</a>
+                <a href="admin.html" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg transition font-medium">Admin Papel</a>
+                <a href="dashboard.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition font-medium">Dashboard</a>
+                <a href="comparativa.html" class="text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Cruz de Variables</a>
+                <button onclick="loadTableData()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-lg transition shadow flex items-center space-x-1">
+                    <span>Actualizar Tabla</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-6 flex-grow w-full">
+        
+        <!-- Barra de Control y Buscador -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="w-full md:w-1/3">
+                <label for="search-input" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Buscar en los registros:</label>
+                <input type="text" id="search-input" onkeyup="filterTable()" placeholder="Filtrar por ID, género, actividad..." class="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs focus:ring-2 focus:ring-emerald-600 bg-slate-50 font-medium">
+            </div>
+            <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                <div id="record-counter" class="text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-4 py-2.5 rounded-xl font-semibold">
+                    Cargando registros...
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenedor de la Tabla -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+            <div class="overflow-x-auto max-h-[650px] custom-scrollbar">
+                <table id="records-table" class="w-full text-left border-collapse text-xs">
+                    <thead class="bg-slate-900 text-white sticky top-0 z-10">
+                        <tr id="table-headers">
+                            <!-- Los encabezados se inyectarán dinámicamente desde Apps Script -->
+                            <th class="p-3.5 font-bold uppercase tracking-wider">Cargando columnas...</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-slate-200 text-slate-700 bg-white">
+                        <tr>
+                            <td colspan="10" class="p-10 text-center text-slate-400 italic">Sincronizando con Google Sheets...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-12">
+        Trabajo de Fin de Grado (TFG) • Diagnóstico Socio-Espacial y Patrimonio Vernáculo en Oyala
+    </footer>
+
+    <!-- Estilos de scroll personalizados -->
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+
+    <!-- Script de carga y filtrado -->
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn3XqyCwiDmrB12UoJTwg-lvv649XljWNGs2JROtiK3sG-99EbHePM7s02nCC2Khd7/exec"; 
+        let allData = [];
+        let tableHeaders = [];
+
+        async function loadTableData() {
+            try {
+                const response = await fetch(SCRIPT_URL + "?action=getData");
+                allData = await response.json();
+                
+                if (allData.length > 0) {
+                    tableHeaders = Object.keys(allData[0]);
+                    renderTableHeaders();
+                    renderTableRows(allData);
+                    document.getElementById('record-counter').innerText = `Total registros: ${allData.length}`;
+                } else {
+                    document.getElementById('table-body').innerHTML = `<tr><td colspan="10" class="p-10 text-center text-slate-400 italic">No se encontraron registros en la base de datos.</td></tr>`;
+                    document.getElementById('record-counter').innerText = `Total registros: 0`;
+                }
+            } catch (err) {
+                console.error("Error al cargar datos:", err);
+                document.getElementById('table-body').innerHTML = `<tr><td colspan="10" class="p-10 text-center text-red-500 font-medium">Error de conexión al sincronizar con Google Sheets.</td></tr>`;
+            }
+        }
+
+        function renderTableHeaders() {
+            const headerRow = document.getElementById('table-headers');
+            headerRow.innerHTML = "";
+            tableHeaders.forEach(header => {
+                const th = document.createElement('th');
+                th.className = "p-3.5 font-bold uppercase tracking-wider whitespace-nowrap text-[11px]";
+                th.innerText = header;
+                headerRow.appendChild(th);
+            });
+        }
+
+        function renderTableRows(dataToRender) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = "";
+
+            if (dataToRender.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="${tableHeaders.length}" class="p-8 text-center text-slate-400 italic">No hay resultados que coincidan con la búsqueda.</td></tr>`;
+                return;
+            }
+
+            dataToRender.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = index % 2 === 0 ? "bg-white hover:bg-slate-50 transition" : "bg-slate-50/50 hover:bg-slate-100/60 transition";
+                
+                tableHeaders.forEach(header => {
+                    const td = document.createElement('td');
+                    td.className = "p-3 whitespace-nowrap text-xs text-slate-600 max-w-xs truncate";
+                    let val = row[header] !== undefined && row[header] !== null ? row[header].toString() : "";
+                    
+                    // Resaltar visualmente el tipo de entrada (Web vs Papel)
+                    if (header === 'tipo_entrada') {
+                        const badgeColor = val.toLowerCase().includes('web') ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : 'bg-amber-100 text-amber-800 border-amber-200';
+                        td.innerHTML = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${badgeColor}">${val}</span>`;
+                    } else {
+                        td.innerText = val;
+                        td.title = val; // Tooltip al pasar el ratón si el texto es largo
+                    }
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterTable() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            if (!query) {
+                renderTableRows(allData);
+                document.getElementById('record-counter').innerText = `Total registros: ${allData.length}`;
+                return;
+            }
+
+            const filtered = allData.filter(row => {
+                return Object.values(row).some(val => 
+                    val && val.toString().toLowerCase().includes(query)
+                );
+            });
+
+            renderTableRows(filtered);
+            document.getElementById('record-counter').innerText = `Mostrando ${filtered.length} de ${allData.length} registros`;
+        }
+
+        // Cargar datos al abrir la página
+        loadTableData();
+    </script>
+</body>
+</html>
