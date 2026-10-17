@@ -51,7 +51,7 @@
                 </div>
 
                 <button onclick="exportTableCSV()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2.5 rounded-xl text-xs transition shadow flex items-center space-x-2">
-                    <span>Exportar CSV</span>
+                    <span>Exportar CSV (Excel)</span>
                 </button>
 
                 <div id="record-counter" class="text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-4 py-2.5 rounded-xl font-semibold">
@@ -103,7 +103,7 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 
-    <!-- Script Corregido -->
+    <!-- Script con Delimitador de Punto y Coma para Excel -->
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn3XqyCwiDmrB12UoJTwg-lvv649XljWNGs2JROtiK3sG-99EbHePM7s02nCC2Khd7/exec"; 
         let allData = [];
@@ -122,7 +122,7 @@
                     renderTableHeaders();
                     filteredData = [...allData];
                     currentPage = 1;
-                    renderTableRows(); // Se ha corregido el nombre de la función aquí
+                    renderTableRows();
                 } else {
                     document.getElementById('table-body').innerHTML = `<tr><td colspan="10" class="p-12 text-center text-slate-400 italic">No se encontraron registros en la base de datos.</td></tr>`;
                     document.getElementById('record-counter').innerText = `Total: 0`;
@@ -179,7 +179,6 @@
                 tbody.appendChild(tr);
             });
 
-            // Actualizar contadores y textos de paginación
             document.getElementById('record-counter').innerText = `Filtrados: ${filteredData.length} (Total: ${allData.length})`;
             document.getElementById('pagination-info').innerText = `Mostrando del ${startIndex + 1} al ${endIndex} de ${filteredData.length} registros`;
             
@@ -222,11 +221,14 @@
 
         function exportTableCSV() {
             if (filteredData.length === 0) { alert("No hay datos para exportar."); return; }
-            let csvContent = "\uFEFF" + tableHeaders.join(",") + "\n";
+            
+            // Usamos punto y coma (;) para que Excel en español separe correctamente las columnas
+            let csvContent = "\uFEFF" + tableHeaders.join(";") + "\n";
             filteredData.forEach(row => {
                 const values = tableHeaders.map(h => `"${(row[h] || "").toString().replace(/"/g, '""')}"`);
-                csvContent += values.join(",") + "\n";
+                csvContent += values.join(";") + "\n";
             });
+            
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -234,7 +236,6 @@
             link.click();
         }
 
-        // Inicializar carga de datos
         loadTableData();
     </script>
 </body>
