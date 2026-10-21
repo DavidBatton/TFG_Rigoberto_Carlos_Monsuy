@@ -14,13 +14,14 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-3">
             <div>
                 <h1 class="text-xl font-bold">Dashboard Estadístico TFG • Poblado de Oyala</h1>
-                <p class="text-xs text-emerald-400">Análisis sociodemográfico, infraestructural, patrimonial y habitacional</p>
+                <p class="text-xs text-emerald-400">Análisis sociodemográfico, infraestructural, patrimonial y habitacional[cite: 23]</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
-                <a href="index.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition">Portal Web</a>
-                <a href="admin.html" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition">Admin Papel</a>
-                <a href="comparativa.html" class="text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Cruz de Variables</a>
-                <button onclick="loadData()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Actualizar Datos</button>
+                <a href="index.html" class="text-xs bg-emerald-900 hover:bg-emerald-800 text-emerald-100 px-3 py-2 rounded-lg border border-emerald-700 transition">Portal Web[cite: 23]</a>
+                <a href="admin.html" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition">Admin Papel[cite: 23]</a>
+                <a href="editar.html" class="text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Completar Vacíos</a>
+                <a href="comparativa.html" class="text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Cruz de Variables[cite: 23]</a>
+                <button onclick="loadData()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Actualizar Datos[cite: 23]</button>
             </div>
         </div>
     </header>
@@ -30,106 +31,120 @@
         <!-- KPIs Principales -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Cuestionarios</p>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Cuestionarios[cite: 23]</p>
                 <p id="kpi-total" class="text-3xl font-black text-slate-900 mt-2">0</p>
             </div>
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Respuestas Web</p>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Respuestas Web[cite: 23]</p>
                 <p id="kpi-web" class="text-3xl font-black text-emerald-600 mt-2">0</p>
             </div>
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Transcripciones Papel</p>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Transcripciones Papel[cite: 23]</p>
                 <p id="kpi-paper" class="text-3xl font-black text-amber-600 mt-2">0</p>
             </div>
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Compatibilidad jamovi</p>
-                <p id="kpi-total-jamovi" class="text-3xl font-black text-blue-600 mt-2">UTF-8 ✓</p>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Compatibilidad jamovi[cite: 23]</p>
+                <p id="kpi-total-jamovi" class="text-3xl font-black text-blue-600 mt-2">UTF-8 ✓[cite: 23]</p>
             </div>
         </div>
 
         <!-- Barra de Exportación -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-4">
             <div class="text-xs text-slate-600">
-                <span class="font-bold text-slate-900">Base de Datos TFG:</span> Sincronizada con Google Sheets. Visualización de frecuencias y porcentajes.
+                <span class="font-bold text-slate-900">Base de Datos TFG:</span> Sincronizada con Google Sheets. Visualización de frecuencias y porcentajes[cite: 23].
             </div>
             <button onclick="exportCSV()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-xl text-xs transition shadow flex items-center space-x-2">
-                <span>Descargar Dataset CSV (para jamovi)</span>
+                <span>Descargar Dataset CSV (para jamovi)[cite: 23]</span>
             </button>
         </div>
 
+        <!-- BLOQUE VII: NUEVAS VARIABLES DE PARCELA Y PROGRAMA -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque VII: Superficie de Parcela y Programa Habitacional</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">7.1. Superficie de Parcela o Terreno</h3>
+                    <div class="relative h-64"><canvas id="chartSuperficie"></canvas></div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">7.2. Dormitorios Necesarios (Rediseño)</h3>
+                    <div class="relative h-64"><canvas id="chartDormitorios"></canvas></div>
+                </div>
+            </div>
+        </section>
+
         <!-- BLOQUE I: SOCIODEMOGRÁFICO -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque I: Datos Generales y Sociodemográficos</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque I: Datos Generales y Sociodemográficos[cite: 23]</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.1. Distribución por Edades</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.1. Distribución por Edades[cite: 23]</h3>
                     <div class="relative h-56"><canvas id="chartEdad"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.2. Género</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.2. Género[cite: 23]</h3>
                     <div class="relative h-56"><canvas id="chartGenero"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.3. Tiempo de Residencia</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.3. Tiempo de Residencia[cite: 23]</h3>
                     <div class="relative h-56"><canvas id="chartResidencia"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 md:col-span-2 lg:col-span-3">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.4. Actividad Principal / Fuente de Ingresos</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.4. Actividad Principal / Fuente de Ingresos[cite: 23]</h3>
                     <div class="relative h-72"><canvas id="chartActividad"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.5. Núcleo Familiar</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.5. Núcleo Familiar[cite: 23]</h3>
                     <div class="relative h-56"><canvas id="chartFamilia"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 md:col-span-2">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.6. Ingresos Mensuales (XAF)</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">1.6. Ingresos Mensuales (XAF)[cite: 23]</h3>
                     <div class="relative h-56"><canvas id="chartIngresos"></canvas></div>
                 </div>
             </div>
         </section>
 
-        <!-- BLOQUE II: INFRAESTRUCTURAS Y SERVICIOS BÁSICOS (7 VARIABLES DEL SERVICIO PÚBLICO) -->
+        <!-- BLOQUE II: INFRAESTRUCTURAS Y SERVICIOS BÁSICOS -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque II: Diagnóstico de Infraestructuras y Servicios Básicos</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque II: Diagnóstico de Infraestructuras y Servicios Básicos[cite: 23]</h2>
             
             <div class="space-y-3">
-                <h3 class="text-xs font-bold uppercase text-slate-700 tracking-wider">2.1. Evaluación del Estado de los Servicios Públicos en Vivienda y Entorno (Deficiente / Regular / Bueno / Excelente)</h3>
+                <h3 class="text-xs font-bold uppercase text-slate-700 tracking-wider">2.1. Evaluación del Estado de los Servicios Públicos en Vivienda y Entorno (Deficiente / Regular / Bueno / Excelente)[cite: 23]</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.1. Abastecimiento de Agua Potable</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.1. Abastecimiento de Agua Potable[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartAgua"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.2. Saneamiento y Aguas Residuales</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.2. Saneamiento y Aguas Residuales[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartSaneamiento"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.3. Drenaje Pluvial (Inundaciones)</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.3. Drenaje Pluvial (Inundaciones)[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartDrenaje"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.4. Red de Energía Eléctrica</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.4. Red de Energía Eléctrica[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartEnergia"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.5. Vías y Caminos Internos</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.5. Vías y Caminos Internos[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartVias"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.6. Alumbrado Público</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.6. Alumbrado Público[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartAlumbrado"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.7. Gestión y Recogida de Basura / Residuos</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">2.1.7. Gestión y Recogida de Basura / Residuos[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartBasura"></canvas></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Pregunta 2.2 -->
             <div class="pt-2">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">2.2. Problema Principal de Vialidad en Época de Lluvias Intensas</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">2.2. Problema Principal de Vialidad en Época de Lluvias Intensas[cite: 23]</h3>
                     <div class="relative h-64"><canvas id="chartLluvias"></canvas></div>
                 </div>
             </div>
@@ -137,14 +152,14 @@
 
         <!-- BLOQUE III: PERCEPCIÓN METROPOLITANA -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque III: Percepción Metropolitana y Riesgo de Desplazamiento</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque III: Percepción Metropolitana y Riesgo de Desplazamiento[cite: 23]</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.1. Percepción de la Expansión de Ciudad de la Paz</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.1. Percepción de la Expansión de Ciudad de la Paz[cite: 23]</h3>
                     <div class="relative h-64"><canvas id="chartExpansion"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.2. Aceptación del Reajuste de Parcelas</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">3.2. Aceptación del Reajuste de Parcelas[cite: 23]</h3>
                     <div class="relative h-64"><canvas id="chartReajuste"></canvas></div>
                 </div>
             </div>
@@ -152,39 +167,37 @@
 
         <!-- BLOQUE IV: PATRIMONIO Y ESPACIOS COMUNITARIOS -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque IV: Identidad Cultural, Memoria Histórica y Patrimonio</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque IV: Identidad Cultural, Memoria Histórica y Patrimonio[cite: 23]</h2>
             
-            <!-- Pregunta 4.1 Desglosada exactamente con los campos de tu Apps Script -->
             <div class="space-y-3">
-                <h3 class="text-xs font-bold uppercase text-slate-700 tracking-wider">4.1. Importancia Otorgrada a los Espacios Comunitarios de Oyala (Escala: Esencial / Gran valor / Importancia media / Sin importancia)</h3>
+                <h3 class="text-xs font-bold uppercase text-slate-700 tracking-wider">4.1. Importancia Otorgrada a los Espacios Comunitarios de Oyala (Escala: Esencial / Gran valor / Importancia media / Sin importancia)[cite: 23]</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.1. El Abaa (Casa de la Comunidad)</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.1. El Abaa (Casa de la Comunidad)[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartAbaa"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.2. La Iglesia / Centro de Culto</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.2. La Iglesia / Centro de Culto[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartIglesia"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.3. La Escuela Primaria</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.3. La Escuela Primaria[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartEscuela"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.4. El Campo de Fútbol Comunitario</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.4. El Campo de Fútbol Comunitario[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartFutbol"></canvas></div>
                     </div>
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
-                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.5. Trazado de Caminos Orgánicos y Entorno Natural</h4>
+                        <h4 class="text-xs font-bold text-slate-600 mb-3">4.1.5. Trazado de Caminos Orgánicos y Entorno Natural[cite: 23]</h4>
                         <div class="relative h-56"><canvas id="chartCaminos"></canvas></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Pregunta 4.2 -->
             <div class="pt-2">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.2. Consolidación como "Centro Histórico Vivo" de Ciudad de la Paz</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">4.2. Consolidación como "Centro Histórico Vivo" de Ciudad de la Paz[cite: 23]</h3>
                     <div class="relative h-64"><canvas id="chartCentroHistorico"></canvas></div>
                 </div>
             </div>
@@ -192,14 +205,14 @@
 
         <!-- BLOQUE V: HABITABILIDAD -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque V: Habitabilidad y Tipología Arquitectónica Vernácula</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque V: Habitabilidad y Tipología Arquitectónica Vernácula[cite: 23]</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">5.1. Material Constructivo Predominante</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">5.1. Material Constructivo Predominante[cite: 23]</h3>
                     <div class="relative h-64"><canvas id="chartMaterial"></canvas></div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">5.2. Aceptación de Bloques de Tierra Comprimida (BTC)</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-3">5.2. Aceptación de Bloques de Tierra Comprimida (BTC)[cite: 23]</h3>
                     <div class="relative h-64"><canvas id="chartBtc"></canvas></div>
                 </div>
             </div>
@@ -207,18 +220,18 @@
 
         <!-- BLOQUE VI: OBSERVACIONES Y COMENTARIOS -->
         <section class="space-y-4">
-            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque VI: Observaciones y Propuestas Abiertas</h2>
+            <h2 class="text-lg font-bold text-emerald-900 border-b pb-2">Bloque VI: Observaciones y Propuestas Abiertas[cite: 23]</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
-                    <h3 class="text-xs font-bold uppercase text-slate-500">6.1. Prioridad Infraestructural Más Urgente</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500">6.1. Prioridad Infraestructural Más Urgente[cite: 23]</h3>
                     <div id="prioridades-list" class="space-y-2 text-xs bg-slate-50 p-4 rounded-xl border max-h-56 overflow-y-auto">
-                        <p class="text-slate-400 italic">Cargando prioridades...</p>
+                        <p class="text-slate-400 italic">Cargando prioridades...[cite: 23]</p>
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
-                    <h3 class="text-xs font-bold uppercase text-slate-500">6.2. Comentarios Adicionales (Historia Local)</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500">6.2. Comentarios Adicionales (Historia Local)[cite: 23]</h3>
                     <div id="comentarios-list" class="space-y-2 text-xs bg-slate-50 p-4 rounded-xl border max-h-56 overflow-y-auto">
-                        <p class="text-slate-400 italic">Cargando comentarios...</p>
+                        <p class="text-slate-400 italic">Cargando comentarios...[cite: 23]</p>
                     </div>
                 </div>
             </div>
@@ -227,11 +240,11 @@
     </main>
 
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-12">
-        Trabajo de Fin de Grado (TFG) • Diagnóstico Socio-Espacial y Patrimonio Vernáculo en Oyala
+        Trabajo de Fin de Grado (TFG) • Diagnóstico Socio-Espacial y Patrimonio Vernáculo en Oyala[cite: 23]
     </footer>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn3XqyCwiDmrB12UoJTwg-lvv649XljWNGs2JROtiK3sG-99EbHePM7s02nCC2Khd7/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuWeom6NYSh4U1mP_VKm_evyMu3Bfp9D7kTTdoz5e22NnlFQoW0o0uJ_PNEgFSC6Lx/exec"; 
         let globalData = [];
         let charts = {};
 
@@ -245,21 +258,18 @@
             }
         }
 
-        // Limpiador y unificador estricto según la matriz de la encuesta
         function normalizeText(text, field) {
-            if (!text) return "Sin responder";
+            if (!text) return "Pendiente de completar";
             let cleaned = text.toString().trim();
             const lower = cleaned.toLowerCase();
 
-            // Normalizador para preguntas del Bloque 4.1 (b4_abaa, b4_iglesia, b4_escuela, b4_futbol, b4_caminos)
             if (field && field.startsWith('b4_') && field !== 'b4_centro_historico') {
                 if (lower.includes("esencial")) return "Esencial para la identidad";
                 if (lower.includes("gran valor")) return "Gran valor";
                 if (lower.includes("media") || lower.includes("medio")) return "Importancia media";
-                if (lower.includes("sin importancia")) return "Sin importancia";
+                if (lower.includes("sin importancia") || lower.includes("sin valor")) return "Sin valor";
             }
 
-            // Normalizador para servicios del Bloque 2.1
             if (field && field.startsWith('b2_') && field !== 'b2_vialidad_lluvias') {
                 if (lower.includes("deficiente")) return "Deficiente";
                 if (lower.includes("regular")) return "Regular";
@@ -267,26 +277,14 @@
                 if (lower.includes("excelente")) return "Excelente";
             }
 
-            // Normalizador para la pregunta 2.2
             if (field === 'b2_vialidad_lluvias') {
-                if (lower.includes("lodo") || lower.includes("peatonal")) {
-                    return "Dificultad extrema tránsito peatonal por lodo";
-                }
-                if (lower.includes("inundación") || lower.includes("inundacion")) {
-                    return "Inundación de caminos que corta paso vehicular";
-                }
-                if (lower.includes("erosión") || lower.includes("erosion") || lower.includes("terreno")) {
-                    return "Erosión de caminos de tierra que imposibilita vehículos";
-                }
-                if (lower.includes("daños") || lower.includes("escorrentías")) {
-                    return "Daños materiales directos en viviendas por escorrentías";
-                }
-                if (lower.includes("sin problemas") || lower.includes("ninguno")) {
-                    return "Sin problemas significativos";
-                }
+                if (lower.includes("lodo") || lower.includes("peatonal")) return "Dificultad extrema tránsito peatonal por lodo";
+                if (lower.includes("inundación") || lower.includes("inundacion")) return "Inundación de caminos que corta paso vehicular";
+                if (lower.includes("erosión") || lower.includes("erosion") || lower.includes("terreno")) return "Erosión de caminos de tierra que imposibilita vehículos";
+                if (lower.includes("daños") || lower.includes("escorrentías")) return "Daños materiales directos en viviendas por escorrentías";
+                if (lower.includes("sin problemas") || lower.includes("ninguno")) return "Sin problemas significativos";
             }
 
-            // Normalizador para Ingresos (1.6)
             if (field === 'b1_ingresos') {
                 if (lower.includes("100.000") && lower.includes("150.000")) return "Entre 100.000 y 150.000";
                 if (lower.includes("150.000") && lower.includes("200.000")) return "Entre 150.000 y 200.000";
@@ -307,6 +305,10 @@
             document.getElementById('kpi-web').innerText = webCount;
             document.getElementById('kpi-paper').innerText = paperCount;
 
+            // BLOQUE VII: NUEVAS VARIABLES
+            renderChart('chartSuperficie', 'bar', processField(data, 'b7_superficie_parcela'), 'Respuestas', '#d97706', false);
+            renderChart('chartDormitorios', 'bar', processField(data, 'b7_dormitorios_necesarios'), 'Respuestas', '#4f46e5', false);
+
             // BLOQUE I
             renderChart('chartEdad', 'bar', processField(data, 'b1_edad'), 'Respuestas', '#047857', false);
             renderChart('chartGenero', 'doughnut', processField(data, 'b1_genero'), 'Respuestas', ['#0284c7', '#db2777', '#64748b'], false);
@@ -315,7 +317,7 @@
             renderChart('chartFamilia', 'bar', processField(data, 'b1_familia'), 'Respuestas', '#7c3aed', false);
             renderChart('chartIngresos', 'bar', processField(data, 'b1_ingresos'), 'Respuestas', '#d97706', false);
             
-            // BLOQUE II (Las 7 variables públicas)
+            // BLOQUE II
             renderChart('chartAgua', 'bar', processField(data, 'b2_agua'), 'Respuestas', '#0284c7', false);
             renderChart('chartSaneamiento', 'bar', processField(data, 'b2_saneamiento'), 'Respuestas', '#0284c7', false);
             renderChart('chartDrenaje', 'bar', processField(data, 'b2_drenaje'), 'Respuestas', '#0284c7', false);
@@ -329,7 +331,7 @@
             renderChart('chartExpansion', 'bar', processField(data, 'b3_expansion'), 'Respuestas', '#10b981', true);
             renderChart('chartReajuste', 'bar', processField(data, 'b3_reajuste'), 'Respuestas', '#4f46e5', true);
             
-            // BLOQUE IV (Exactos según Apps Script)
+            // BLOQUE IV
             renderChart('chartAbaa', 'bar', processField(data, 'b4_abaa'), 'Respuestas', '#0d9488', false);
             renderChart('chartIglesia', 'bar', processField(data, 'b4_iglesia'), 'Respuestas', '#0d9488', false);
             renderChart('chartEscuela', 'bar', processField(data, 'b4_escuela'), 'Respuestas', '#0d9488', false);
@@ -341,7 +343,7 @@
             renderChart('chartMaterial', 'bar', processField(data, 'b5_material'), 'Respuestas', '#9333ea', false);
             renderChart('chartBtc', 'bar', processField(data, 'b5_btc'), 'Respuestas', '#0d9488', true);
 
-            // BLOQUE VI: Prioridades Urgentes
+            // BLOQUE VI
             const prioridadesContainer = document.getElementById('prioridades-list');
             prioridadesContainer.innerHTML = "";
             const prioridades = data.map(d => d.b6_prioridad_urgente).filter(Boolean);
@@ -356,7 +358,6 @@
                 });
             }
 
-            // BLOQUE VI: Comentarios
             const comentariosContainer = document.getElementById('comentarios-list');
             comentariosContainer.innerHTML = "";
             const comentarios = data.map(d => d.b6_comentarios).filter(Boolean);
@@ -414,41 +415,3 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
-                                    const val = context.raw || 0;
-                                    const pct = totalSum > 0 ? ((val / totalSum) * 100).toFixed(1) : 0;
-                                    return ` Respuestas: ${val} (${pct}%)`;
-                                }
-                            }
-                        }
-                    }
-                },
-                plugins: [ChartDataLabels]
-            };
-
-            if (type === 'bar' && isHorizontal) {
-                chartConfig.options.indexAxis = 'y';
-            }
-
-            charts[canvasId] = new Chart(ctx, chartConfig);
-        }
-
-        function exportCSV() {
-            if (globalData.length === 0) { alert("No hay datos para exportar."); return; }
-            const headers = Object.keys(globalData[0]);
-            let csvContent = "\uFEFF" + headers.join(",") + "\n";
-            globalData.forEach(row => {
-                const values = headers.map(h => `"${(row[h] || "").toString().replace(/"/g, '""')}"`);
-                csvContent += values.join(",") + "\n";
-            });
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "oyala_tfg_jamovi.csv";
-            link.click();
-        }
-
-        loadData();
-    </script>
-</body>
-</html>
