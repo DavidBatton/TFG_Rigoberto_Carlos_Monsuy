@@ -17,6 +17,7 @@
             </div>
             <div class="space-x-2 flex items-center flex-wrap gap-2">
                 <a href="index.html" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg transition border border-slate-700">Portal Público</a>
+                <a href="editar.html" class="text-xs bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Completar Vacíos</a>
                 <a href="dashboard.html" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Dashboard</a>
                 <a href="comparativa.html" class="text-xs bg-blue-600 hover:bg-blue-500 text-white font-medium px-3 py-2 rounded-lg transition shadow">Cruz de Variables</a>
             </div>
@@ -28,7 +29,7 @@
             
             <div class="border-b pb-4">
                 <h2 class="text-2xl font-bold text-slate-900">Transcripción Completa de Cuestionario Físico</h2>
-                <p class="text-sm text-slate-500 mt-1">Introduzca de forma exacta todas las respuestas marcadas en el cuestionario impreso recopilado en el campo.</p>
+                <p class="text-sm text-slate-500 mt-1">Introduzca de forma exacta todas las respuestas marcadas en el cuestionario impreso recopilado en el campo[cite: 21].</p>
             </div>
 
             <form id="paper-form" onsubmit="submitPaperForm(event)" class="space-y-8">
@@ -42,12 +43,12 @@
                         </div>
                         <div class="text-xs text-emerald-700 leading-relaxed w-full md:w-1/2">
                             <p class="font-semibold">Control de Calidad:</p>
-                            <p>La página verifica en tiempo real contra la base de datos para prevenir duplicados.</p>
+                            <p>La página verifica en tiempo real contra la base de datos para prevenir duplicados[cite: 21].</p>
                         </div>
                     </div>
                     <!-- Mensaje de Alerta Dinámico para IDs Duplicados -->
                     <div id="id-alert-container" class="hidden p-3 bg-red-50 border border-red-300 text-red-800 rounded-lg text-xs font-semibold flex items-center justify-between">
-                        <span id="id-alert-text">⚠️ Este identificador ya existe en la base de datos.</span>
+                        <span id="id-alert-text">⚠️ Este identificador ya existe en la base de datos[cite: 21].</span>
                         <span class="text-[10px] bg-red-200 text-red-900 px-2 py-0.5 rounded">Registro Bloqueado</span>
                     </div>
                 </div>
@@ -350,6 +351,38 @@
                     </div>
                 </div>
 
+                <!-- BLOQUE VII: SUPERFICIE DE PARCELA Y PROGRAMA HABITACIONAL -->
+                <div class="space-y-4 border-l-4 border-slate-800 pl-4">
+                    <h3 class="text-base font-bold text-slate-900 uppercase tracking-wide">Bloque VII: Superficie de Parcela y Programa Habitacional</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">7.1. Superficie aproximada de la parcela:</label>
+                            <select name="b7_superficie_parcela" required class="w-full border border-slate-300 rounded-lg p-2 text-sm">
+                                <option value="">Seleccione...</option>
+                                <option value="1.500 m²">1.500 m²</option>
+                                <option value="2.000 m²">2.000 m²</option>
+                                <option value="2.500 m²">2.500 m²</option>
+                                <option value="3.000 m²">3.000 m²</option>
+                                <option value="3.500 m²">3.500 m²</option>
+                                <option value="Otra extensión / No sabe">Otra extensión / No sabe</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">7.2. Dormitorios necesarios proyectados:</label>
+                            <select name="b7_dormitorios_necesarios" required class="w-full border border-slate-300 rounded-lg p-2 text-sm">
+                                <option value="">Seleccione...</option>
+                                <option value="2 Dormitorios">2 Dormitorios</option>
+                                <option value="3 Dormitorios">3 Dormitorios</option>
+                                <option value="4 Dormitorios">4 Dormitorios</option>
+                                <option value="5 Dormitorios">5 Dormitorios</option>
+                                <option value="6 Dormitorios">6 Dormitorios</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <button type="submit" id="save-paper-btn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3.5 px-6 rounded-xl transition text-sm shadow-md flex items-center justify-center space-x-2">
                     <span>Guardar Cuestionario en Papel Completo</span>
                 </button>
@@ -358,10 +391,9 @@
     </main>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn3XqyCwiDmrB12UoJTwg-lvv649XljWNGs2JROtiK3sG-99EbHePM7s02nCC2Khd7/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuWeom6NYSh4U1mP_VKm_evyMu3Bfp9D7kTTdoz5e22NnlFQoW0o0uJ_PNEgFSC6Lx/exec"; 
         let existingIdsCache = [];
 
-        // Cargar la lista de IDs existentes en cuanto abre la página para validación instantánea
         async function preloadExistingIds() {
             try {
                 const response = await fetch(SCRIPT_URL + "?action=getData");
@@ -374,7 +406,6 @@
 
         document.addEventListener("DOMContentLoaded", preloadExistingIds);
 
-        // Validación en tiempo real al escribir el ID
         function checkIdExists() {
             const inputField = document.getElementById('id_cuestionario');
             const alertBox = document.getElementById('id-alert-container');
@@ -383,14 +414,12 @@
             const currentId = inputField.value.trim().toLowerCase();
             
             if (currentId !== "" && existingIdsCache.includes(currentId)) {
-                // Mostrar alerta y bloquear botón
                 alertBox.classList.remove("hidden");
                 inputField.classList.add("border-red-500", "bg-red-50");
                 submitBtn.disabled = true;
                 submitBtn.classList.add("opacity-50", "cursor-not-allowed");
                 submitBtn.classList.remove("hover:bg-slate-800");
             } else {
-                // Ocultar alerta y habilitar botón
                 alertBox.classList.add("hidden");
                 inputField.classList.remove("border-red-500", "bg-red-50");
                 submitBtn.disabled = false;
@@ -405,7 +434,6 @@
             const inputField = document.getElementById('id_cuestionario');
             const currentId = inputField.value.trim().toLowerCase();
             
-            // Doble comprobación de seguridad antes de enviar
             if (existingIdsCache.includes(currentId)) {
                 alert("❌ Acción bloqueada: Este ID de cuestionario ya se encuentra registrado en la base de datos.");
                 return;
@@ -434,7 +462,6 @@
                 if (result.status === "success") {
                     alert("✓ Cuestionario físico guardado correctamente con ID: " + result.id);
                     e.target.reset();
-                    // Actualizar la caché local de IDs tras un registro exitoso
                     preloadExistingIds();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
