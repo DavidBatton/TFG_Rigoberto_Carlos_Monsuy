@@ -24,11 +24,11 @@
             <div class="space-y-2">
                 <h2 class="text-2xl font-bold text-slate-900">¡Cuestionario Registrado con Éxito!</h2>
                 <p class="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
-                    Agradecemos sinceramente tu valiosa participación en esta investigación de campo para el Trabajo de Fin de Grado (TFG) sobre el Diagnóstico Socio-Espacial y Patrimonio Vernáculo en Oyala.
+                    Agradecemos sinceramente tu valiosa participación en esta investigación de campo para el Trabajo de Fin de Grado (TFG) sobre el Diagnóstico Socio-Espacial y Patrimonio Vernáculo en Oyala[cite: 24].
                 </p>
             </div>
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-500 max-w-md mx-auto">
-                Para garantizar la objetividad y evitar duplicidades en la muestra estadística, este dispositivo ya ha completado su envío único.
+                Para garantizar la objetividad y evitar duplicidades en la muestra estadística, este dispositivo ya ha completado su envío único[cite: 24].
             </div>
         </div>
 
@@ -40,13 +40,13 @@
             </div>
 
             <p class="text-sm md:text-base text-slate-600 leading-relaxed">
-                Esta encuesta tiene como objetivo diagnosticar las deficiencias infraestructurales, la percepción de la metropolización conexa, el patrimonio cultural y las necesidades habitacionales de los habitantes originarios y residentes del poblado de Oyala.
+                Esta encuesta tiene como objetivo diagnosticar las deficiencias infraestructurales, la percepción de la metropolización conexa, el patrimonio cultural y las necesidades habitacionales de los habitantes originarios y residentes del poblado de Oyala[cite: 24].
             </p>
 
             <div class="p-5 bg-emerald-50/60 border-l-4 border-emerald-700 rounded-r-xl space-y-1">
                 <h3 class="text-sm font-bold text-emerald-950">Carácter de la Encuesta:</h3>
                 <p class="text-xs md:text-sm text-emerald-900 leading-relaxed">
-                    Anónima, confidencial y de uso exclusivo técnico y académico. Su participación es completamente voluntaria.
+                    Anónima, confidencial y de uso exclusivo técnico y académico. Su participación es completamente voluntaria[cite: 24].
                 </p>
             </div>
 
@@ -62,7 +62,7 @@
             
             <div class="bg-slate-900 text-white p-6 md:p-8 space-y-1 border-b border-slate-800">
                 <h2 class="text-xl md:text-2xl font-bold">Encuesta Comunitaria</h2>
-                <p class="text-xs text-slate-400">Por favor, responda con total sinceridad a cada una de las secciones.</p>
+                <p class="text-xs text-slate-400">Por favor, responda con total sinceridad a cada una de las secciones[cite: 24].</p>
             </div>
 
             <form id="surveyForm" onsubmit="submitSurvey(event)" class="p-6 md:p-10 space-y-10">
@@ -391,6 +391,40 @@
                     </div>
                 </div>
 
+                <!-- BLOQUE VII: SUPERFICIE DE PARCELA Y PROGRAMA HABITACIONAL -->
+                <div class="space-y-6 border-l-4 border-emerald-700 pl-4 md:pl-6">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 uppercase tracking-wide">BLOQUE VII: SUPERFICIE DE PARCELA Y PROGRAMA HABITACIONAL</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">7.1. Superficie total aproximada del terreno / parcela:</label>
+                            <select name="b7_superficie_parcela" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione...</option>
+                                <option value="1.500 m²">1.500 m²</option>
+                                <option value="2.000 m²">2.000 m²</option>
+                                <option value="2.500 m²">2.500 m²</option>
+                                <option value="3.000 m²">3.000 m²</option>
+                                <option value="3.500 m²">3.500 m²</option>
+                                <option value="Otra extensión / No sabe">Otra extensión / No sabe</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">7.2. Dormitorios necesarios proyectados para la vivienda:</label>
+                            <select name="b7_dormitorios_necesarios" required class="w-full border border-slate-300 rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-emerald-600">
+                                <option value="">Seleccione...</option>
+                                <option value="2 Dormitorios">2 Dormitorios</option>
+                                <option value="3 Dormitorios">3 Dormitorios</option>
+                                <option value="4 Dormitorios">4 Dormitorios</option>
+                                <option value="5 Dormitorios">5 Dormitorios</option>
+                                <option value="6 Dormitorios">6 Dormitorios</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- BOTÓN DE ENVÍO -->
                 <div class="pt-4">
                     <button type="submit" id="submit-btn" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-4 px-6 rounded-xl transition shadow-lg text-sm tracking-wide flex items-center justify-center space-x-2">
@@ -404,13 +438,12 @@
     </main>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwn3XqyCwiDmrB12UoJTwg-lvv649XljWNGs2JROtiK3sG-99EbHePM7s02nCC2Khd7/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuWeom6NYSh4U1mP_VKm_evyMu3Bfp9D7kTTdoz5e22NnlFQoW0o0uJ_PNEgFSC6Lx/exec"; 
         const SUBMISSION_KEY = "oyala_tfg_survey_submitted";
-        const SURVEY_ID_KEY = "oyala_tfg_survey_id"; // Clave para mantener un ID único fijo por dispositivo ante reintentos
+        const SURVEY_ID_KEY = "oyala_tfg_survey_id";
 
         document.addEventListener("DOMContentLoaded", function() {
             checkAlreadySubmitted();
-            // Generar y retener un ID único por dispositivo si no existe
             if (!localStorage.getItem(SURVEY_ID_KEY)) {
                 localStorage.setItem(SURVEY_ID_KEY, "OYALA-WEB-" + Math.random().toString(36).substring(2, 8).toUpperCase());
             }
@@ -446,7 +479,6 @@
             const form = document.getElementById("surveyForm");
             const formData = new FormData(form);
             
-            // Enviar el id_cuestionario persistente del dispositivo para evitar duplicados por reintentos de red
             const data = { 
                 tipo_entrada: "Web",
                 id_cuestionario: localStorage.getItem(SURVEY_ID_KEY)
