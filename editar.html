@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completar Registros Antiguos • TFG Oyala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
+
+    <header class="bg-amber-950 text-white shadow sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-lg font-bold">Panel de Edición y Actualización de Registros</h1>
+                <p class="text-xs text-amber-300">Completar nuevas preguntas en cuestionarios ya existentes</p>
+            </div>
+            <div class="space-x-2 flex items-center">
+                <a href="admin.html" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700">Admin Papel</a>
+                <a href="dashboard.html" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg">Dashboard</a>
+                <a href="comparativa.html" class="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg">Cruz de Variables</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+        
+        <!-- Buscador de ID -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+            <h2 class="text-base font-bold text-slate-900">1. Buscar Cuestionario por ID</h2>
+            <div class="flex gap-3">
+                <input type="text" id="search-id" placeholder="Ej: OYALA-WEB-123 o OYALA-PAPEL-001" class="w-full border border-slate-300 rounded-xl p-3 text-sm uppercase font-mono font-bold">
+                <button onclick="fetchRecord()" class="bg-amber-600 hover:bg-amber-500 text-white font-bold px-6 py-3 rounded-xl text-sm transition shadow">Buscar</button>
+            </div>
+            <p id="search-status" class="text-xs text-slate-500 font-medium"></p>
+        </div>
+
+        <!-- Formulario de Edición (Oculto hasta encontrar el registro) -->
+        <div id="edit-container" class="hidden bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+            <div class="border-b pb-3 flex justify-between items-center">
+                <h2 class="text-xl font-bold text-slate-900">Actualizar Nuevas Preguntas</h2>
+                <span id="badge-id" class="px-3 py-1 bg-amber-100 text-amber-900 rounded-full font-mono text-xs font-bold"></span>
+            </div>
+
+            <form id="updateForm" onsubmit="submitUpdate(event)" class="space-y-6">
+                <input type="hidden" id="edit_id_cuestionario" name="id_cuestionario">
+                <input type="hidden" name="action" value="update">
+
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase text-slate-700">7.1. Superficie total aproximada del terreno o parcela:</label>
+                    <select id="edit_b7_superficie_parcela" name="b7_superficie_parcela" required class="w-full border rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-amber-500">
+                        <option value="">Seleccione...</option>
+                        <option value="1.500 m²">1.500 m²</option>
+                        <option value="2.000 m²">2.000 m²</option>
+                        <option value="2.500 m²">2.500 m²</option>
+                        <option value="3.000 m²">3.000 m²</option>
+                        <option value="3.500 m²">3.500 m²</option>
+                        <option value="Otra extensión / No sabe">Otra extensión / No sabe</option>
+                    </select>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase text-slate-700">7.2. ¿Cuántos dormitorios considera necesarios?</label>
+                    <select id="edit_b7_dormitorios_necesarios" name="b7_dormitorios_necesarios" required class="w-full border rounded-xl p-3 text-sm bg-slate-50 focus:ring-2 focus:ring-amber-500">
+                        <option value="">Seleccione...</option>
+                        <option value="2 Dormitorios">2 Dormitorios</option>
+                        <option value="3 Dormitorios">3 Dormitorios</option>
+                        <option value="4 Dormitorios">4 Dormitorios</option>
+                        <option value="5 Dormitorios">5 Dormitorios</option>
+                        <option value="6 Dormitorios">6 Dormitorios</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="update-btn" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-4 px-6 rounded-xl transition shadow-lg text-sm">
+                    Guardar y Actualizar Registro en la Base de Datos
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzuWeom6NYSh4U1mP_VKm_evyMu3Bfp9D7kTTdoz5e22NnlFQoW0o0uJ_PNEgFSC6Lx/exec"; 
+
+        async function fetchRecord() {
+            const queryId = document.getElementById('search-id').value.trim().toLowerCase();
+            const statusEl = document.getElementById('search-status');
+            const editContainer = document.getElementById('edit-container');
+            
+            if (!queryId) {
+                alert("Introduce un ID válido.");
+                return;
+            }
+
+            statusEl.innerText = "Buscando en la base de datos...";
+            editContainer.classList.add("hidden");
+
+            try {
+                const response = await fetch(SCRIPT_URL + "?action=getData");
+                const data = await response.json();
+                
+                const found = data.find(row => (row.id_cuestionario || "").toString().trim().toLowerCase() === queryId);
+                
+                if (found) {
+                    statusEl.innerText = "✓ Cuestionario encontrado correctamente.";
+                    document.getElementById('edit_id_cuestionario').value = found.id_cuestionario;
+                    document.getElementById('badge-id').innerText = found.id_cuestionario;
+                    
+                    document.getElementById('edit_b7_superficie_parcela').value = found.b7_superficie_parcela || "";
+                    document.getElementById('edit_b7_dormitorios_necesarios').value = found.b7_dormitorios_necesarios || "";
+                    
+                    editContainer.classList.remove("hidden");
+                } else {
+                    statusEl.innerText = "❌ No se ha encontrado ningún registro con el ID: " + queryId;
+                }
+            } catch (err) {
+                statusEl.innerText = "Error de conexión al buscar el registro.";
+            }
+        }
+
+        async function submitUpdate(e) {
+            e.preventDefault();
+            const btn = document.getElementById('update-btn');
+            btn.disabled = true;
+            btn.innerText = "Actualizando...";
+
+            const formData = new FormData(e.target);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value; });
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.status === "success") {
+                    alert("✓ Registro actualizado correctamente.");
+                    document.getElementById('edit-container').classList.add("hidden");
+                    document.getElementById('search-id').value = "";
+                    document.getElementById('search-status').innerText = "";
+                } else {
+                    alert("Error al actualizar: " + result.message);
+                }
+            } catch (err) {
+                alert("Error de conexión.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Guardar y Actualizar Registro en la Base de Datos";
+            }
+        }
+    </script>
+</body>
+</html>
