@@ -16,10 +16,10 @@
                 <p class="text-xs text-slate-400">Control total de la base de datos de la hoja de cálculo</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
-                <a href="dashboard.html" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg transition shadow">Dashboard</a>
-                <a href="comparativa.html" class="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg transition shadow">Cruz de Variables</a>
-                <a href="editar.html" class="text-xs bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg transition shadow">Completar Vacíos</a>
-                <button onclick="loadRecords()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700">Recargar Datos</button>
+                <a href="dashboard.html" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg transition shadow font-medium">Dashboard</a>
+                <a href="comparativa.html" class="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg transition shadow font-medium">Cruz de Variables</a>
+                <a href="editar.html" class="text-xs bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg transition shadow font-medium">Completar Vacíos</a>
+                <button onclick="loadRecords()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 font-medium">Recargar Datos</button>
             </div>
         </div>
     </header>
@@ -28,9 +28,12 @@
         
         <!-- Barra de Seguridad y Acciones Globales -->
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="w-full md:w-1/3 flex flex-col gap-1">
-                <label class="text-xs font-bold uppercase text-slate-700">🔑 Clave de Verificación Admin:</label>
-                <input type="password" id="master-password" placeholder="Introduce la clave secreta..." class="border border-slate-300 rounded-xl p-2.5 text-xs font-mono bg-slate-50 focus:ring-2 focus:ring-slate-900">
+            <div class="w-full md:w-1/3 flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase text-slate-700 flex items-center justify-between">
+                    <span>🔑 Clave de Verificación Admin:</span>
+                    <span id="auth-status-badge" class="text-[10px] px-2 py-0.5 rounded font-semibold bg-red-100 text-red-700">Bloqueado</span>
+                </label>
+                <input type="password" id="master-password" oninput="validateAdminPassword()" placeholder="Introduce la clave secreta..." class="border border-slate-300 rounded-xl p-2.5 text-xs font-mono bg-slate-50 focus:ring-2 focus:ring-slate-900">
             </div>
             <div class="w-full md:w-2/3 flex flex-wrap items-center justify-end gap-3">
                 <input type="text" id="search-input" oninput="filterTable()" placeholder="Buscar por ID, edad, actividad..." class="border border-slate-300 rounded-xl p-2.5 text-xs w-full sm:w-64">
@@ -38,25 +41,30 @@
             </div>
         </div>
 
-        <!-- Tabla Interactiva de Registros -->
+        <!-- Tabla Interactiva de Registros (Con Scroll Horizontal Completo) -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs">
-                    <thead>
-                        <tr class="bg-slate-900 text-white uppercase text-[10px] tracking-wider">
+            <div class="overflow-x-auto max-h-[650px]">
+                <table class="w-full text-left border-collapse text-xs whitespace-nowrap">
+                    <thead class="bg-slate-900 text-white uppercase text-[10px] tracking-wider sticky top-0 z-10">
+                        <tr>
                             <th class="p-3">ID Cuestionario</th>
                             <th class="p-3">Tipo</th>
-                            <th class="p-3">Edad</th>
-                            <th class="p-3">Residencia</th>
-                            <th class="p-3">Actividad</th>
-                            <th class="p-3">Superficie Parcela</th>
-                            <th class="p-3">Dormitorios</th>
-                            <th class="p-3 text-center">Acciones CRUD</th>
+                            <th class="p-3">1.1. Edad</th>
+                            <th class="p-3">1.2. Género</th>
+                            <th class="p-3">1.3. Residencia</th>
+                            <th class="p-3">1.4. Actividad</th>
+                            <th class="p-3">1.6. Ingresos</th>
+                            <th class="p-3">2.1. Agua</th>
+                            <th class="p-3">3.1. Expansión</th>
+                            <th class="p-3">5.1. Material</th>
+                            <th class="p-3">7.1. Superficie Parcela</th>
+                            <th class="p-3">7.2. Dormitorios</th>
+                            <th class="p-3 text-center sticky right-0 bg-slate-900 shadow-l">Acciones CRUD</th>
                         </tr>
                     </thead>
                     <tbody id="records-table-body" class="divide-y divide-slate-200">
                         <tr>
-                            <td colspan="8" class="p-8 text-center text-slate-400 italic">Cargando registros desde la hoja de cálculo...</td>
+                            <td colspan="13" class="p-8 text-center text-slate-400 italic">Cargando registros desde la hoja de cálculo...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -65,47 +73,140 @@
 
     </main>
 
-    <!-- Modal de Edición / Detalle -->
-    <div id="edit-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+    <!-- Modal de Edición Exhaustiva (Todas las variables) -->
+    <div id="edit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-base font-bold text-slate-900">Editar Registro: <span id="modal-id-title" class="font-mono text-emerald-700"></span></h3>
+                <h3 class="text-base font-bold text-slate-900">Editar Registro Completo: <span id="modal-id-title" class="font-mono text-emerald-700"></span></h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 font-bold text-lg">✕</button>
             </div>
             
-            <form id="crud-edit-form" onsubmit="submitEditRecord(event)" class="space-y-4 text-xs">
+            <form id="crud-edit-form" onsubmit="submitEditRecord(event)" class="space-y-6 text-xs">
                 <input type="hidden" id="modal_id_cuestionario" name="id_cuestionario">
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">1.1. Edad:</label>
-                        <input type="text" id="modal_b1_edad" name="b1_edad" class="w-full border rounded-lg p-2 bg-slate-50">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">1.2. Género:</label>
-                        <input type="text" id="modal_b1_genero" name="b1_genero" class="w-full border rounded-lg p-2 bg-slate-50">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">1.3. Residencia:</label>
-                        <input type="text" id="modal_b1_residencia" name="b1_residencia" class="w-full border rounded-lg p-2 bg-slate-50">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">1.4. Actividad:</label>
-                        <input type="text" id="modal_b1_actividad" name="b1_actividad" class="w-full border rounded-lg p-2 bg-slate-50">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">7.1. Superficie Parcela:</label>
-                        <input type="text" id="modal_b7_superficie_parcela" name="b7_superficie_parcela" class="w-full border rounded-lg p-2 bg-slate-50">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">7.2. Dormitorios:</label>
-                        <input type="text" id="modal_b7_dormitorios_necesarios" name="b7_dormitorios_necesarios" class="w-full border rounded-lg p-2 bg-slate-50">
+                <!-- BLOQUE I -->
+                <div class="space-y-3 bg-slate-50 p-4 rounded-xl border">
+                    <h4 class="font-bold text-emerald-900 uppercase tracking-wide">Bloque I: Datos Sociodemográficos</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">1.1. Edad:</label>
+                            <input type="text" id="modal_b1_edad" name="b1_edad" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">1.2. Género:</label>
+                            <input type="text" id="modal_b1_genero" name="b1_genero" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">1.3. Residencia:</label>
+                            <input type="text" id="modal_b1_residencia" name="b1_residencia" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">1.4. Actividad:</label>
+                            <input type="text" id="modal_b1_actividad" name="b1_actividad" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">1.5. Familia:</label>
+                            <input type="text" id="modal_b1_familia" name="b1_familia" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">1.6. Ingresos:</label>
+                            <input type="text" id="modal_b1_ingresos" name="b1_ingresos" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
                     </div>
                 </div>
 
-                <div class="pt-4 flex justify-end space-x-3">
+                <!-- BLOQUE II -->
+                <div class="space-y-3 bg-slate-50 p-4 rounded-xl border">
+                    <h4 class="font-bold text-emerald-900 uppercase tracking-wide">Bloque II: Infraestructuras</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Agua:</label>
+                            <input type="text" id="modal_b2_agua" name="b2_agua" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Saneamiento:</label>
+                            <input type="text" id="modal_b2_saneamiento" name="b2_saneamiento" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Drenaje:</label>
+                            <input type="text" id="modal_b2_drenaje" name="b2_drenaje" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Energía:</label>
+                            <input type="text" id="modal_b2_energia" name="b2_energia" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Vías:</label>
+                            <input type="text" id="modal_b2_vias" name="b2_vias" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Alumbrado:</label>
+                            <input type="text" id="modal_b2_alumbrado" name="b2_alumbrado" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Basura:</label>
+                            <input type="text" id="modal_b2_basura" name="b2_basura" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Vialidad Lluvias:</label>
+                            <input type="text" id="modal_b2_vialidad_lluvias" name="b2_vialidad_lluvias" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOQUE III & IV -->
+                <div class="space-y-3 bg-slate-50 p-4 rounded-xl border">
+                    <h4 class="font-bold text-emerald-900 uppercase tracking-wide">Bloque III & IV: Percepción y Patrimonio</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">3.1. Expansión:</label>
+                            <input type="text" id="modal_b3_expansion" name="b3_expansion" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">3.2. Reajuste:</label>
+                            <input type="text" id="modal_b3_reajuste" name="b3_reajuste" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">4.2. Centro Histórico:</label>
+                            <input type="text" id="modal_b4_centro_historico" name="b4_centro_historico" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOQUE V, VI & VII -->
+                <div class="space-y-3 bg-slate-50 p-4 rounded-xl border">
+                    <h4 class="font-bold text-emerald-900 uppercase tracking-wide">Bloques V, VI & VII: Habitabilidad, Parcela y Programa</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">5.1. Material Constructivo:</label>
+                            <input type="text" id="modal_b5_material" name="b5_material" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">5.2. Aceptación BTC:</label>
+                            <input type="text" id="modal_b5_btc" name="b5_btc" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">6.1. Prioridad Urgente:</label>
+                            <input type="text" id="modal_b6_prioridad_urgente" name="b6_prioridad_urgente" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">6.2. Comentarios:</label>
+                            <input type="text" id="modal_b6_comentarios" name="b6_comentarios" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">7.1. Superficie Parcela:</label>
+                            <input type="text" id="modal_b7_superficie_parcela" name="b7_superficie_parcela" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">7.2. Dormitorios Necesarios:</label>
+                            <input type="text" id="modal_b7_dormitorios_necesarios" name="b7_dormitorios_necesarios" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex justify-end space-x-3 border-t">
                     <button type="button" onclick="closeModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl">Cancelar</button>
-                    <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-6 py-2.5 rounded-xl shadow">Guardar Cambios</button>
+                    <button type="submit" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-6 py-2.5 rounded-xl shadow">Confirmar y Guardar Cambios</button>
                 </div>
             </form>
         </div>
@@ -117,18 +218,42 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw73fNDtuSYfk_5ixwE9sru9G0EDVLwg-3rz0qZAiNY7ZH48tk5ss_WB-VuI0MQw3ye/exec"; 
+        const ADMIN_SECRET = "Oyala2026Admin";
         let allData = [];
+
+        function validateAdminPassword() {
+            const passwordInput = document.getElementById('master-password').value.trim();
+            const badge = document.getElementById('auth-status-badge');
+            const actionButtons = document.querySelectorAll('.crud-action-btn');
+
+            if (passwordInput === ADMIN_SECRET) {
+                badge.innerText = "Acceso Concedido";
+                badge.className = "text-[10px] px-2 py-0.5 rounded font-semibold bg-emerald-100 text-emerald-800";
+                actionButtons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-40', 'cursor-not-allowed');
+                });
+            } else {
+                badge.innerText = "Bloqueado";
+                badge.className = "text-[10px] px-2 py-0.5 rounded font-semibold bg-red-100 text-red-700";
+                actionButtons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-40', 'cursor-not-allowed');
+                });
+            }
+        }
 
         async function loadRecords() {
             const tbody = document.getElementById('records-table-body');
-            tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400 italic">Sincronizando con Google Sheets...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="13" class="p-8 text-center text-slate-400 italic">Sincronizando con Google Sheets...</td></tr>`;
             
             try {
                 const response = await fetch(SCRIPT_URL + "?action=getData");
                 allData = await response.json();
                 renderTable(allData);
+                validateAdminPassword(); // Aplicar estado inicial de botones según clave actual
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-red-500 font-semibold">Error al cargar los datos de la hoja de cálculo.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="13" class="p-8 text-center text-red-500 font-semibold">Error al cargar los datos de la hoja de cálculo.</td></tr>`;
             }
         }
 
@@ -138,7 +263,7 @@
             tbody.innerHTML = "";
 
             if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400 italic">No se encontraron registros.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="13" class="p-8 text-center text-slate-400 italic">No se encontraron registros.</td></tr>`;
                 return;
             }
 
@@ -147,15 +272,20 @@
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="p-3 font-mono font-bold text-slate-900">${row.id_cuestionario || "N/D"}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${row.tipo_entrada === 'Web' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${row.tipo_entrada || "Web"}</span></td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${String(row.tipo_entrada).toLowerCase().includes('web') ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${row.tipo_entrada || "Web"}</span></td>
                     <td class="p-3">${row.b1_edad || "-"}</td>
-                    <td class="p-3 truncate max-w-[140px]">${row.b1_residencia || "-"}</td>
-                    <td class="p-3 truncate max-w-[160px]">${row.b1_actividad || "-"}</td>
+                    <td class="p-3">${row.b1_genero || "-"}</td>
+                    <td class="p-3">${row.b1_residencia || "-"}</td>
+                    <td class="p-3">${row.b1_actividad || "-"}</td>
+                    <td class="p-3">${row.b1_ingresos || "-"}</td>
+                    <td class="p-3">${row.b2_agua || "-"}</td>
+                    <td class="p-3 truncate max-w-[150px]" title="${row.b3_expansion || ''}">${row.b3_expansion || "-"}</td>
+                    <td class="p-3">${row.b5_material || "-"}</td>
                     <td class="p-3 font-medium text-emerald-800">${row.b7_superficie_parcela || "-"}</td>
                     <td class="p-3">${row.b7_dormitorios_necesarios || "-"}</td>
-                    <td class="p-3 text-center space-x-2">
-                        <button onclick='openEditModal(${JSON.stringify(row)})' class="bg-amber-600 hover:bg-amber-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition">Editar</button>
-                        <button onclick='deleteRecord("${row.id_cuestionario}")' class="bg-red-600 hover:bg-red-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition">Eliminar</button>
+                    <td class="p-3 text-center space-x-2 sticky right-0 bg-white shadow-l">
+                        <button onclick='confirmAndEdit(${JSON.stringify(row)})' class="crud-action-btn bg-amber-600 hover:bg-amber-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition disabled:opacity-40 disabled:cursor-not-allowed">Editar</button>
+                        <button onclick='confirmAndDelete("${row.id_cuestionario}")' class="crud-action-btn bg-red-600 hover:bg-red-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition disabled:opacity-40 disabled:cursor-not-allowed">Eliminar</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -170,16 +300,37 @@
             renderTable(filtered);
         }
 
+        function confirmAndEdit(row) {
+            const password = document.getElementById('master-password').value.trim();
+            if (password !== ADMIN_SECRET) {
+                alert("⚠️ Debe introducir la clave de administración correcta para editar registros.");
+                return;
+            }
+
+            if (!confirm(`¿Está seguro de abrir el panel de edición para el cuestionario con ID: ${row.id_cuestionario}?`)) {
+                return;
+            }
+
+            openEditModal(row);
+        }
+
         function openEditModal(row) {
             document.getElementById('modal_id_cuestionario').value = row.id_cuestionario;
             document.getElementById('modal-id-title').innerText = row.id_cuestionario;
             
-            document.getElementById('modal_b1_edad').value = row.b1_edad || "";
-            document.getElementById('modal_b1_genero').value = row.b1_genero || "";
-            document.getElementById('modal_b1_residencia').value = row.b1_residencia || "";
-            document.getElementById('modal_b1_actividad').value = row.b1_actividad || "";
-            document.getElementById('modal_b7_superficie_parcela').value = row.b7_superficie_parcela || "";
-            document.getElementById('modal_b7_dormitorios_necesarios').value = row.b7_dormitorios_necesarios || "";
+            // Cargar todos los campos de los bloques
+            const fields = [
+                'b1_edad', 'b1_genero', 'b1_residencia', 'b1_actividad', 'b1_familia', 'b1_ingresos',
+                'b2_agua', 'b2_saneamiento', 'b2_drenaje', 'b2_energia', 'b2_vias', 'b2_alumbrado', 'b2_basura', 'b2_vialidad_lluvias',
+                'b3_expansion', 'b3_reajuste', 'b4_centro_historico',
+                'b5_material', 'b5_btc', 'b6_prioridad_urgente', 'b6_comentarios',
+                'b7_superficie_parcela', 'b7_dormitorios_necesarios'
+            ];
+
+            fields.forEach(f => {
+                const el = document.getElementById('modal_' + f);
+                if (el) el.value = row[f] || "";
+            });
 
             document.getElementById('edit-modal').classList.remove('hidden');
             document.getElementById('edit-modal').classList.add('flex');
@@ -193,22 +344,33 @@
         async function submitEditRecord(e) {
             e.preventDefault();
             const password = document.getElementById('master-password').value.trim();
-            if (!password) {
-                alert("⚠️ Debe introducir la clave de verificación de administrador en la parte superior para realizar cambios.");
+            if (password !== ADMIN_SECRET) {
+                alert("⚠️ Clave incorrecta.");
+                return;
+            }
+
+            if (!confirm("¿Confirma que desea guardar los cambios realizados en este registro?")) {
                 return;
             }
 
             const data = {
                 action: "update",
                 password: password,
-                id_cuestionario: document.getElementById('modal_id_cuestionario').value,
-                b1_edad: document.getElementById('modal_b1_edad').value,
-                b1_genero: document.getElementById('modal_b1_genero').value,
-                b1_residencia: document.getElementById('modal_b1_residencia').value,
-                b1_actividad: document.getElementById('modal_b1_actividad').value,
-                b7_superficie_parcela: document.getElementById('modal_b7_superficie_parcela').value,
-                b7_dormitorios_necesarios: document.getElementById('modal_b7_dormitorios_necesarios').value
+                id_cuestionario: document.getElementById('modal_id_cuestionario').value
             };
+
+            const fields = [
+                'b1_edad', 'b1_genero', 'b1_residencia', 'b1_actividad', 'b1_familia', 'b1_ingresos',
+                'b2_agua', 'b2_saneamiento', 'b2_drenaje', 'b2_energia', 'b2_vias', 'b2_alumbrado', 'b2_basura', 'b2_vialidad_lluvias',
+                'b3_expansion', 'b3_reajuste', 'b4_centro_historico',
+                'b5_material', 'b5_btc', 'b6_prioridad_urgente', 'b6_comentarios',
+                'b7_superficie_parcela', 'b7_dormitorios_necesarios'
+            ];
+
+            fields.forEach(f => {
+                const el = document.getElementById('modal_' + f);
+                if (el) data[f] = el.value;
+            });
 
             try {
                 const response = await fetch(SCRIPT_URL, {
@@ -228,21 +390,25 @@
             }
         }
 
-        async function deleteRecord(id) {
+        function confirmAndDelete(id) {
             const password = document.getElementById('master-password').value.trim();
-            if (!password) {
-                alert("⚠️ Debe introducir la clave de verificación de administrador en la parte superior para eliminar registros.");
+            if (password !== ADMIN_SECRET) {
+                alert("⚠️ Debe introducir la clave de administración correcta para eliminar registros.");
                 return;
             }
 
-            if (!confirm(`¿Está totalmente seguro de eliminar el cuestionario con ID: ${id}? Esta acción no se puede deshacer.`)) {
+            if (!confirm(`⚠️ ATENCIÓN: ¿Está totalmente seguro de ELIMINAR permanentemente el cuestionario con ID: ${id}? Esta acción no se puede deshacer.`)) {
                 return;
             }
 
+            executeDelete(id, password);
+        }
+
+        async function executeDelete(id, password) {
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: JSON.stringify(data = {
+                    body: JSON.stringify({
                         action: "delete",
                         password: password,
                         id_cuestionario: id
