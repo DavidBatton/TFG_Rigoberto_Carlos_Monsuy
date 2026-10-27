@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión CRUD de Registros • TFG Oyala</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-3">
+            <div>
+                <h1 class="text-lg font-bold">Panel de Administración y Gestión CRUD</h1>
+                <p class="text-xs text-slate-400">Control total de la base de datos de la hoja de cálculo</p>
+            </div>
+            <div class="flex flex-wrap gap-2 items-center">
+                <a href="dashboard.html" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg transition shadow">Dashboard</a>
+                <a href="comparativa.html" class="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg transition shadow">Cruz de Variables</a>
+                <a href="editar.html" class="text-xs bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg transition shadow">Completar Vacíos</a>
+                <button onclick="loadRecords()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700">Recargar Datos</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-6 flex-grow w-full">
+        
+        <!-- Barra de Seguridad y Acciones Globales -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="w-full md:w-1/3 flex flex-col gap-1">
+                <label class="text-xs font-bold uppercase text-slate-700">🔑 Clave de Verificación Admin:</label>
+                <input type="password" id="master-password" placeholder="Introduce la clave secreta..." class="border border-slate-300 rounded-xl p-2.5 text-xs font-mono bg-slate-50 focus:ring-2 focus:ring-slate-900">
+            </div>
+            <div class="w-full md:w-2/3 flex flex-wrap items-center justify-end gap-3">
+                <input type="text" id="search-input" oninput="filterTable()" placeholder="Buscar por ID, edad, actividad..." class="border border-slate-300 rounded-xl p-2.5 text-xs w-full sm:w-64">
+                <span id="record-count" class="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-2 rounded-xl">Registros: 0</span>
+            </div>
+        </div>
+
+        <!-- Tabla Interactiva de Registros -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-slate-900 text-white uppercase text-[10px] tracking-wider">
+                            <th class="p-3">ID Cuestionario</th>
+                            <th class="p-3">Tipo</th>
+                            <th class="p-3">Edad</th>
+                            <th class="p-3">Residencia</th>
+                            <th class="p-3">Actividad</th>
+                            <th class="p-3">Superficie Parcela</th>
+                            <th class="p-3">Dormitorios</th>
+                            <th class="p-3 text-center">Acciones CRUD</th>
+                        </tr>
+                    </thead>
+                    <tbody id="records-table-body" class="divide-y divide-slate-200">
+                        <tr>
+                            <td colspan="8" class="p-8 text-center text-slate-400 italic">Cargando registros desde la hoja de cálculo...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal de Edición / Detalle -->
+    <div id="edit-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 md:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-base font-bold text-slate-900">Editar Registro: <span id="modal-id-title" class="font-mono text-emerald-700"></span></h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 font-bold text-lg">✕</button>
+            </div>
+            
+            <form id="crud-edit-form" onsubmit="submitEditRecord(event)" class="space-y-4 text-xs">
+                <input type="hidden" id="modal_id_cuestionario" name="id_cuestionario">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">1.1. Edad:</label>
+                        <input type="text" id="modal_b1_edad" name="b1_edad" class="w-full border rounded-lg p-2 bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">1.2. Género:</label>
+                        <input type="text" id="modal_b1_genero" name="b1_genero" class="w-full border rounded-lg p-2 bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">1.3. Residencia:</label>
+                        <input type="text" id="modal_b1_residencia" name="b1_residencia" class="w-full border rounded-lg p-2 bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">1.4. Actividad:</label>
+                        <input type="text" id="modal_b1_actividad" name="b1_actividad" class="w-full border rounded-lg p-2 bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">7.1. Superficie Parcela:</label>
+                        <input type="text" id="modal_b7_superficie_parcela" name="b7_superficie_parcela" class="w-full border rounded-lg p-2 bg-slate-50">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">7.2. Dormitorios:</label>
+                        <input type="text" id="modal_b7_dormitorios_necesarios" name="b7_dormitorios_necesarios" class="w-full border rounded-lg p-2 bg-slate-50">
+                    </div>
+                </div>
+
+                <div class="pt-4 flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl">Cancelar</button>
+                    <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-6 py-2.5 rounded-xl shadow">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400 mt-12">
+        Trabajo de Fin de Grado (TFG) • Gestión CRUD de Base de Datos • Oyala
+    </footer>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw73fNDtuSYfk_5ixwE9sru9G0EDVLwg-3rz0qZAiNY7ZH48tk5ss_WB-VuI0MQw3ye/exec"; 
+        let allData = [];
+
+        async function loadRecords() {
+            const tbody = document.getElementById('records-table-body');
+            tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400 italic">Sincronizando con Google Sheets...</td></tr>`;
+            
+            try {
+                const response = await fetch(SCRIPT_URL + "?action=getData");
+                allData = await response.json();
+                renderTable(allData);
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-red-500 font-semibold">Error al cargar los datos de la hoja de cálculo.</td></tr>`;
+            }
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('records-table-body');
+            document.getElementById('record-count').innerText = `Registros: ${data.length}`;
+            tbody.innerHTML = "";
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-400 italic">No se encontraron registros.</td></tr>`;
+                return;
+            }
+
+            data.forEach((row) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition";
+                tr.innerHTML = `
+                    <td class="p-3 font-mono font-bold text-slate-900">${row.id_cuestionario || "N/D"}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${row.tipo_entrada === 'Web' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${row.tipo_entrada || "Web"}</span></td>
+                    <td class="p-3">${row.b1_edad || "-"}</td>
+                    <td class="p-3 truncate max-w-[140px]">${row.b1_residencia || "-"}</td>
+                    <td class="p-3 truncate max-w-[160px]">${row.b1_actividad || "-"}</td>
+                    <td class="p-3 font-medium text-emerald-800">${row.b7_superficie_parcela || "-"}</td>
+                    <td class="p-3">${row.b7_dormitorios_necesarios || "-"}</td>
+                    <td class="p-3 text-center space-x-2">
+                        <button onclick='openEditModal(${JSON.stringify(row)})' class="bg-amber-600 hover:bg-amber-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition">Editar</button>
+                        <button onclick='deleteRecord("${row.id_cuestionario}")' class="bg-red-600 hover:bg-red-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterTable() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = allData.filter(row => {
+                return Object.values(row).some(val => String(val).toLowerCase().includes(query));
+            });
+            renderTable(filtered);
+        }
+
+        function openEditModal(row) {
+            document.getElementById('modal_id_cuestionario').value = row.id_cuestionario;
+            document.getElementById('modal-id-title').innerText = row.id_cuestionario;
+            
+            document.getElementById('modal_b1_edad').value = row.b1_edad || "";
+            document.getElementById('modal_b1_genero').value = row.b1_genero || "";
+            document.getElementById('modal_b1_residencia').value = row.b1_residencia || "";
+            document.getElementById('modal_b1_actividad').value = row.b1_actividad || "";
+            document.getElementById('modal_b7_superficie_parcela').value = row.b7_superficie_parcela || "";
+            document.getElementById('modal_b7_dormitorios_necesarios').value = row.b7_dormitorios_necesarios || "";
+
+            document.getElementById('edit-modal').classList.remove('hidden');
+            document.getElementById('edit-modal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('edit-modal').classList.remove('flex');
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+
+        async function submitEditRecord(e) {
+            e.preventDefault();
+            const password = document.getElementById('master-password').value.trim();
+            if (!password) {
+                alert("⚠️ Debe introducir la clave de verificación de administrador en la parte superior para realizar cambios.");
+                return;
+            }
+
+            const data = {
+                action: "update",
+                password: password,
+                id_cuestionario: document.getElementById('modal_id_cuestionario').value,
+                b1_edad: document.getElementById('modal_b1_edad').value,
+                b1_genero: document.getElementById('modal_b1_genero').value,
+                b1_residencia: document.getElementById('modal_b1_residencia').value,
+                b1_actividad: document.getElementById('modal_b1_actividad').value,
+                b7_superficie_parcela: document.getElementById('modal_b7_superficie_parcela').value,
+                b7_dormitorios_necesarios: document.getElementById('modal_b7_dormitorios_necesarios').value
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.status === "success") {
+                    alert("✓ Registro actualizado con éxito.");
+                    closeModal();
+                    loadRecords();
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (err) {
+                alert("Error de conexión al actualizar el registro.");
+            }
+        }
+
+        async function deleteRecord(id) {
+            const password = document.getElementById('master-password').value.trim();
+            if (!password) {
+                alert("⚠️ Debe introducir la clave de verificación de administrador en la parte superior para eliminar registros.");
+                return;
+            }
+
+            if (!confirm(`¿Está totalmente seguro de eliminar el cuestionario con ID: ${id}? Esta acción no se puede deshacer.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(data = {
+                        action: "delete",
+                        password: password,
+                        id_cuestionario: id
+                    })
+                });
+                const result = await response.json();
+                if (result.status === "success") {
+                    alert("✓ Registro eliminado correctamente.");
+                    loadRecords();
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (err) {
+                alert("Error de conexión al intentar eliminar.");
+            }
+        }
+
+        loadRecords();
+    </script>
+</body>
+</html>
