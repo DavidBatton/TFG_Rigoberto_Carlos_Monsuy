@@ -6,7 +6,6 @@
     <title>Gestión CRUD de Registros • TFG Oyala</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Corrección robusta para mantener la columna de acciones fija al hacer scroll horizontal */
         .sticky-actions {
             position: sticky;
             right: 0;
@@ -15,7 +14,7 @@
             box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.05);
         }
         thead th.sticky-actions {
-            background-color: #0f172a !important; /* Color slate-900 para el encabezado fijo */
+            background-color: #0f172a !important;
         }
     </style>
 </head>
@@ -54,7 +53,7 @@
             </div>
         </div>
 
-        <!-- Tabla Interactiva de Registros (TODAS LAS 31 COLUMNAS EXACTAS DE LA HOJA) -->
+        <!-- Tabla Interactiva de Registros -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="overflow-x-auto max-h-[650px] relative">
                 <table class="w-full text-left border-collapse text-xs whitespace-nowrap">
@@ -113,7 +112,7 @@
 
     </main>
 
-    <!-- Modal de Edición Estricto por Bloques (Todas las Variables) -->
+    <!-- Modal de Edición con Selects validados por la lógica de encuesta -->
     <div id="edit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full p-6 md:p-8 space-y-6 max-h-[92vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b pb-3 sticky top-0 bg-white z-10">
@@ -130,27 +129,27 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b1_edad:</label>
-                            <input type="text" id="modal_b1_edad" name="b1_edad" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b1_edad" name="b1_edad" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b1_genero:</label>
-                            <input type="text" id="modal_b1_genero" name="b1_genero" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b1_genero" name="b1_genero" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b1_residencia:</label>
-                            <input type="text" id="modal_b1_residencia" name="b1_residencia" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b1_residencia" name="b1_residencia" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b1_actividad:</label>
-                            <input type="text" id="modal_b1_actividad" name="b1_actividad" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b1_actividad" name="b1_actividad" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b1_familia:</label>
-                            <input type="text" id="modal_b1_familia" name="b1_familia" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b1_familia" name="b1_familia" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b1_ingresos:</label>
-                            <input type="text" id="modal_b1_ingresos" name="b1_ingresos" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b1_ingresos" name="b1_ingresos" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                     </div>
                 </div>
@@ -161,35 +160,35 @@
                     <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b2_agua:</label>
-                            <input type="text" id="modal_b2_agua" name="b2_agua" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b2_agua" name="b2_agua" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b2_saneamiento:</label>
-                            <input type="text" id="modal_b2_saneamiento" name="b2_saneamiento" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b2_saneamiento" name="b2_saneamiento" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b2_drenaje:</label>
-                            <input type="text" id="modal_b2_drenaje" name="b2_drenaje" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b2_drenaje" name="b2_drenaje" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b2_energia:</label>
-                            <input type="text" id="modal_b2_energia" name="b2_energia" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b2_energia" name="b2_energia" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b2_vias:</label>
-                            <input type="text" id="modal_b2_vias" name="b2_vias" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b2_vias" name="b2_vias" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b2_alumbrado:</label>
-                            <input type="text" id="modal_b2_alumbrado" name="b2_alumbrado" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b2_alumbrado" name="b2_alumbrado" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b2_basura:</label>
-                            <input type="text" id="modal_b2_basura" name="b2_basura" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b2_basura" name="b2_basura" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b2_vialidad_lluvias:</label>
-                            <input type="text" id="modal_b2_vialidad_lluvias" name="b2_vialidad_lluvias" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b2_vialidad_lluvias" name="b2_vialidad_lluvias" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                     </div>
                 </div>
@@ -200,11 +199,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b3_expansion:</label>
-                            <input type="text" id="modal_b3_expansion" name="b3_expansion" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b3_expansion" name="b3_expansion" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b3_reajuste:</label>
-                            <input type="text" id="modal_b3_reajuste" name="b3_reajuste" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b3_reajuste" name="b3_reajuste" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                     </div>
                 </div>
@@ -215,27 +214,27 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b4_abaa:</label>
-                            <input type="text" id="modal_b4_abaa" name="b4_abaa" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b4_abaa" name="b4_abaa" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b4_iglesia:</label>
-                            <input type="text" id="modal_b4_iglesia" name="b4_iglesia" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b4_iglesia" name="b4_iglesia" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b4_escuela:</label>
-                            <input type="text" id="modal_b4_escuela" name="b4_escuela" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b4_escuela" name="b4_escuela" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b4_futbol:</label>
-                            <input type="text" id="modal_b4_futbol" name="b4_futbol" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b4_futbol" name="b4_futbol" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b4_caminos:</label>
-                            <input type="text" id="modal_b4_caminos" name="b4_caminos" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b4_caminos" name="b4_caminos" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b4_centro_historico:</label>
-                            <input type="text" id="modal_b4_centro_historico" name="b4_centro_historico" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b4_centro_historico" name="b4_centro_historico" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                     </div>
                 </div>
@@ -246,16 +245,16 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b5_material:</label>
-                            <input type="text" id="modal_b5_material" name="b5_material" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b5_material" name="b5_material" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b5_btc:</label>
-                            <input type="text" id="modal_b5_btc" name="b5_btc" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b5_btc" name="b5_btc" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                     </div>
                 </div>
 
-                <!-- BLOQUE VI -->
+                <!-- BLOQUE VI (Abiertos / Texto) -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
                     <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque VI: Observaciones y Propuestas</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -276,11 +275,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b7_superficie_parcela:</label>
-                            <input type="text" id="modal_b7_superficie_parcela" name="b7_superficie_parcela" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b7_superficie_parcela" name="b7_superficie_parcela" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">b7_dormitorios_necesarios:</label>
-                            <input type="text" id="modal_b7_dormitorios_necesarios" name="b7_dormitorios_necesarios" class="w-full border rounded-lg p-2 bg-white">
+                            <select id="modal_b7_dormitorios_necesarios" name="b7_dormitorios_necesarios" class="w-full border rounded-lg p-2 bg-white"></select>
                         </div>
                     </div>
                 </div>
@@ -302,16 +301,63 @@
         const ADMIN_SECRET = "Oyala2026Admin";
         let allData = [];
 
-        // Lista exacta de todas las variables técnicas de la hoja de cálculo
-        const ALL_FIELDS = [
-            'b1_edad', 'b1_genero', 'b1_residencia', 'b1_actividad', 'b1_familia', 'b1_ingresos',
-            'b2_agua', 'b2_saneamiento', 'b2_drenaje', 'b2_energia', 'b2_vias', 'b2_alumbrado', 'b2_basura', 'b2_vialidad_lluvias',
-            'b3_expansion', 'b3_reajuste',
-            'b4_abaa', 'b4_iglesia', 'b4_escuela', 'b4_futbol', 'b4_caminos', 'b4_centro_historico',
-            'b5_material', 'b5_btc',
-            'b6_prioridad_urgente', 'b6_comentarios',
-            'b7_superficie_parcela', 'b7_dormitorios_necesarios'
-        ];
+        // Opciones oficiales estándar de la encuesta
+        const SURVEY_OPTIONS = {
+            b1_edad: ["18-29 años", "30-49 años", "50-64 años", "65 años o más"],
+            b1_genero: ["Hombre", "Mujer", "Prefiero no responder"],
+            b1_residencia: ["Toda la vida (Nativo/a originario/a)", "Menos de 5 años", "Entre 5 y 15 años", "Más de 15 años"],
+            b1_actividad: ["Agricultura / Pesca / Caza de subsistencia", "Artesanía / Construcción tradicional", "Comercio local / Servicios", "Empleado sector público / privado en Cd. de la Paz", "Estudiante", "Desempleado / Labores del hogar", "Renta de viviendas"],
+            b1_familia: ["1 a 3 personas", "4 a 6 personas", "7 a 9 personas", "10 o más personas"],
+            b1_ingresos: ["Entre 100.000 y 150.000", "Entre 150.000 y 200.000", "Entre 200.000 y 250.000", "Entre 250.000 y 300.000"],
+            b2_agua: ["Deficiente", "Regular", "Bueno", "Excelente"],
+            b2_saneamiento: ["Deficiente", "Regular", "Bueno", "Excelente"],
+            b2_drenaje: ["Deficiente", "Regular", "Bueno", "Excelente"],
+            b2_energia: ["Deficiente", "Regular", "Bueno", "Excelente"],
+            b2_vias: ["Deficiente", "Regular", "Bueno", "Excelente"],
+            b2_alumbrado: ["Deficiente", "Regular", "Bueno", "Excelente"],
+            b2_basura: ["Deficiente", "Regular", "Bueno", "Excelente"],
+            b2_vialidad_lluvias: [
+                "Inundación de los caminos de tierra que imposibilita el paso vehicular rodado.",
+                "Erosión de los caminos de tierra que imposibilita el paso vehicular rodado.",
+                "Dificultad extrema para el tránsito peatonal seguro por acumulación de lodo.",
+                "Daños materiales directos en las viviendas causados por escorrentías pluviales.",
+                "Sin problemas significativos."
+            ],
+            b3_expansion: [
+                "Muy positiva (Aporta modernidad, servicios directos y oportunidades de empleo).",
+                "Positiva con reservas (Genera oportunidades, pero crea dudas sobre el futuro del poblado).",
+                "Preocupante (Existe temor a ser absorbidos, desplazados o marginados).",
+                "Negativa (Pérdida de tranquilidad, entorno natural y aumento del coste de vida).",
+                "Indiferente (No tengo ninguna percepción ya sea positiva o negativa)"
+            ],
+            b3_reajuste: [
+                "Totalmente de acuerdo.",
+                "De acuerdo, si no afecta mi vivienda actual.",
+                "En desacuerdo.",
+                "Requiere más información previa."
+            ],
+            b4_abaa: ["Sin valor", "Importancia media", "Gran importancia", "Esencial para la identidad"],
+            b4_iglesia: ["Sin valor", "Importancia media", "Gran importancia", "Esencial para la identidad"],
+            b4_escuela: ["Sin valor", "Importancia media", "Gran importancia", "Esencial para la identidad"],
+            b4_futbol: ["Sin valor", "Importancia media", "Gran importancia", "Esencial para la identidad"],
+            b4_caminos: ["Sin valor", "Importancia media", "Gran importancia", "Esencial para la identidad"],
+            b4_centro_historico: [
+                "Sí, es fundamental conservar nuestra identidad, cultura y arquitectura tradicional.",
+                "Sí, pero introduciendo modernización técnica en calles y redes públicas.",
+                "No, es preferible sustituir el tejido por la arquitectura monumental de la metrópoli."
+            ],
+            b5_material: ["Madera/Tabla local", "Bloques de hormigón", "Tierra/Adobe tradicional", "Mixto (Madera / Bloque)", "Chapa de zinc / Caña", "Otro tipo"],
+            b5_btc: [
+                "Altamente favorable (Permite mantener el confort térmico natural y el arraigo cultural).",
+                "Favorable, a condición de garantizar alta durabilidad técnica y bajo coste.",
+                "Poco favorable (Prefiero únicamente materiales convencionales de hormigón y cristal)."
+            ],
+            b7_superficie_parcela: ["500 m²", "1.000 m²", "1.500 m²", "2.000 m²", "2.500 m²", "3.000 m²", "3.500 m²", "Otra extensión / No sabe"],
+            b7_dormitorios_necesarios: ["2 Dormitorios", "3 Dormitorios", "4 Dormitorios", "5 Dormitorios", "6 Dormitorios"]
+        };
+
+        const SELECT_FIELDS = Object.keys(SURVEY_OPTIONS);
+        const TEXT_FIELDS = ['b6_prioridad_urgente', 'b6_comentarios'];
 
         function validateAdminPassword() {
             const passwordInput = document.getElementById('master-password').value.trim();
@@ -366,14 +412,12 @@
                     <td class="p-3 font-mono font-bold text-slate-900 border-r border-slate-100">${row.id_cuestionario || "N/D"}</td>
                     <td class="p-3 border-r border-slate-100">${row.marca_temporal ? new Date(row.marca_temporal).toLocaleString() : "-"}</td>
                     <td class="p-3 border-r border-slate-100"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${String(row.tipo_entrada).toLowerCase().includes('web') ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${row.tipo_entrada || "Web"}</span></td>
-                    <!-- BLOQUE I -->
                     <td class="p-3">${row.b1_edad || "-"}</td>
                     <td class="p-3">${row.b1_genero || "-"}</td>
                     <td class="p-3 truncate max-w-[120px]" title="${row.b1_residencia || ''}">${row.b1_residencia || "-"}</td>
                     <td class="p-3 truncate max-w-[120px]" title="${row.b1_actividad || ''}">${row.b1_actividad || "-"}</td>
                     <td class="p-3">${row.b1_familia || "-"}</td>
                     <td class="p-3 border-r border-slate-100">${row.b1_ingresos || "-"}</td>
-                    <!-- BLOQUE II -->
                     <td class="p-3">${row.b2_agua || "-"}</td>
                     <td class="p-3">${row.b2_saneamiento || "-"}</td>
                     <td class="p-3">${row.b2_drenaje || "-"}</td>
@@ -382,26 +426,20 @@
                     <td class="p-3">${row.b2_alumbrado || "-"}</td>
                     <td class="p-3">${row.b2_basura || "-"}</td>
                     <td class="p-3 truncate max-w-[140px] border-r border-slate-100" title="${row.b2_vialidad_lluvias || ''}">${row.b2_vialidad_lluvias || "-"}</td>
-                    <!-- BLOQUE III -->
                     <td class="p-3 truncate max-w-[130px]" title="${row.b3_expansion || ''}">${row.b3_expansion || "-"}</td>
                     <td class="p-3 border-r border-slate-100">${row.b3_reajuste || "-"}</td>
-                    <!-- BLOQUE IV -->
                     <td class="p-3">${row.b4_abaa || "-"}</td>
                     <td class="p-3">${row.b4_iglesia || "-"}</td>
                     <td class="p-3">${row.b4_escuela || "-"}</td>
                     <td class="p-3">${row.b4_futbol || "-"}</td>
                     <td class="p-3">${row.b4_caminos || "-"}</td>
                     <td class="p-3 truncate max-w-[130px] border-r border-slate-100" title="${row.b4_centro_historico || ''}">${row.b4_centro_historico || "-"}</td>
-                    <!-- BLOQUE V -->
                     <td class="p-3">${row.b5_material || "-"}</td>
                     <td class="p-3 truncate max-w-[130px] border-r border-slate-100" title="${row.b5_btc || ''}">${row.b5_btc || "-"}</td>
-                    <!-- BLOQUE VI -->
                     <td class="p-3 truncate max-w-[120px]" title="${row.b6_prioridad_urgente || ''}">${row.b6_prioridad_urgente || "-"}</td>
                     <td class="p-3 truncate max-w-[120px] border-r border-slate-100" title="${row.b6_comentarios || ''}">${row.b6_comentarios || "-"}</td>
-                    <!-- BLOQUE VII -->
                     <td class="p-3 font-medium text-emerald-800">${row.b7_superficie_parcela || "-"}</td>
                     <td class="p-3 border-r border-slate-100">${row.b7_dormitorios_necesarios || "-"}</td>
-                    <!-- ACCIONES -->
                     <td class="p-3 text-center space-x-2 sticky-actions">
                         <button onclick='confirmAndEdit(${JSON.stringify(row)})' class="crud-action-btn bg-amber-600 hover:bg-amber-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition disabled:opacity-40 disabled:cursor-not-allowed">Editar</button>
                         <button onclick='confirmAndDelete("${row.id_cuestionario}")' class="crud-action-btn bg-red-600 hover:bg-red-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition disabled:opacity-40 disabled:cursor-not-allowed">Eliminar</button>
@@ -409,7 +447,6 @@
                 `;
                 tbody.appendChild(tr);
             });
-            // Mantener el estado de la clave al redibujar la tabla por búsqueda
             validateAdminPassword();
         }
 
@@ -439,7 +476,36 @@
             document.getElementById('modal_id_cuestionario').value = row.id_cuestionario;
             document.getElementById('modal-id-title').innerText = row.id_cuestionario;
             
-            ALL_FIELDS.forEach(f => {
+            // Poblar dinámicamente los selects combinando las opciones oficiales con los valores de la base de datos
+            SELECT_FIELDS.forEach(f => {
+                const selectEl = document.getElementById('modal_' + f);
+                if (!selectEl) return;
+
+                // Obtener opciones base de la encuesta
+                let optionsSet = new Set(SURVEY_OPTIONS[f] || []);
+
+                // Añadir el valor actual del registro y cualquier otro valor encontrado en allData para este campo
+                allData.forEach(item => {
+                    if (item[f]) optionsSet.add(String(item[f]).trim());
+                });
+                if (row[f]) optionsSet.add(String(row[f]).trim());
+
+                selectEl.innerHTML = '<option value="">Seleccione...</option>';
+                optionsSet.forEach(optVal => {
+                    if (optVal) {
+                        const opt = document.createElement('option');
+                        opt.value = optVal;
+                        opt.innerText = optVal;
+                        if (String(row[f]).trim() === optVal) {
+                            opt.selected = true;
+                        }
+                        selectEl.appendChild(opt);
+                    }
+                });
+            });
+
+            // Rellenar campos de texto libres
+            TEXT_FIELDS.forEach(f => {
                 const el = document.getElementById('modal_' + f);
                 if (el) el.value = row[f] || "";
             });
@@ -471,7 +537,12 @@
                 id_cuestionario: document.getElementById('modal_id_cuestionario').value
             };
 
-            ALL_FIELDS.forEach(f => {
+            SELECT_FIELDS.forEach(f => {
+                const el = document.getElementById('modal_' + f);
+                if (el) data[f] = el.value;
+            });
+
+            TEXT_FIELDS.forEach(f => {
                 const el = document.getElementById('modal_' + f);
                 if (el) data[f] = el.value;
             });
