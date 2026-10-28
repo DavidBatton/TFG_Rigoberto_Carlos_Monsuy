@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión CRUD de Registros • TFG Oyala</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Corrección robusta para mantener la columna de acciones fija al hacer scroll horizontal */
+        .sticky-actions {
+            position: sticky;
+            right: 0;
+            background-color: #ffffff;
+            z-index: 20;
+            box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        thead th.sticky-actions {
+            background-color: #0f172a !important; /* Color slate-900 para el encabezado fijo */
+        }
+    </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
 
@@ -36,61 +49,62 @@
                 <input type="password" id="master-password" oninput="validateAdminPassword()" placeholder="Introduce la clave secreta..." class="border border-slate-300 rounded-xl p-2.5 text-xs font-mono bg-slate-50 focus:ring-2 focus:ring-slate-900">
             </div>
             <div class="w-full md:w-2/3 flex flex-wrap items-center justify-end gap-3">
-                <input type="text" id="search-input" oninput="filterTable()" placeholder="Buscar en cualquier campo..." class="border border-slate-300 rounded-xl p-2.5 text-xs w-full sm:w-64">
+                <input type="text" id="search-input" oninput="filterTable()" placeholder="Buscar en cualquier campo (ID, edad, actividad...)" class="border border-slate-300 rounded-xl p-2.5 text-xs w-full sm:w-72">
                 <span id="record-count" class="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-2 rounded-xl">Registros: 0</span>
             </div>
         </div>
 
-        <!-- Tabla Interactiva de Registros (TODAS LAS COLUMNAS VISIBLES) -->
+        <!-- Tabla Interactiva de Registros (TODAS LAS 31 COLUMNAS EXACTAS DE LA HOJA) -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="overflow-x-auto max-h-[650px]">
+            <div class="overflow-x-auto max-h-[650px] relative">
                 <table class="w-full text-left border-collapse text-xs whitespace-nowrap">
-                    <thead class="bg-slate-900 text-white uppercase text-[10px] tracking-wider sticky top-0 z-10">
+                    <thead class="bg-slate-900 text-white uppercase text-[10px] tracking-wider sticky top-0 z-30">
                         <tr>
-                            <th class="p-3 border-r border-slate-800">ID Cuestionario</th>
-                            <th class="p-3 border-r border-slate-800">Tipo</th>
+                            <th class="p-3 border-r border-slate-800">id_cuestionario</th>
+                            <th class="p-3 border-r border-slate-800">marca_temporal</th>
+                            <th class="p-3 border-r border-slate-800">tipo_entrada</th>
                             <!-- BLOQUE I -->
-                            <th class="p-3">1.1. Edad</th>
-                            <th class="p-3">1.2. Género</th>
-                            <th class="p-3">1.3. Residencia</th>
-                            <th class="p-3">1.4. Actividad</th>
-                            <th class="p-3">1.5. Familia</th>
-                            <th class="p-3 border-r border-slate-800">1.6. Ingresos</th>
+                            <th class="p-3">b1_edad</th>
+                            <th class="p-3">b1_genero</th>
+                            <th class="p-3">b1_residencia</th>
+                            <th class="p-3">b1_actividad</th>
+                            <th class="p-3">b1_familia</th>
+                            <th class="p-3 border-r border-slate-800">b1_ingresos</th>
                             <!-- BLOQUE II -->
-                            <th class="p-3">2.1. Agua</th>
-                            <th class="p-3">2.1. Saneamiento</th>
-                            <th class="p-3">2.1. Drenaje</th>
-                            <th class="p-3">2.1. Energía</th>
-                            <th class="p-3">2.1. Vías</th>
-                            <th class="p-3">2.1. Alumbrado</th>
-                            <th class="p-3">2.1. Basura</th>
-                            <th class="p-3 border-r border-slate-800">2.2. Vialidad Lluvias</th>
+                            <th class="p-3">b2_agua</th>
+                            <th class="p-3">b2_saneamiento</th>
+                            <th class="p-3">b2_drenaje</th>
+                            <th class="p-3">b2_energia</th>
+                            <th class="p-3">b2_vias</th>
+                            <th class="p-3">b2_alumbrado</th>
+                            <th class="p-3">b2_basura</th>
+                            <th class="p-3 border-r border-slate-800">b2_vialidad_lluvias</th>
                             <!-- BLOQUE III -->
-                            <th class="p-3">3.1. Expansión</th>
-                            <th class="p-3 border-r border-slate-800">3.2. Reajuste</th>
+                            <th class="p-3">b3_expansion</th>
+                            <th class="p-3 border-r border-slate-800">b3_reajuste</th>
                             <!-- BLOQUE IV -->
-                            <th class="p-3">4.1. Abaa</th>
-                            <th class="p-3">4.1. Iglesia</th>
-                            <th class="p-3">4.1. Escuela</th>
-                            <th class="p-3">4.1. Fútbol</th>
-                            <th class="p-3">4.1. Caminos</th>
-                            <th class="p-3 border-r border-slate-800">4.2. Centro Histórico</th>
+                            <th class="p-3">b4_abaa</th>
+                            <th class="p-3">b4_iglesia</th>
+                            <th class="p-3">b4_escuela</th>
+                            <th class="p-3">b4_futbol</th>
+                            <th class="p-3">b4_caminos</th>
+                            <th class="p-3 border-r border-slate-800">b4_centro_historico</th>
                             <!-- BLOQUE V -->
-                            <th class="p-3">5.1. Material</th>
-                            <th class="p-3 border-r border-slate-800">5.2. BTC</th>
+                            <th class="p-3">b5_material</th>
+                            <th class="p-3 border-r border-slate-800">b5_btc</th>
                             <!-- BLOQUE VI -->
-                            <th class="p-3">6.1. Prioridad</th>
-                            <th class="p-3 border-r border-slate-800">6.2. Comentarios</th>
+                            <th class="p-3">b6_prioridad_urgente</th>
+                            <th class="p-3 border-r border-slate-800">b6_comentarios</th>
                             <!-- BLOQUE VII -->
-                            <th class="p-3">7.1. Superficie</th>
-                            <th class="p-3 border-r border-slate-800">7.2. Dormitorios</th>
+                            <th class="p-3">b7_superficie_parcela</th>
+                            <th class="p-3 border-r border-slate-800">b7_dormitorios_necesarios</th>
                             <!-- ACCIONES -->
-                            <th class="p-3 text-center sticky right-0 bg-slate-900 z-20 shadow-l">Acciones CRUD</th>
+                            <th class="p-3 text-center sticky-actions">Acciones CRUD</th>
                         </tr>
                     </thead>
                     <tbody id="records-table-body" class="divide-y divide-slate-200">
                         <tr>
-                            <td colspan="31" class="p-8 text-center text-slate-400 italic">Cargando registros desde la hoja de cálculo...</td>
+                            <td colspan="32" class="p-8 text-center text-slate-400 italic">Cargando registros desde la hoja de cálculo...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -115,27 +129,27 @@
                     <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque I: Datos Generales y Sociodemográficos</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">1.1. Edad:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b1_edad:</label>
                             <input type="text" id="modal_b1_edad" name="b1_edad" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">1.2. Género:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b1_genero:</label>
                             <input type="text" id="modal_b1_genero" name="b1_genero" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">1.3. Tiempo Residencia:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b1_residencia:</label>
                             <input type="text" id="modal_b1_residencia" name="b1_residencia" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">1.4. Actividad Principal:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b1_actividad:</label>
                             <input type="text" id="modal_b1_actividad" name="b1_actividad" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">1.5. Núcleo Familiar:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b1_familia:</label>
                             <input type="text" id="modal_b1_familia" name="b1_familia" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">1.6. Ingresos Mensuales:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b1_ingresos:</label>
                             <input type="text" id="modal_b1_ingresos" name="b1_ingresos" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                     </div>
@@ -144,53 +158,52 @@
                 <!-- BLOQUE II -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
                     <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque II: Diagnóstico de Infraestructuras y Servicios Básicos</h4>
-                    <p class="font-bold text-slate-600 text-[10px]">2.1. Evaluación del Estado de Servicios Públicos:</p>
                     <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Agua Potable:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b2_agua:</label>
                             <input type="text" id="modal_b2_agua" name="b2_agua" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Saneamiento:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b2_saneamiento:</label>
                             <input type="text" id="modal_b2_saneamiento" name="b2_saneamiento" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Drenaje Pluvial:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b2_drenaje:</label>
                             <input type="text" id="modal_b2_drenaje" name="b2_drenaje" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Energía Eléctrica:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b2_energia:</label>
                             <input type="text" id="modal_b2_energia" name="b2_energia" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Vías Internas:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b2_vias:</label>
                             <input type="text" id="modal_b2_vias" name="b2_vias" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Alumbrado Público:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b2_alumbrado:</label>
                             <input type="text" id="modal_b2_alumbrado" name="b2_alumbrado" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Gestión Basura:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b2_basura:</label>
                             <input type="text" id="modal_b2_basura" name="b2_basura" class="w-full border rounded-lg p-2 bg-white">
                         </div>
-                    </div>
-                    <div class="pt-2">
-                        <label class="block font-bold text-slate-700 mb-1">2.2. Problema de Vialidad Principal en Lluvias Intensas:</label>
-                        <input type="text" id="modal_b2_vialidad_lluvias" name="b2_vialidad_lluvias" class="w-full border rounded-lg p-2 bg-white">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">b2_vialidad_lluvias:</label>
+                            <input type="text" id="modal_b2_vialidad_lluvias" name="b2_vialidad_lluvias" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
                     </div>
                 </div>
 
                 <!-- BLOQUE III -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque III: Percepción Metropolitana y Riesgo de Desplazamiento</h4>
+                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque III: Percepción Metropolitana y Riesgo</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">3.1. Percepción Expansión Cd. de la Paz:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b3_expansion:</label>
                             <input type="text" id="modal_b3_expansion" name="b3_expansion" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">3.2. Aceptación Reajuste Parcelario:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b3_reajuste:</label>
                             <input type="text" id="modal_b3_reajuste" name="b3_reajuste" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                     </div>
@@ -198,46 +211,45 @@
 
                 <!-- BLOQUE IV -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque IV: Identidad Cultural, Memoria Histórica y Patrimonio</h4>
-                    <p class="font-bold text-slate-600 text-[10px]">4.1. Importancia Otorgrada a Espacios Comunitarios:</p>
+                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque IV: Identidad Cultural y Patrimonio</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">El Abaa:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b4_abaa:</label>
                             <input type="text" id="modal_b4_abaa" name="b4_abaa" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Iglesia / Centro Culto:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b4_iglesia:</label>
                             <input type="text" id="modal_b4_iglesia" name="b4_iglesia" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Escuela Primaria:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b4_escuela:</label>
                             <input type="text" id="modal_b4_escuela" name="b4_escuela" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Campo Fútbol:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b4_futbol:</label>
                             <input type="text" id="modal_b4_futbol" name="b4_futbol" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Caminos Orgánicos:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b4_caminos:</label>
                             <input type="text" id="modal_b4_caminos" name="b4_caminos" class="w-full border rounded-lg p-2 bg-white">
                         </div>
-                    </div>
-                    <div class="pt-2">
-                        <label class="block font-bold text-slate-700 mb-1">4.2. Consolidación como Centro Histórico Vivo:</label>
-                        <input type="text" id="modal_b4_centro_historico" name="b4_centro_historico" class="w-full border rounded-lg p-2 bg-white">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">b4_centro_historico:</label>
+                            <input type="text" id="modal_b4_centro_historico" name="b4_centro_historico" class="w-full border rounded-lg p-2 bg-white">
+                        </div>
                     </div>
                 </div>
 
                 <!-- BLOQUE V -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque V: Habitabilidad y Tipología Arquitectónica Vernácula</h4>
+                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque V: Habitabilidad y Tipología</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">5.1. Material Constructivo Predominante:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b5_material:</label>
                             <input type="text" id="modal_b5_material" name="b5_material" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">5.2. Aceptación Bloques BTC:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b5_btc:</label>
                             <input type="text" id="modal_b5_btc" name="b5_btc" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                     </div>
@@ -245,14 +257,14 @@
 
                 <!-- BLOQUE VI -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque VI: Observaciones y Propuestas Abiertas</h4>
+                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque VI: Observaciones y Propuestas</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">6.1. Prioridad Infraestructural Urgente:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b6_prioridad_urgente:</label>
                             <input type="text" id="modal_b6_prioridad_urgente" name="b6_prioridad_urgente" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">6.2. Comentarios Historia Local:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b6_comentarios:</label>
                             <input type="text" id="modal_b6_comentarios" name="b6_comentarios" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                     </div>
@@ -260,14 +272,14 @@
 
                 <!-- BLOQUE VII -->
                 <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque VII: Superficie de Parcela y Programa Habitacional</h4>
+                    <h4 class="font-bold text-slate-900 uppercase tracking-wide border-b pb-1 text-[11px]">Bloque VII: Superficie y Programa</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">7.1. Superficie de Parcela:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b7_superficie_parcela:</label>
                             <input type="text" id="modal_b7_superficie_parcela" name="b7_superficie_parcela" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">7.2. Dormitorios Necesarios:</label>
+                            <label class="block font-semibold text-slate-700 mb-1">b7_dormitorios_necesarios:</label>
                             <input type="text" id="modal_b7_dormitorios_necesarios" name="b7_dormitorios_necesarios" class="w-full border rounded-lg p-2 bg-white">
                         </div>
                     </div>
@@ -290,7 +302,7 @@
         const ADMIN_SECRET = "Oyala2026Admin";
         let allData = [];
 
-        // Lista estricta de las 23 variables del cuestionario
+        // Lista exacta de todas las variables técnicas de la hoja de cálculo
         const ALL_FIELDS = [
             'b1_edad', 'b1_genero', 'b1_residencia', 'b1_actividad', 'b1_familia', 'b1_ingresos',
             'b2_agua', 'b2_saneamiento', 'b2_drenaje', 'b2_energia', 'b2_vias', 'b2_alumbrado', 'b2_basura', 'b2_vialidad_lluvias',
@@ -325,7 +337,7 @@
 
         async function loadRecords() {
             const tbody = document.getElementById('records-table-body');
-            tbody.innerHTML = `<tr><td colspan="31" class="p-8 text-center text-slate-400 italic">Sincronizando con Google Sheets...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="32" class="p-8 text-center text-slate-400 italic">Sincronizando con Google Sheets...</td></tr>`;
             
             try {
                 const response = await fetch(SCRIPT_URL + "?action=getData");
@@ -333,7 +345,7 @@
                 renderTable(allData);
                 validateAdminPassword();
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="31" class="p-8 text-center text-red-500 font-semibold">Error al cargar los datos de la hoja de cálculo.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="32" class="p-8 text-center text-red-500 font-semibold">Error al cargar los datos de la hoja de cálculo.</td></tr>`;
             }
         }
 
@@ -343,7 +355,7 @@
             tbody.innerHTML = "";
 
             if (data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="31" class="p-8 text-center text-slate-400 italic">No se encontraron registros.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="32" class="p-8 text-center text-slate-400 italic">No se encontraron registros.</td></tr>`;
                 return;
             }
 
@@ -352,6 +364,7 @@
                 tr.className = "hover:bg-slate-50 transition";
                 tr.innerHTML = `
                     <td class="p-3 font-mono font-bold text-slate-900 border-r border-slate-100">${row.id_cuestionario || "N/D"}</td>
+                    <td class="p-3 border-r border-slate-100">${row.marca_temporal ? new Date(row.marca_temporal).toLocaleString() : "-"}</td>
                     <td class="p-3 border-r border-slate-100"><span class="px-2 py-0.5 rounded text-[10px] font-semibold ${String(row.tipo_entrada).toLowerCase().includes('web') ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${row.tipo_entrada || "Web"}</span></td>
                     <!-- BLOQUE I -->
                     <td class="p-3">${row.b1_edad || "-"}</td>
@@ -389,13 +402,15 @@
                     <td class="p-3 font-medium text-emerald-800">${row.b7_superficie_parcela || "-"}</td>
                     <td class="p-3 border-r border-slate-100">${row.b7_dormitorios_necesarios || "-"}</td>
                     <!-- ACCIONES -->
-                    <td class="p-3 text-center space-x-2 sticky right-0 bg-white shadow-l z-10">
+                    <td class="p-3 text-center space-x-2 sticky-actions">
                         <button onclick='confirmAndEdit(${JSON.stringify(row)})' class="crud-action-btn bg-amber-600 hover:bg-amber-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition disabled:opacity-40 disabled:cursor-not-allowed">Editar</button>
                         <button onclick='confirmAndDelete("${row.id_cuestionario}")' class="crud-action-btn bg-red-600 hover:bg-red-500 text-white px-2.5 py-1 rounded text-[10px] font-bold transition disabled:opacity-40 disabled:cursor-not-allowed">Eliminar</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
+            // Mantener el estado de la clave al redibujar la tabla por búsqueda
+            validateAdminPassword();
         }
 
         function filterTable() {
@@ -404,7 +419,6 @@
                 return Object.values(row).some(val => String(val).toLowerCase().includes(query));
             });
             renderTable(filtered);
-            validateAdminPassword();
         }
 
         function confirmAndEdit(row) {
