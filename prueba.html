@@ -35,7 +35,7 @@
 
     <main class="max-w-7xl mx-auto px-4 py-8 space-y-8 flex-grow w-full">
         
-        <!-- Panel de Asistente IA Global (Compatible con claves GCP/AQ.) -->
+        <!-- Panel de Asistente IA Global -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-4">
                 <div>
@@ -360,7 +360,7 @@
                 return;
             }
             localStorage.setItem("gemini_api_key", keyInput);
-            alert("¡Clave guardada de forma segura en tu navegador!");
+            alert("¡Clave AQ guardada de forma segura en tu navegador!");
         }
 
         function getApiKey() {
@@ -621,6 +621,7 @@
             charts[canvasId] = new Chart(ctx, chartConfig);
         }
 
+        // Petición adaptada para las nuevas claves AQ. usando la cabecera x-goog-api-key y modelo gemini-1.5-flash
         async function generateGlobalAIAnalysis() {
             const apiKey = getApiKey();
             const container = document.getElementById('ai-global-container');
@@ -631,7 +632,7 @@
             }
 
             container.classList.remove('hidden');
-            container.innerHTML = `<p class="text-emerald-400 italic text-center py-6">🧠 Conectando con Google Cloud (gemini-pro) para generar el informe...</p>`;
+            container.innerHTML = `<p class="text-emerald-400 italic text-center py-6">🧠 Conectando con Gemini API usando clave AQ. (v1beta/gemini-1.5-flash)...</p>`;
 
             let summaryText = `Total encuestas: ${globalData.length}\n`;
             ['b1_edad', 'b1_residencia', 'b2_agua', 'b3_expansion', 'b4_centro_historico', 'b5_material', 'b7_superficie_parcela'].forEach(f => {
@@ -648,32 +649,22 @@
             - 3 secciones claras (p. ej., **📊 Tendencias Sociodemográficas**, **🏗️ Diagnóstico de Habitabilidad e Infraestructuras**, **🎯 Conclusiones para el Planeamiento Metropolitano**).
             - Emplea negritas para destacar porcentajes e insights clave orientados a la planificación urbana frente a la metropolización de Ciudad de la Paz.`;
 
-            // Endpoint oficial compatible con cuentas institucionales/Google Cloud utilizando gemini-pro
             try {
-                let response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent`, {
+                // Se utiliza la cabecera 'x-goog-api-key' que es la nativa que aceptan las nuevas claves AQ. en AI Studio
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
+                        'x-goog-api-key': apiKey
                     },
                     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                 });
-
-                if (!response.ok) {
-                    response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${encodeURIComponent(apiKey)}`, {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                    });
-                }
 
                 const result = await response.json();
                 if (result.candidates && result.candidates[0] && result.candidates[0].content.parts[0].text) {
                     container.innerHTML = marked.parse(result.candidates[0].content.parts[0].text);
                 } else if (result.error) {
-                    container.innerHTML = `<p class="text-red-400">Error de GCP: ${result.error.message || 'Error de permisos en la cuenta.'}</p>`;
+                    container.innerHTML = `<p class="text-red-400">Error de API: ${result.error.message || 'Verifica que la clave AQ. sea correcta.'}</p>`;
                 } else {
                     container.innerHTML = `<p class="text-red-400">Error al procesar la respuesta de la IA.</p>`;
                 }
