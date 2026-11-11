@@ -591,8 +591,8 @@
                         padding: {
                             top: 28,     
                             bottom: 10,
-                            left: isHorizontal ? 160 : 10, // Margen izquierdo amplio para gráficos horizontales (evita cortes de textos largos)
-                            right: 25    
+                            left: isHorizontal ? 160 : 10,
+                            right: isHorizontal ? 75 : 25  // Margen derecho aún más amplio para evitar cortes en porcentajes
                         }
                     },
                     plugins: {
@@ -645,11 +645,11 @@
                 chartConfig.options.indexAxis = 'y';
                 chartConfig.options.scales.x.grid = { color: '#f1f5f9' };
                 chartConfig.options.scales.y.grid = { display: false };
+                chartConfig.options.scales.x.grace = '28%'; // Holgura generosa a la derecha para que los datalabels queden completamente visibles
                 chartConfig.options.scales.x.ticks = { font: { size: 10 } };
                 chartConfig.options.scales.y.ticks = { 
                     font: { size: 10 },
                     autoSkip: false,
-                    // Envoltorio automático de texto para que las etiquetas largas no se corten
                     callback: function(value, index, ticks) {
                         const label = this.getLabelForValue(value);
                         if (typeof label === 'string' && label.length > 35) {
