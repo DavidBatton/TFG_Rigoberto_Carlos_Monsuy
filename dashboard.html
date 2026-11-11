@@ -587,6 +587,14 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 28,     
+                            bottom: 10,
+                            left: isHorizontal ? 160 : 10, // Margen izquierdo amplio para gráficos horizontales (evita cortes de textos largos)
+                            right: 25    
+                        }
+                    },
                     plugins: {
                         legend: { display: type === 'doughnut' },
                         datalabels: {
@@ -609,6 +617,25 @@
                                 }
                             }
                         }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { size: 10 },
+                                maxRotation: 25,
+                                minRotation: 0,
+                                autoSkip: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grace: '15%', 
+                            grid: { color: '#f1f5f9' },
+                            ticks: {
+                                font: { size: 10 }
+                            }
+                        }
                     }
                 },
                 plugins: [ChartDataLabels]
@@ -616,6 +643,33 @@
 
             if (type === 'bar' && isHorizontal) {
                 chartConfig.options.indexAxis = 'y';
+                chartConfig.options.scales.x.grid = { color: '#f1f5f9' };
+                chartConfig.options.scales.y.grid = { display: false };
+                chartConfig.options.scales.x.ticks = { font: { size: 10 } };
+                chartConfig.options.scales.y.ticks = { 
+                    font: { size: 10 },
+                    autoSkip: false,
+                    // Envoltorio automático de texto para que las etiquetas largas no se corten
+                    callback: function(value, index, ticks) {
+                        const label = this.getLabelForValue(value);
+                        if (typeof label === 'string' && label.length > 35) {
+                            const words = label.split(' ');
+                            let lines = [];
+                            let currentLine = '';
+                            words.forEach(word => {
+                                if ((currentLine + word).length > 30) {
+                                    lines.push(currentLine.trim());
+                                    currentLine = word + ' ';
+                                } else {
+                                    currentLine += word + ' ';
+                                }
+                            });
+                            if (currentLine) lines.push(currentLine.trim());
+                            return lines;
+                        }
+                        return label;
+                    }
+                };
             }
 
             charts[canvasId] = new Chart(ctx, chartConfig);
