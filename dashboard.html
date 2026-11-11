@@ -582,17 +582,24 @@
                 type: type,
                 data: {
                     labels: statData.labels,
-                    datasets: [{ label: label, data: statData.values, backgroundColor: color, borderRadius: 4 }]
+                    datasets: [{ 
+                        label: label, 
+                        data: statData.values, 
+                        backgroundColor: color, 
+                        borderRadius: 5,
+                        barPercentage: 0.75,       // Barras más robustas y proporcionadas en el contenedor
+                        categoryPercentage: 0.85
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     layout: {
                         padding: {
-                            top: 28,     
+                            top: 25,     
                             bottom: 10,
-                            left: isHorizontal ? 160 : 10,
-                            right: isHorizontal ? 75 : 25  // Margen derecho aún más amplio para evitar cortes en porcentajes
+                            left: isHorizontal ? 190 : 12, // Margen izquierdo amplio y seguro para etiquetas largas
+                            right: isHorizontal ? 95 : 25  // Margen derecho optimizado para porcentajes limpios sin cortes
                         }
                     },
                     plugins: {
@@ -601,7 +608,7 @@
                             color: '#1e293b',
                             anchor: isHorizontal ? 'end' : 'end',
                             align: isHorizontal ? 'right' : 'top',
-                            font: { weight: 'bold', size: 10 },
+                            font: { weight: 'bold', size: 11 }, // Fuente más grande para mayor nitidez en pantallas y Word
                             formatter: (value) => {
                                 if (totalSum === 0 || value === 0) return '';
                                 const percentage = ((value / totalSum) * 100).toFixed(1);
@@ -622,7 +629,7 @@
                         x: {
                             grid: { display: false },
                             ticks: {
-                                font: { size: 10 },
+                                font: { size: 11 }, // Tipografía optimizada para nitidez
                                 maxRotation: 25,
                                 minRotation: 0,
                                 autoSkip: false
@@ -633,7 +640,7 @@
                             grace: '15%', 
                             grid: { color: '#f1f5f9' },
                             ticks: {
-                                font: { size: 10 }
+                                font: { size: 11 } // Tipografía optimizada para nitidez
                             }
                         }
                     }
@@ -645,10 +652,10 @@
                 chartConfig.options.indexAxis = 'y';
                 chartConfig.options.scales.x.grid = { color: '#f1f5f9' };
                 chartConfig.options.scales.y.grid = { display: false };
-                chartConfig.options.scales.x.grace = '28%'; // Holgura generosa a la derecha para que los datalabels queden completamente visibles
-                chartConfig.options.scales.x.ticks = { font: { size: 10 } };
+                chartConfig.options.scales.x.grace = '32%'; // Mayor holgura a la derecha para que los porcentajes respiren sin cortes
+                chartConfig.options.scales.x.ticks = { font: { size: 11 } };
                 chartConfig.options.scales.y.ticks = { 
-                    font: { size: 10 },
+                    font: { size: 11 },
                     autoSkip: false,
                     callback: function(value, index, ticks) {
                         const label = this.getLabelForValue(value);
